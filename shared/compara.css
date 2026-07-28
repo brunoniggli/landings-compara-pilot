@@ -163,8 +163,8 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
 .logo-rail{display:contents}
 .logo-cloud{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 18px;max-width:860px;margin-inline:auto}
 .logo-capsule{position:relative;display:inline-flex;align-items:center;justify-content:center;width:128px;height:64px;padding:0 18px;box-sizing:border-box;overflow:hidden;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--shadow-soft);border:1px solid var(--color-border);text-decoration:none;transition:transform var(--dur-base) var(--ease-brand),border-color var(--dur-base) var(--ease-brand),box-shadow var(--dur-base) var(--ease-brand)}
-.logo-capsule img{display:block;width:100%;height:auto;max-width:94px;max-height:30px;object-fit:contain;filter:grayscale(1);opacity:.78;transform:scale(var(--logo-scale,1));transform-origin:center;transition:filter var(--dur-base) var(--ease-brand),opacity var(--dur-base) var(--ease-brand)}
-@media (min-width:861px){.logo-capsule img{max-width:104px;max-height:34px}}
+.logo-capsule img{display:block;width:auto;height:var(--logo-h,30px);max-width:108px;max-height:42px;object-fit:contain;filter:grayscale(1);opacity:.78;transition:filter var(--dur-base) var(--ease-brand),opacity var(--dur-base) var(--ease-brand)}
+@media (min-width:861px){.logo-capsule img{max-width:112px;max-height:44px}}
 @media (hover:hover) and (pointer:fine){
   .logo-capsule:hover{z-index:1;transform:translateY(-2px);border-color:rgba(16,58,217,.28);box-shadow:0 16px 34px -20px rgba(16,58,217,.52)}
   .logo-capsule:hover img{filter:none;opacity:1}
