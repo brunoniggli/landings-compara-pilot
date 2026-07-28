@@ -3,42 +3,16 @@
   LANDING PILOTO — SEGURO COMPLEMENTARIO DE SALUD (BU: HICL)
   ============================================================================
   Generada a partir de _docs/template-landing-producto.html siguiendo el patrón
-  "landing puente" de auto.html (caso CICL). Estado: BORRADOR con placeholders
-  explícitos — NO publicar todavía.
-
-  El objetivo de este archivo es que Aroldo vea la FORMA antes de llenar el
-  brief. Todo lo que falta está marcado con [TODO AROLDO] visible en pantalla
-  o con un comentario TODO acá en el código. Nada fue inventado.
-
-  PENDIENTES BLOQUEANTES (ver _docs/BRIEF-HICL-SALUD.md):
-   1. URL real del formulario de cotización de Salud → var FORM al final (hoy '#', CTA inertes)
-   2. Ángulo del hero: Auto usa "al mejor precio". Salud NO puede, porque el
-      Decision Service no devuelve precio en la vertical health. Ángulo actual
-      es una PROPUESTA a validar, no una decisión.
-   3. Coberturas reales del producto (3-4) — placeholders visibles en pantalla
-   4. Paso 3 de "cómo funciona": ¿se contrata 100% online o el cierre es asistido
-      por CRM/presales? En HICL hay presales activo, así que no lo afirmamos.
-   5. Tercer punto de confianza del hero (en Auto es "En 5 minutos")
-   6. Logos de aseguradoras: Consorcio, BCI y Zurich ya existen en el DS.
-      FALTAN Alemana y Bupa (ad group Alemana está activo hoy en la cuenta).
-   7. Imagen del hero: no existe assets/promo-salud-hero.png. Se usa el ícono
-      de producto del DS como marcador de posición.
-   8. Sin promoción vigente confirmada → la sección BANNER PROMOCIONAL fue
-      eliminada por completo, según docs/02 paso 2.5. Si hay promo, se vuelve
-      a agregar con su PDF de condiciones.
-
-  ANTES DE PUBLICAR: borrar el bloque .draft-note (está marcado abajo).
+  "landing puente" de auto.html (caso CICL). Versión piloto con copy propuesto
+  por Claudia, usando el formulario vigente del sitio de Salud.
 -->
 <!doctype html>
 <html lang="es" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- TODO AROLDO: confirmar denominación del producto. El sitio usa "Seguro de Salud"
-     (comparaonline.cl/seguro-de-salud), pero los search terms que convierten en la
-     cuenta son de "seguro complementario" (ej. "seguro complementario de salud consorcio"). -->
 <title>Seguro Complementario de Salud | Cotiza y compara online | Compara</title>
-<meta name="description" content="Compara las opciones de Seguro Complementario de Salud de las principales aseguradoras de Chile en un solo lugar. 100% online, sin letra chica.">
+<meta name="description" content="Cotiza tu Seguro Complementario de Salud en Compara. Revisa coberturas y alternativas de aseguradoras en Chile en un solo lugar.">
 <link rel="icon" href="brand/design-system/assets/avatar_favicon.svg">
 <link rel="stylesheet" href="brand/design-system/colors_and_type.css">
 <script>document.documentElement.classList.replace('no-js','js')</script>
@@ -46,12 +20,6 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Saltar al contenido</a>
-
-<!-- ===== BLOQUE DE BORRADOR — BORRAR ESTE <div> COMPLETO ANTES DE PUBLICAR ===== -->
-<div class="draft-note" style="position:fixed;left:0;right:0;bottom:0;z-index:200;background:#1a1a1a;color:#fff;font:600 13px/1.4 system-ui,sans-serif;padding:10px 16px;text-align:center">
-  BORRADOR — los CTA están inertes y hay copys pendientes. Ver los bloques [TODO AROLDO].
-  <a href="#" onclick="this.closest('.draft-note').remove();return false" style="color:#779BFF;margin-left:10px">ocultar</a>
-</div>
 
 <!-- ================= NAV (minimal, enfocado a conversión — patrón "landing puente") ================= -->
 <header class="nav nav--minimal" id="nav">
@@ -79,30 +47,17 @@
 
   <div class="hero-content">
     <div class="hero-copy">
-      <!-- TODO AROLDO — ÁNGULO DEL HERO (decisión, no detalle):
-           Auto dice "Tu Seguro de Auto, al mejor precio". En Salud no podemos prometer
-           precio: el Decision Service no devuelve precio en la vertical health, así que
-           la landing no puede sostener esa promesa. Lo de abajo es una PROPUESTA que
-           mueve el eje de "precio" a "comparación en un solo lugar". Validar o cambiar. -->
       <h1 class="hero-enter" style="--i:0">Tu Seguro<br>Complementario<br>de Salud,<br>en un <span class="dserif">solo</span> lugar</h1>
-      <p class="hero-sub hero-enter" style="--i:1">Compara las coberturas de las principales aseguradoras de Chile y elige la que te sirve. Te acompañamos en todo el proceso, sin letra chica.</p>
+      <p class="hero-sub hero-enter" style="--i:1">Revisa alternativas que ayudan a cubrir consultas, exámenes, hospitalizaciones y más. Cotiza online y elige con claridad, sin letra chica.</p>
       <div class="hero-cta hero-enter" style="--i:2">
-        <!-- El texto del CTA se repite IDÉNTICO en las 3 apariciones de este archivo
-             (hero, closer, sticky mobile). Si cambia acá, cambia en las 3. -->
         <a class="btn btn--white btn--lg" href="#" data-cotiza>Cotiza tu Seguro de Salud</a>
       </div>
       <div class="hero-trust hero-enter" style="--i:3">
-        <span><i data-lucide="check" class="ico"></i>Todas las aseguradoras</span>
-        <span><i data-lucide="check" class="ico"></i>100% online</span>
-        <!-- TODO AROLDO: en Auto el tercer punto es "En 5 minutos". ¿Cuál es el tiempo real
-             de cotización en Salud? No lo afirmamos sin dato. -->
-        <span><i data-lucide="check" class="ico"></i>[TODO AROLDO] 3er punto de confianza</span>
+        <span><i data-lucide="check" class="ico"></i>Cotización online</span>
+        <span><i data-lucide="check" class="ico"></i>Opciones para ti y tu familia</span>
+        <span><i data-lucide="check" class="ico"></i>Sin compromiso</span>
       </div>
     </div>
-    <!-- TODO AROLDO: falta la imagen promocional del hero (equivalente a assets/promo-auto-hero.png:
-         personaje + cartel). Mientras no exista, se muestra el ícono de producto del DS como
-         marcador de posición para que se entienda el layout. Reemplazar por:
-         <img src="assets/promo-salud-hero.png" alt="..." onerror="this.style.display='none'"> -->
     <a class="hero-figure hero-figure-link hero-enter" style="--i:2" href="#" data-cotiza aria-label="Cotiza tu Seguro de Salud">
       <img src="brand/design-system/assets/icon_Seguro Salud.svg" alt="Seguro Complementario de Salud" style="max-width:280px;margin-inline:auto" onerror="this.style.display='none'">
     </a>
@@ -121,15 +76,11 @@
 <!-- ================= ASEGURADORAS ================= -->
 <section class="insurers" id="aseguradoras">
   <div class="container">
-    <h2 class="reveal">Comparas entre las aseguradoras <b>más importantes de Chile</b></h2>
-    <p class="insurers-sub reveal" style="--i:1">Un solo lugar para ver todas las opciones de tu Seguro de Salud</p>
+    <h2 class="reveal">Compara opciones de salud con aseguradoras <b>reconocidas en Chile</b></h2>
+    <p class="insurers-sub reveal" style="--i:1">Un punto de partida simple para encontrar el Seguro de Salud que calza contigo</p>
   </div>
   <div class="logo-rail">
     <div class="logo-cloud" id="logoCloud">
-      <!-- Solo aseguradoras que (a) compiten en Salud y (b) ya tienen logo en el DS.
-           TODO AROLDO: FALTAN los logos de Alemana y Bupa en brand/design-system/assets/.
-           Alemana tiene ad group activo hoy en la cuenta, así que es el más urgente.
-           Cuando lleguen los .svg, agregar una <span class="logo-capsule"> por cada uno. -->
       <span class="logo-capsule reveal" style="--i:0"><img src="brand/design-system/assets/logo_Consorcio.svg" alt="Consorcio" style="--ls:1.05"></span>
       <span class="logo-capsule reveal" style="--i:1"><img src="brand/design-system/assets/logo_Bci.svg" alt="BCI Seguros" style="--ls:1.18"></span>
       <span class="logo-capsule reveal" style="--i:2"><img src="brand/design-system/assets/logo_Zurich.svg" alt="Zurich" style="--ls:1.22"></span>
@@ -141,30 +92,22 @@
 <section class="how section" id="como-funciona">
   <div class="container">
     <h2 class="reveal">Cotizar tu Seguro de Salud es así de <span class="dserif">simple</span></h2>
-    <p class="how-lead reveal" style="--i:1">Sin llamadas eternas ni trámites imposibles. Cotizas online y te acompañamos en cada paso.</p>
+    <p class="how-lead reveal" style="--i:1">Una cotización clara para pasar de la duda a una opción concreta, sin vueltas.</p>
     <div class="steps">
       <div class="step reveal scrub" style="--i:0">
         <span class="step-n" aria-hidden="true"></span>
-        <!-- TODO AROLDO: ¿qué datos pide el formulario de Salud? (¿isapre actual, edad,
-             grupo familiar?). En Auto el paso 1 es "Cuéntanos de tu auto: patente o marca,
-             modelo y año". Acá está genérico a propósito, no inventamos los campos. -->
         <h3>Cuéntanos de ti</h3>
-        <p>[TODO AROLDO] Qué datos necesitamos para cotizar tu Seguro de Salud.</p>
+        <p>Ingresa tus datos básicos, tu edad y tu sistema de salud actual para comenzar.</p>
       </div>
       <div class="step reveal scrub" style="--i:1">
         <span class="step-n" aria-hidden="true"></span>
-        <h3>Mira todas tus opciones</h3>
-        <p>Las alternativas de las principales aseguradoras del mercado, lado a lado y sin sorpresas.</p>
+        <h3>Revisa alternativas</h3>
+        <p>Compara planes y coberturas pensadas para distintas necesidades de salud.</p>
       </div>
       <div class="step reveal scrub" style="--i:2">
-        <!-- TODO AROLDO — decisión, no detalle: en Auto el paso 3 es "Contrata 100% online:
-             eliges, pagas y tu póliza llega a tu correo". En Salud hay presales por CRM
-             activo, así que NO afirmamos cierre 100% autoservicio sin confirmarlo.
-             Si el cierre es asistido, este paso debería decirlo (es un diferencial, no un
-             problema). Si es 100% online, copiar el texto de Auto. -->
         <span class="step-n" aria-hidden="true"></span>
-        <h3>Te acompañamos hasta contratar</h3>
-        <p>[TODO AROLDO] Confirmar si el cierre es 100% online o asistido por un ejecutivo.</p>
+        <h3>Avanza con apoyo</h3>
+        <p>Elige la opción que prefieres y recibe acompañamiento para completar el proceso.</p>
       </div>
     </div>
   </div>
@@ -173,33 +116,28 @@
 <!-- ================= COBERTURAS / BENEFICIOS ================= -->
 <section class="benefits section" id="coberturas">
   <div class="container">
-    <h2 class="reveal">Coberturas que te protegen de <span class="dserif">verdad</span></h2>
-    <p class="benefits-sub reveal" style="--i:1">Eliges qué incluir según lo que necesitas. Te mostramos todo, también lo que no cubre.</p>
+    <h2 class="reveal">Coberturas para cuidar tu salud <span class="dserif">de verdad</span></h2>
+    <p class="benefits-sub reveal" style="--i:1">Elige una alternativa según tu etapa, tu presupuesto y el tipo de respaldo que buscas.</p>
     <div class="benefits-grid">
-      <!-- TODO AROLDO: las 3-4 coberturas reales del Seguro Complementario de Salud, cada una
-           con título + 1 línea. No las inventamos: en Auto son daños a terceros, robo total,
-           choque y volcamiento, asistencia en ruta. Acá van las que correspondan al producto.
-           Íconos: se reutilizan los del DS que calzan conceptualmente. Si quieres una 4a
-           cobertura con ícono propio, hay que crear el .svg en el DS (hoy no existe). -->
       <div class="benefit reveal" style="--i:0">
         <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_Seguro Salud.svg" alt=""></span>
         <div>
-          <h3>[TODO AROLDO] Cobertura 1</h3>
-          <p>Título + una línea de descripción.</p>
+          <h3>Consultas y exámenes</h3>
+          <p>Apoyo para gastos médicos frecuentes, según las condiciones del plan elegido.</p>
         </div>
       </div>
       <div class="benefit reveal" style="--i:1">
         <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_users.svg" alt=""></span>
         <div>
-          <h3>[TODO AROLDO] Cobertura 2</h3>
-          <p>Título + una línea de descripción.</p>
+          <h3>Planes familiares</h3>
+          <p>Alternativas pensadas para protegerte a ti y a quienes más quieres.</p>
         </div>
       </div>
       <div class="benefit reveal" style="--i:2">
         <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_headset.svg" alt=""></span>
         <div>
-          <h3>[TODO AROLDO] Cobertura 3</h3>
-          <p>Título + una línea de descripción.</p>
+          <h3>Acompañamiento</h3>
+          <p>Orientación para entender opciones, coberturas y próximos pasos.</p>
         </div>
       </div>
     </div>
@@ -210,9 +148,7 @@
 <section class="closer section">
   <div class="container">
     <span class="editorial reveal">Sin letra chica, sin sorpresas.</span>
-    <!-- TODO AROLDO: en Auto el closer es "Deja de pagar de más por tu Seguro de Auto"
-         (eje precio). Igual que el hero, acá el eje no puede ser precio. Propuesta abajo. -->
-    <h2 class="reveal" style="--i:1">Encuentra el Seguro de Salud que de verdad te sirve.</h2>
+    <h2 class="reveal" style="--i:1">Encuentra una opción de salud pensada para tu vida real.</h2>
     <a class="btn btn--primary btn--lg reveal" style="--i:2" href="#" data-cotiza>Cotiza tu Seguro de Salud</a>
   </div>
 </section>
@@ -272,13 +208,10 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
 <script src="shared/compara.js" defer></script>
 <script>
-/* Redirección de los CTA al formulario de cotización de Salud.
-   TODO AROLDO — BLOQUEANTE: reemplazar FORM por la URL real del formulario de Salud.
-   En Auto es 'https://seguro-auto.comparaonline.cl/quote'. Mientras siga en '#', los CTA
-   quedan inertes a propósito (es el estado esperado, no un bug).
+/* Redirección de los CTA al formulario vigente de cotización de Salud.
    Conserva gclid / utm_* del clic SEM para no perder atribución de paid. */
 (function(){
-  var FORM = '#'; /* {{URL_FORMULARIO_COTIZACION_SALUD}} */
+  var FORM = 'https://seguro-salud.comparaonline.cl/quote';
   if (FORM === '#') return;
   var qs = location.search; /* incluye gclid, utm_source, etc. */
   document.querySelectorAll('[data-cotiza]').forEach(function(a){
