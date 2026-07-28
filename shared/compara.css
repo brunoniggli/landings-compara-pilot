@@ -181,6 +181,40 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
   .logo-capsule{flex:none}
 }
 
+/* ---------------------------------------------------------------------
+   .logo-cloud--fit — fila de logos normalizada. USAR EN LANDINGS NUEVAS.
+   ---------------------------------------------------------------------
+   Por qué existe: los SVG del design system tienen todos viewBox="0 0 200 100"
+   (caja fija 2:1), pero cada logo ocupa una fracción distinta de esa caja.
+   Medido: Consorcio ocupaba 30,4% de la altura, BCI 73,6%, Zurich 69,4%. Como
+   `height` escala la CAJA y no el dibujo, con el MISMO CSS Consorcio salía
+   2,4x más chico que BCI. La variable `--ls` era una calibración manual por
+   logo para compensar eso, y no escala: cada logo nuevo hay que ajustarlo a ojo.
+
+   Acá la cápsula y el slot del logo son de tamaño fijo y el logo se ajusta con
+   object-fit:contain — al logo ancho (Consorcio, aspect 5,2) lo limita el
+   ancho; al apilado (Zurich, aspect 1,6) lo limita la altura. El área óptica
+   queda pareja sin tocar nada por logo, así que una aseguradora nueva
+   (Alemana, Bupa) entra sin calibrar.
+
+   Requiere que el SVG tenga el viewBox ajustado al dibujo real, sin whitespace
+   interno. Cómo se ajusta: ver la skill landing-factory (knowledge/logos.md).
+
+   NO se aplicó a .logo-capsule directamente a propósito: auto.html está en un
+   A/B test activo y sus 10 logos siguen con el patrón calibrado original.
+   Migrar Auto cuando ese test cierre.
+   --------------------------------------------------------------------- */
+.logo-cloud--fit{gap:16px 14px}
+.logo-cloud--fit .logo-capsule{width:148px;padding:0}
+.logo-cloud--fit .logo-capsule img{width:88px;height:26px;object-fit:contain;transform:none}
+@media (min-width:861px){
+  .logo-cloud--fit .logo-capsule{width:168px}
+  .logo-cloud--fit .logo-capsule img{width:104px;height:34px}
+}
+@media (hover:hover) and (pointer:fine){
+  .logo-cloud--fit .logo-capsule:hover img{transform:scale(1.08)}
+}
+
 /* =====================================================================
    CÓMO FUNCIONA — pasos dentro de cards blancas con sombra suave
    ===================================================================== */
@@ -407,9 +441,11 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
 .hero-figure--salud{isolation:isolate;min-height:360px}
 .hero-figure--salud::before{content:"";position:absolute;z-index:0;left:50%;top:52%;width:min(86%,430px);aspect-ratio:1;border-radius:50%;background:rgba(119,155,255,.52);transform:translate(-50%,-50%)}
 .hero-figure--salud img{width:min(96%,500px);max-height:390px;object-fit:contain}
-.hero-offer-card{position:absolute;z-index:2;left:clamp(12px,5vw,42px);bottom:clamp(10px,4vw,34px);display:grid;gap:4px;width:min(280px,58%);padding:15px 18px 16px;background:var(--color-surface);color:var(--color-brand);border-radius:16px;box-shadow:0 18px 38px -20px rgba(4,15,70,.54);transform:rotate(-4deg);text-align:left}
-.hero-offer-card small{font-family:var(--font-body);font-size:13px;font-weight:700;line-height:1.15;color:var(--color-brand)}
-.hero-offer-card strong{font-family:var(--font-display);font-size:clamp(19px,2.1vw,27px);line-height:1;color:var(--color-brand)}
+/* El card se mantiene compacto a propósito: si crece, tapa el torso del personaje
+   y el titular se parte en 4 líneas. Con este ancho/tamaño queda en 2 líneas. */
+.hero-offer-card{position:absolute;z-index:2;left:clamp(10px,3vw,26px);bottom:clamp(8px,3vw,24px);display:grid;gap:3px;width:min(228px,50%);padding:12px 15px 13px;background:var(--color-surface);color:var(--color-brand);border-radius:16px;box-shadow:0 18px 38px -20px rgba(4,15,70,.54);transform:rotate(-4deg);text-align:left}
+.hero-offer-card small{font-family:var(--font-body);font-size:12px;font-weight:700;line-height:1.15;color:var(--color-brand)}
+.hero-offer-card strong{font-family:var(--font-display);font-size:clamp(17px,1.5vw,20px);line-height:1.08;color:var(--color-brand)}
 .hero-offer-card span{font-family:var(--font-body);font-size:13px;font-weight:700;line-height:1.15;color:var(--color-fg)}
 @media (max-width:860px){
   .hero--split .hero-content{grid-template-columns:1fr;text-align:center;gap:clamp(24px,6vw,36px)}
@@ -419,9 +455,9 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
   .hero-figure--salud{min-height:320px}
   .hero-figure--salud::before{top:47%;width:min(82vw,318px)}
   .hero-figure--salud img{width:min(82%,330px)}
-  .hero-offer-card{left:50%;bottom:12px;width:min(236px,70vw);padding:13px 15px 14px;transform:translateX(-58%) rotate(-4deg)}
-  .hero-offer-card small,.hero-offer-card span{font-size:12px}
-  .hero-offer-card strong{font-size:22px}
+  .hero-offer-card{left:50%;bottom:10px;width:min(212px,64vw);padding:11px 14px 12px;transform:translateX(-58%) rotate(-4deg)}
+  .hero-offer-card small,.hero-offer-card span{font-size:11px}
+  .hero-offer-card strong{font-size:18px}
 }
 
 /* Banner promocional clickable (→ condiciones). Imagen propia desktop/mobile */

@@ -16,7 +16,7 @@
 <link rel="icon" href="brand/design-system/assets/avatar_favicon.svg">
 <link rel="stylesheet" href="brand/design-system/colors_and_type.css">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<link rel="stylesheet" href="shared/compara.css?v=20260728-charlie-logos">
+<link rel="stylesheet" href="shared/compara.css?v=20260728-logofit">
 </head>
 <body>
 <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -85,10 +85,15 @@
     <p class="insurers-sub reveal" style="--i:1"><span>Un punto de partida simple</span> <span>para encontrar el Seguro de Salud</span> <span>que calza contigo</span></p>
   </div>
   <div class="logo-rail">
-    <div class="logo-cloud" id="logoCloud">
-      <span class="logo-capsule reveal" style="--i:0"><img src="brand/design-system/assets/logo_Consorcio.svg" alt="Consorcio" style="--ls:1.05"></span>
-      <span class="logo-capsule reveal" style="--i:1"><img src="brand/design-system/assets/logo_Bci.svg" alt="BCI Seguros" style="--ls:1.18"></span>
-      <span class="logo-capsule reveal" style="--i:2"><img src="brand/design-system/assets/logo_Zurich.svg" alt="Zurich" style="--ls:1.22"></span>
+    <!-- logo-cloud--fit: cápsula y slot de tamaño fijo + object-fit:contain.
+         No lleva --ls por logo: el patrón se normaliza solo (ver compara.css).
+         Para agregar una aseguradora nueva basta con copiar un <span> — no hay
+         que calibrar nada, siempre que el SVG tenga el viewBox ajustado al dibujo.
+         TODO AROLDO: faltan los logos de Alemana (ad group activo) y Bupa. -->
+    <div class="logo-cloud logo-cloud--fit" id="logoCloud">
+      <span class="logo-capsule reveal" style="--i:0"><img src="brand/design-system/assets/logo_Consorcio.svg" alt="Consorcio"></span>
+      <span class="logo-capsule reveal" style="--i:1"><img src="brand/design-system/assets/logo_Bci.svg" alt="BCI Seguros"></span>
+      <span class="logo-capsule reveal" style="--i:2"><img src="brand/design-system/assets/logo_Zurich.svg" alt="Zurich"></span>
     </div>
   </div>
 </section>
@@ -218,7 +223,7 @@
 </div>
 
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-<script src="shared/compara.js?v=20260728-charlie-logos" defer></script>
+<script src="shared/compara.js?v=20260728-logofit" defer></script>
 <script>
 /* Redirección de los CTA al formulario vigente de cotización de Salud.
    Conserva gclid / utm_* del clic SEM para no perder atribución de paid. */
