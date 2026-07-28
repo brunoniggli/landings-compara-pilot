@@ -1,7 +1,7 @@
 /* =====================================================================
    Compara — Comportamientos compartidos
-   nav sólido, reveals, luz del hero, carrusel de productos
-   y demo de chat. Cada módulo se autoactiva SOLO si su
+   nav sólido, reveals, luz del hero, carrusel de productos, marquee de
+   aseguradoras y demo de chat. Cada módulo se autoactiva SOLO si su
    elemento existe en la página, así una landing simple no rompe.
    Requiere Lucide cargado antes (para los iconos de UI).
    ===================================================================== */
@@ -143,10 +143,28 @@
     window.addEventListener('load', pMeasure);
   }
 
-  /* ---------- Aseguradoras: mantener limpio si una versión antigua clonó logos */
+  /* ---------- Aseguradoras: marquee en mobile (clones para loop) ----- */
   var cloud = document.getElementById('logoCloud');
   if (cloud){
-    Array.prototype.slice.call(cloud.querySelectorAll('[data-clone]')).forEach(function(c){ c.remove(); });
+    var mqMobile = window.matchMedia('(max-width: 860px)');
+    var originals = Array.prototype.slice.call(cloud.children);
+    var setInsurers = function(){
+      var isMob = mqMobile.matches;
+      Array.prototype.slice.call(cloud.querySelectorAll('[data-clone]')).forEach(function(c){ c.remove(); });
+      cloud.classList.toggle('logo-cloud--marquee', isMob && !reduce);
+      if (isMob){
+        originals.forEach(function(o){ o.classList.add('in'); });
+        if (!reduce){
+          originals.forEach(function(o){
+            var c = o.cloneNode(true);
+            c.setAttribute('data-clone',''); c.setAttribute('aria-hidden','true'); c.classList.add('in');
+            cloud.appendChild(c);
+          });
+        }
+      }
+    };
+    setInsurers();
+    if (mqMobile.addEventListener) mqMobile.addEventListener('change', setInsurers);
   }
 
   /* ---------- Demo de chat Comparini (copy aprobado) ------------------ */
