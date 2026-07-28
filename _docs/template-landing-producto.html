@@ -1,0 +1,231 @@
+<!--
+  PLANTILLA DE LANDING DE PRODUCTO — basada en source/auto.html (caso CICL, aprobado e implementado)
+  ============================================================================================
+  Antes de usar esta plantilla, confirma que tienes TODO el checklist de docs/01_REQUISITOS_PARA_LANDING_NUEVA.md.
+
+  Cómo usarla:
+  1. Copia este archivo a source/[producto].html (ej. source/vida.html)
+  2. Reemplaza cada {{PLACEHOLDER}} — todos están comentados con qué va ahí
+  3. Si el producto NO tiene promoción activa, borra la sección "BANNER PROMOCIONAL" completa
+  4. Sube los assets nuevos a source/assets/ (ver convención de nombres en docs/02_MANUAL_CREAR_LANDING.md)
+  5. Enlaza esta landing desde source/index.html (Home) — ver Paso 4 de docs/02_MANUAL_CREAR_LANDING.md
+  6. NO cambies los ids/clases marcados (son el contrato con shared/compara.js — ver tabla en docs/02)
+
+  No inventes contenido: si un placeholder no tiene dato real todavía, dejalo marcado con TODO,
+  igual que se hizo en el caso real (ver docs/05_APRENDIZAJES_CASO_CICL.md, punto 7).
+-->
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{PRODUCTO}} | Cotiza y compara online | Compara</title>
+<meta name="description" content="Cotiza tu {{PRODUCTO}} en 5 minutos. Compara precios y coberturas de las principales aseguradoras de Chile y elige el mejor. 100% online, sin letra chica.">
+<link rel="icon" href="brand/design-system/assets/avatar_favicon.svg">
+<link rel="stylesheet" href="brand/design-system/colors_and_type.css">
+<script>document.documentElement.classList.replace('no-js','js')</script>
+<link rel="stylesheet" href="shared/compara.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- ================= NAV (minimal, enfocado a conversión — no tocar la estructura, es el patrón "landing puente") ================= -->
+<header class="nav nav--minimal" id="nav">
+  <div class="container nav-inner">
+    <a class="nav-logo" href="https://www.comparaonline.cl" aria-label="ComparaOnline, inicio">
+      <img class="logo-white" src="brand/design-system/assets/logo_white.svg" alt="Compara">
+      <img class="logo-blue" src="brand/design-system/assets/avatar_favicon.svg" alt="Compara">
+      <img class="logo-compa" src="assets/bc-compa-feliz.svg" alt="Compara">
+    </a>
+    <!-- CTA del nav oculto a propósito (patrón "landing puente" — ver docs/05, punto 3).
+         Solo reactivar si el negocio pide explícitamente volver a mostrar navegación:
+    <div class="nav-cta">
+      <a class="btn btn--nav" href="https://www.compara.ai/">Conversemos de seguros</a>
+    </div>
+    -->
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= HERO (un solo CTA → formulario) ================= -->
+<section class="hero hero--split" id="hero">
+  <div class="wash wash--a" aria-hidden="true"></div>
+  <div class="wash wash--b" aria-hidden="true"></div>
+  <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-copy">
+      <!-- {{TITULO_HERO}}: mismo patrón que Auto ("Tu [Producto], al mejor precio") -->
+      <h1 class="hero-enter" style="--i:0">Tu {{PRODUCTO}},<br>al <span class="dserif">mejor</span> precio</h1>
+      <!-- {{BAJADA_HERO}}: 1-2 frases de propuesta de valor -->
+      <p class="hero-sub hero-enter" style="--i:1">Compara en 5 minutos los precios y coberturas de las principales aseguradoras de Chile. Eliges, contratas y listo. Sin letra chica.</p>
+      <div class="hero-cta hero-enter" style="--i:2">
+        <!-- Texto del CTA: debe repetirse IDÉNTICO en las 4 apariciones de este archivo (hero, banner si existe, closer, sticky) -->
+        <a class="btn btn--white btn--lg" href="#" data-cotiza>Cotiza tu {{PRODUCTO}}</a>
+      </div>
+      <div class="hero-trust hero-enter" style="--i:3">
+        <!-- {{PUNTO_CONFIANZA_1/2/3}}: los 3 puntos de confianza del checklist -->
+        <span><i data-lucide="check" class="ico"></i>Todas las aseguradoras</span>
+        <span><i data-lucide="check" class="ico"></i>100% online</span>
+        <span><i data-lucide="check" class="ico"></i>En 5 minutos</span>
+      </div>
+    </div>
+    <!-- Imagen promocional del hero. Mismo archivo/composición en desktop y mobile salvo que el diseño
+         pida algo distinto (ver docs/01, sección "Assets visuales"). -->
+    <a class="hero-figure hero-figure-link hero-enter" style="--i:2" href="#" data-cotiza aria-label="Cotiza tu {{PRODUCTO}}">
+      <img src="assets/promo-{{PRODUCTO_SLUG}}-hero.png" alt="{{TEXTO_ALT_OFERTA}}" onerror="this.style.display='none'">
+    </a>
+  </div>
+</section>
+
+<!-- ================= BANNER PROMOCIONAL (borrar esta sección COMPLETA si el producto no tiene promoción vigente) ================= -->
+<a class="promo-banner" href="{{URL_CONDICIONES_PDF}}" target="_blank" rel="noopener" aria-label="{{TEXTO_ALT_OFERTA}}. Ver condiciones.">
+  <picture>
+    <source media="(max-width: 640px)" srcset="assets/promo-{{PRODUCTO_SLUG}}-banner-mobile.png">
+    <img src="assets/promo-{{PRODUCTO_SLUG}}-banner-desktop.png" alt="{{TEXTO_ALT_OFERTA}}. Ver condiciones." onerror="this.closest('.promo-banner').style.display='none'">
+  </picture>
+</a>
+
+<!-- ================= ASEGURADORAS (ajustar el listado según el producto — confirmar con el checklist, no asumir que son las mismas de Auto) ================= -->
+<section class="insurers" id="aseguradoras">
+  <div class="container">
+    <h2 class="reveal">Comparas entre las aseguradoras <b>más importantes de Chile</b></h2>
+    <p class="insurers-sub reveal" style="--i:1">Un solo lugar para ver todas las opciones de tu {{PRODUCTO}}</p>
+  </div>
+  <div class="logo-rail">
+    <div class="logo-cloud" id="logoCloud">
+      <!-- Copiar un <span class="logo-capsule"> por cada aseguradora que compita en este producto.
+           Logos disponibles en brand/design-system/assets/logo_*.svg (HDI, Mapfre, Zurich, Sura, Bci,
+           Cardif, Reale, Zenit, FID, Consorcio). Si falta un logo, es parte del checklist de requisitos. -->
+      <span class="logo-capsule reveal" style="--i:0"><img src="brand/design-system/assets/logo_HDI.svg" alt="HDI Seguros" style="--ls:1.22"></span>
+      <span class="logo-capsule reveal" style="--i:1"><img src="brand/design-system/assets/logo_Mapfre.svg" alt="Mapfre" style="--ls:1.15"></span>
+      <span class="logo-capsule reveal" style="--i:2"><img src="brand/design-system/assets/logo_Zurich.svg" alt="Zurich" style="--ls:1.22"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CÓMO FUNCIONA (los 3 pasos del checklist) ================= -->
+<section class="how section" id="como-funciona">
+  <div class="container">
+    <h2 class="reveal">Cotizar tu {{PRODUCTO}} es así de <span class="dserif">simple</span></h2>
+    <p class="how-lead reveal" style="--i:1">Sin llamadas eternas ni trámites imposibles. Todo el proceso es online y te acompañamos en cada paso.</p>
+    <div class="steps">
+      <div class="step reveal scrub" style="--i:0">
+        <span class="step-n" aria-hidden="true"></span>
+        <h3>{{PASO_1_TITULO}}</h3>
+        <p>{{PASO_1_DESCRIPCION}}</p>
+      </div>
+      <div class="step reveal scrub" style="--i:1">
+        <span class="step-n" aria-hidden="true"></span>
+        <h3>Mira todas tus opciones</h3>
+        <p>Todas las ofertas de las principales aseguradoras que hay en el mercado, lado a lado y sin sorpresas.</p>
+      </div>
+      <div class="step reveal scrub" style="--i:2">
+        <span class="step-n" aria-hidden="true"></span>
+        <h3>Contrata 100% online</h3>
+        <p>Eliges, pagas y tu póliza llega a tu correo. Así de directo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COBERTURAS/BENEFICIOS (los 3-4 del checklist) ================= -->
+<section class="benefits section" id="coberturas">
+  <div class="container">
+    <h2 class="reveal">Coberturas que te protegen de <span class="dserif">verdad</span></h2>
+    <p class="benefits-sub reveal" style="--i:1">Eliges qué incluir según lo que necesitas. Te mostramos todo, también lo que no cubre.</p>
+    <div class="benefits-grid">
+      <!-- Repetir este bloque por cada cobertura/beneficio. Íconos disponibles en
+           brand/design-system/assets/small_icon_*.svg — reutilizar si el concepto calza
+           (ej. small_icon_headset.svg para asistencia, small_icon_users.svg para terceros). -->
+      <div class="benefit reveal" style="--i:0">
+        <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_users.svg" alt=""></span>
+        <div>
+          <h3>{{BENEFICIO_1_TITULO}}</h3>
+          <p>{{BENEFICIO_1_DESCRIPCION}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="closer section">
+  <div class="container">
+    <span class="editorial reveal">Sin letra chica, sin sorpresas.</span>
+    <h2 class="reveal" style="--i:1">Deja de pagar de más por tu {{PRODUCTO}}.</h2>
+    <a class="btn btn--primary btn--lg reveal" style="--i:2" href="#" data-cotiza>Cotiza tu {{PRODUCTO}}</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER (igual en todas las landings, no requiere cambios) ================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="brand/design-system/assets/logo_white.svg" alt="Compara">
+        <p>La plataforma para comparar y contratar seguros con total transparencia.</p>
+      </div>
+      <div>
+        <h3>Seguros</h3>
+        <ul>
+          <li><a href="auto.html">Seguro de Auto</a></li>
+          <li><a href="#">SOAP</a></li>
+          <li><a href="#">Seguro de Vida</a></li>
+          <li><a href="#">Seguro de Salud</a></li>
+          <li><a href="#">Asistencia en Viaje</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Sobre nosotros</h3>
+        <ul>
+          <li><a href="#">Quiénes somos</a></li>
+          <li><a href="#">El Comparador</a></li>
+          <li><a href="#">Trabaja con nosotros</a></li>
+          <li><a href="#">Centro de ayuda</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Países</h3>
+        <ul>
+          <li><a href="#">Chile</a></li>
+          <li><a href="#">Brasil</a></li>
+          <li><a href="#">Colombia</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ComparaOnline</span>
+      <span class="spacer"></span>
+      <a href="#">Términos y condiciones</a>
+      <a href="#">Política de privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CTA sticky (solo mobile): aparece al perder de vista el CTA del hero; misma URL del formulario -->
+<div class="cta-sticky">
+  <a class="btn btn--primary btn--lg" href="#" data-cotiza>Cotiza tu {{PRODUCTO}}</a>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<script src="shared/compara.js" defer></script>
+<script>
+/* Redirección del CTA al formulario de cotización de este producto.
+   Reemplazar FORM por la URL real (checklist docs/01, sección 4).
+   Mientras sea '#', los CTA quedan inertes (placeholder) — es el estado esperado hasta confirmar la URL.
+   Conserva gclid / utm_* del clic SEM para no perder atribución. */
+(function(){
+  var FORM = '#'; /* {{URL_FORMULARIO_COTIZACION}} */
+  if (FORM === '#') return;
+  var qs = location.search;
+  document.querySelectorAll('[data-cotiza]').forEach(function(a){
+    a.href = FORM + (qs ? (FORM.indexOf('?') > -1 ? '&' : '?') + qs.slice(1) : '');
+  });
+})();
+</script>
+</body>
+</html>

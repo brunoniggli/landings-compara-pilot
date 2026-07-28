@@ -1,0 +1,183 @@
+/* =====================================================================
+   ComparaOnline Design System — Colors + Type
+   Source: Brandbook 2026 (Figma) + uploaded brand assets
+   ===================================================================== */
+
+/* --- Fonts -------------------------------------------------------- */
+@font-face { font-family: "Poppins"; src: url("./fonts/Poppins-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("./fonts/Poppins-Italic.ttf") format("truetype"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("./fonts/Poppins-SemiBold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("./fonts/Poppins-SemiBoldItalic.ttf") format("truetype"); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("./fonts/Poppins-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("./fonts/Poppins-BoldItalic.ttf") format("truetype"); font-weight: 700; font-style: italic; font-display: swap; }
+
+@font-face { font-family: "Open Sans"; src: url("./fonts/OpenSans-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Open Sans"; src: url("./fonts/OpenSans-Italic.ttf") format("truetype"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Open Sans"; src: url("./fonts/OpenSans-SemiBold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Open Sans"; src: url("./fonts/OpenSans-SemiBoldItalic.ttf") format("truetype"); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: "Open Sans"; src: url("./fonts/OpenSans-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Open Sans"; src: url("./fonts/OpenSans-BoldItalic.ttf") format("truetype"); font-weight: 700; font-style: italic; font-display: swap; }
+
+@font-face { font-family: "DM Serif Display"; src: url("./fonts/DMSerifDisplay-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "DM Serif Display"; src: url("./fonts/DMSerifDisplay-Italic.ttf") format("truetype"); font-weight: 400; font-style: italic; font-display: swap; }
+
+:root {
+  /* ---------- Brand / Primary blues ---------------------------- */
+  --color-brand:            #103AD9;  /* Brand Blue — flagship */
+  --color-brand-deep:       #0F2AA8;  /* pressed states */
+  --color-primary-300:      #4168FF;  /* Bright Royal — primary action */
+  --color-primary-200:      #779BFF;  /* Soft Cobalt — hover tint / deco */
+  --color-primary-100:      #C2D9FF;  /* Pale Sky — surfaces / bubbles */
+  --color-ice:              #F1F5F9;  /* Ice Blue Grey — page bg */
+  --color-azure-tech:       #0085FF;  /* Azure Tech — gradient stop */
+
+  /* ---------- Secondary ---------------------------------------- */
+  --color-human-coral:      #FF6B4A;  /* Action accent */
+  --color-fintech-mint:     #00C49A;  /* Expertise / success */
+  --color-dark-slate:       #0F172A;  /* Deep foreground */
+
+  /* ---------- Neutrals / Text ---------------------------------- */
+  --color-fg:               #0F172A;  /* body text, titles on light */
+  --color-fg-muted:         #4F596B;  /* secondary body */
+  --color-fg-subtle:        #6E7191;  /* captions, metadata */
+  --color-fg-faint:         #949597;  /* disabled, hints */
+  --color-on-brand:         #FFFFFF;
+
+  --color-border:           #E2E6E9;
+  --color-border-soft:      #DCDDEB;
+  --color-surface:          #FFFFFF;
+  --color-surface-alt:      #F7F7FC;   /* page bg for dashboards */
+  --color-surface-sunk:     #F3F5FF;   /* inner wells */
+
+  /* ---------- Semantic ----------------------------------------- */
+  --color-success:          #00C49A;
+  --color-success-bg:       #E6FAF3;
+  --color-warning:          #FFB020;
+  --color-warning-bg:       #FFF4DB;
+  --color-danger:           #FF4141;
+  --color-danger-bg:        #FFF0F0;
+  --color-info:             #0085FF;
+  --color-info-bg:          #E6F3FF;
+
+  /* ---------- Brand gradients / signatures --------------------- */
+  --gradient-brand:         linear-gradient(45deg, #103AD9 0%, #0085FF 100%);  /* @kind color */
+  --gradient-brand-reverse: linear-gradient(225deg, #103AD9 0%, #0085FF 100%); /* @kind color */
+
+  /* ---------- Typography families ------------------------------ */
+  --font-display: "Poppins", system-ui, -apple-system, Segoe UI, sans-serif;  /* Principal */
+  --font-body:    "Open Sans", "Poppins", system-ui, sans-serif;              /* Second */
+  --font-serif:   "DM Serif Display", "DM Serif Text", Georgia, serif;        /* Third — editorial accents */
+
+  /* ---------- Type scale (desktop base) ------------------------ */
+  --fs-display-xl: 90px;   --lh-display-xl: 94px;
+  --fs-display:    72px;   --lh-display:    84px;
+  --fs-h1:         50px;   --lh-h1:         60px;
+  --fs-h2:         38px;   --lh-h2:         50px;
+  --fs-h3:         24px;   --lh-h3:         34px;
+  --fs-lead:       20px;   --lh-lead:       30px;
+  --fs-body:       18px;   --lh-body:       28px;
+  --fs-body-sm:    16px;   --lh-body-sm:    24px;
+  --fs-caption:    14px;   --lh-caption:    22px;
+  --fs-micro:      12px;   --lh-micro:      18px;
+
+  /* ---------- Spacing scale (4px base) ------------------------- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ---------- Radii -------------------------------------------- */
+  /* Brand note: soft-shadow text capsules use 15px rounding */
+  --radius-xs:  6px;
+  --radius-sm:  10px;
+  --radius-md:  15px;   /* signature capsule */
+  --radius-lg:  20px;
+  --radius-xl:  24px;
+  --radius-2xl: 36px;
+  --radius-pill: 999px;
+
+  /* ---------- Shadows / elevation ------------------------------ */
+  --shadow-soft:    0 2px 6px 0 rgba(0, 133, 255, 0.12);
+  --shadow-lifted:  0 6px 20px 0 rgba(0, 133, 255, 0.18);
+  --shadow-press:   inset 0 1px 0 rgba(255,255,255,0.10), 0 1px 0 rgba(15,23,42,0.04);
+  --shadow-focus:   0 0 0 3px rgba(65, 104, 255, 0.28);
+
+  /* ---------- Motion ------------------------------------------- */
+  --ease-brand: cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);      /* @kind other */
+  --dur-fast:   120ms; /* @kind other */
+  --dur-base:   220ms; /* @kind other */
+  --dur-slow:   400ms; /* @kind other */
+
+  /* ---------- Button height scale (moved from component selectors) */
+  --btn-h-sm: 36px;
+  --btn-h-md: 48px;
+  --btn-h-lg: 56px;
+}
+
+/* =====================================================================
+   Semantic / base tag styles
+   ===================================================================== */
+
+html { color: var(--color-fg); background: var(--color-surface); }
+body { font-family: var(--font-body); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--color-fg); }
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4 { font-family: var(--font-display); font-weight: 700; color: var(--color-brand); letter-spacing: -0.01em; margin: 0; }
+h1, .h1 { font-size: var(--fs-display); line-height: var(--lh-display); }
+h2, .h2 { font-size: var(--fs-h1);      line-height: var(--lh-h1); }
+h3, .h3 { font-size: var(--fs-h2);      line-height: var(--lh-h2); }
+h4, .h4 { font-size: var(--fs-h3);      line-height: var(--lh-h3); color: var(--color-fg); }
+
+.lead { font-family: var(--font-display); font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--color-fg); }
+.eyebrow { font-family: var(--font-display); font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-primary-300); }
+.editorial { font-family: var(--font-serif); font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--color-primary-300); }
+
+p  { margin: 0 0 var(--space-3); }
+small, .caption { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--color-fg-subtle); }
+code, kbd, samp { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.95em; }
+
+a { color: var(--color-primary-300); text-decoration: none; }
+a:hover { color: var(--color-brand); text-decoration: underline; }
+
+/* ---------- Capsule primitive (signature UI shape) ------------- */
+.capsule {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: 10px 18px;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-body-sm);
+}
+.capsule--primary { background: var(--color-primary-100); color: var(--color-fg); }
+.capsule--coral   { background: #FFF0F0;               color: var(--color-fg); }
+
+/* ---------- Button primitives ---------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  height: var(--btn-h-md); padding: 0 22px;
+  font-family: var(--font-display); font-weight: 600; font-size: 16px; line-height: 1;
+  border-radius: var(--radius-md); border: 0; cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-brand), background-color var(--dur-base) var(--ease-brand), box-shadow var(--dur-base) var(--ease-brand), color var(--dur-base) var(--ease-brand);
+}
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn--primary { background: var(--color-brand);        color: #fff; box-shadow: var(--shadow-soft); }
+.btn--primary:hover { background: #4168FF; color: #fff; box-shadow: var(--shadow-lifted); }
+.btn--secondary { background: var(--color-primary-100); color: var(--color-brand); }
+.btn--secondary:hover { background: #A9C5FF; }
+.btn--ghost { background: transparent; color: var(--color-brand); box-shadow: inset 0 0 0 1.5px var(--color-brand); }
+.btn--ghost:hover { background: var(--color-surface-sunk); }
+.btn--coral { background: var(--color-human-coral); color: #fff; }
+.btn--coral:hover { background: #F65A38; }
+.btn--sm { height: var(--btn-h-sm); padding: 0 14px; font-size: 14px; border-radius: 12px; }
+.btn--lg { height: var(--btn-h-lg); padding: 0 28px; font-size: 18px; }
+.btn--pill { border-radius: var(--radius-pill); }

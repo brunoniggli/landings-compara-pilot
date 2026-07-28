@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compara | Cotiza y compara seguros online</title>
+<meta name="description" content="Cotiza seguros de auto, vida, salud y viaje. Compara precios y coberturas reales de las principales aseguradoras y elige mejor. Sin letra chica.">
+<link rel="icon" href="brand/design-system/assets/avatar_favicon.svg">
+<link rel="stylesheet" href="brand/design-system/colors_and_type.css">
+<script>document.documentElement.classList.replace('no-js','js')</script>
+<link rel="stylesheet" href="shared/compara.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a class="nav-logo" href="#" aria-label="Compara, inicio">
+      <img class="logo-white" src="brand/design-system/assets/logo_white.svg" alt="Compara">
+      <img class="logo-blue" src="brand/design-system/assets/avatar_favicon.svg" alt="Compara">
+    </a>
+    <nav aria-label="Principal">
+      <ul class="nav-links">
+        <li><a href="#productos">Seguros</a></li>
+        <li><a href="#como-funciona">Cómo funciona</a></li>
+        <li><a href="#ia">Nuestra IA</a></li>
+        <li><a href="#">El Comparador</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn--nav" href="https://www.compara.ai/">Conversemos de seguros</a>
+    </div>
+    <button class="nav-burger" id="burger" aria-expanded="false" aria-controls="navPanel" aria-label="Abrir menú">
+      <i data-lucide="menu" class="ico" style="color:currentColor"></i>
+    </button>
+  </div>
+  <div class="nav-panel" id="navPanel">
+    <a href="#productos">Seguros</a>
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#ia">Nuestra IA</a>
+    <a href="#">El Comparador</a>
+    <a class="btn btn--primary" href="https://www.compara.ai/">Conversemos de seguros</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <div class="wash wash--a" aria-hidden="true"></div>
+  <div class="wash wash--b" aria-hidden="true"></div>
+  <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-enter" style="--i:0">Compara y<br>elige <span class="dserif">mejor</span>.</h1>
+    <p class="hero-sub hero-enter" style="--i:1">Cotiza en minutos y mira todas las opciones de seguros con todas sus coberturas, compara y contrata sin letra chica.<br>¿Qué seguro buscas?</p>
+    <ul class="hero-products hero-enter" style="--i:2" aria-label="Elige qué seguro comparar">
+      <li><a class="hp-btn" href="auto.html"><img class="hp-ico" src="brand/design-system/assets/small_icon_Seguro%20Auto.svg" alt="">Auto</a></li>
+      <li><a class="hp-btn" href="#"><img class="hp-ico" src="brand/design-system/assets/small_icon_Asistencia%20Viaje.svg" alt="">Viaje</a></li>
+      <li><a class="hp-btn" href="#"><img class="hp-ico" src="brand/design-system/assets/small_icon_SOAP.svg" alt="">SOAP</a></li>
+      <li><a class="hp-btn" href="#"><img class="hp-ico" src="brand/design-system/assets/small_icon_Seguro%20Vida.svg" alt="">Vida</a></li>
+      <li><a class="hp-btn" href="salud.html"><img class="hp-ico" src="brand/design-system/assets/small_icon_Seguro%20Salud.svg" alt="">Salud</a></li>
+      <li><a class="hp-btn hp-btn--plus" href="#" aria-label="Ver todos los seguros"><i data-lucide="plus" class="ico"></i></a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= CÓMO FUNCIONA ================= -->
+<section class="how section" id="como-funciona">
+  <div class="container">
+    <h2 class="reveal">Así de simple es elegir <span class="dserif">mejor</span></h2>
+    <p class="how-lead reveal" style="--i:1">Sin llamadas eternas ni términos imposibles. Todo el proceso es online y te acompañamos en cada paso.</p>
+    <div class="steps">
+      <div class="step reveal scrub" style="--i:0">
+        <span class="step-n" aria-hidden="true"></span>
+        <h3>Cuéntanos qué necesitas</h3>
+        <p>Tu auto, tu viaje o tu familia. Completar tus datos te toma menos de 5 minutos.</p>
+      </div>
+      <div class="step reveal scrub" style="--i:1">
+        <span class="step-n" aria-hidden="true"></span>
+        <h3>Mira todas tus opciones</h3>
+        <p>Todas las ofertas de las principales aseguradoras que hay en el mercado, lado a lado y sin sorpresas.</p>
+      </div>
+      <div class="step reveal scrub" style="--i:2">
+        <span class="step-n" aria-hidden="true"></span>
+        <h3>Contrata 100% online</h3>
+        <p>Eliges, pagas y tu póliza llega a tu correo. Así de directo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= IA / COMPARINI ================= -->
+<section class="ai section" id="ia">
+  <div class="wash--ai" aria-hidden="true"></div>
+  <div class="container ai-grid">
+    <div class="chat reveal scrub" id="chat">
+      <div class="chat-head">
+        <img src="brand/design-system/assets/avatar_favicon.svg" alt="">
+        <div>
+          <b>Compa</b>
+          <span>Tu asesor de seguros</span>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody" aria-hidden="true"></div>
+      <p class="sr-only">Demo de conversación: si le pides a Comparini un seguro barato pero bueno, te pregunta qué te preocupa, y te responde con precios, coberturas y deducibles exactos para que tú decidas.</p>
+      <div class="chat-foot" aria-hidden="true">
+        <div class="chat-input-box">
+          <span class="ph">Quiero saber más de…</span>
+          <div class="chat-input-row">
+            <i data-lucide="paperclip" class="ico chat-attach"></i>
+            <span class="chat-input-spacer"></span>
+            <i data-lucide="mic" class="ico chat-mic"></i>
+            <span class="chat-send"><i data-lucide="arrow-up" class="ico"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ai-copy">
+      <h2 class="reveal">Pregunta lo que quieras. Te respondemos con números.</h2>
+      <p class="ai-sub reveal" style="--i:1">Nuestra IA compara coberturas reales, te explica el porqué de cada recomendación y te muestra también lo que no cubre.</p>
+      <ul class="ai-points">
+        <li class="reveal" style="--i:2"><i data-lucide="check" class="ico"></i>Precios y deducibles exactos</li>
+        <li class="reveal" style="--i:3"><i data-lucide="check" class="ico"></i>Te decimos qué no está cubierto</li>
+        <li class="reveal" style="--i:4"><i data-lucide="check" class="ico"></i>Tú decides, sin presión</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BANDA FOTOGRÁFICA ================= -->
+<!-- TODO: reemplazar por fotografía oficial de marca (cálida, personas reales) -->
+<section class="adband" aria-label="Asistencia en Viaje">
+  <img class="photo" src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1920&q=80" alt="Camino abierto visto desde un auto en plena carretera, listo para un viaje largo">
+  <div class="adband-inner">
+    <h2 class="reveal">Donde elegir <span class="dserif">mejor</span><br>te lleva lejos.</h2>
+    <a class="adband-capsule reveal" style="--i:1" href="#">
+      <img src="brand/design-system/assets/small_icon_Asistencia%20Viaje.svg" alt="">
+      Asistencia en Viaje
+      <i data-lucide="arrow-right" class="ico" style="width:18px;height:18px"></i>
+    </a>
+  </div>
+</section>
+
+<!-- ================= PRODUCTOS (carrusel que sigue al cursor) ================= -->
+<section class="products section" id="productos">
+  <div class="container prod-head">
+    <h2 class="reveal">¿Qué quieres comparar hoy?</h2>
+    <div class="pan-progress" aria-hidden="true"><i></i></div>
+  </div>
+  <div class="hwrap" id="hwrap">
+    <div class="htrack" id="htrack">
+      <a class="pcard" href="auto.html">
+        <span class="chip-feat"><i data-lucide="tag" class="ico"></i>Más cotizado</span>
+        <span class="pcard-go"><i data-lucide="arrow-right" class="ico"></i></span>
+        <span class="pcard-ico"><img src="brand/design-system/assets/icon_Seguro%20Auto.svg" alt=""></span>
+        <div class="pcard-txt">
+          <h3>Seguro de Auto</h3>
+          <p>Cobertura completa para tu día a día, desde daños a terceros hasta robo total. Cotiza en 5 minutos.</p>
+        </div>
+      </a>
+      <a class="pcard" href="#">
+        <span class="pcard-go"><i data-lucide="arrow-right" class="ico"></i></span>
+        <span class="pcard-ico"><img src="brand/design-system/assets/icon_SOAP.svg" alt=""></span>
+        <div class="pcard-txt">
+          <h3>SOAP</h3>
+          <p>Contratarlo es obligatorio, pero pagar de más no lo es. Revisa todas las opciones y elige el mejor precio.</p>
+        </div>
+      </a>
+      <a class="pcard" href="#">
+        <span class="pcard-go"><i data-lucide="arrow-right" class="ico"></i></span>
+        <span class="pcard-ico"><img src="brand/design-system/assets/icon_Seguro%20Vida.svg" alt=""></span>
+        <div class="pcard-txt">
+          <h3>Seguro de Vida</h3>
+          <p>Protege a los que más quieres, con coberturas claras.</p>
+        </div>
+      </a>
+      <a class="pcard" href="salud.html">
+        <span class="pcard-go"><i data-lucide="arrow-right" class="ico"></i></span>
+        <span class="pcard-ico"><img src="brand/design-system/assets/icon_Seguro%20Salud.svg" alt=""></span>
+        <div class="pcard-txt">
+          <h3>Seguro de Salud</h3>
+          <p>Complementa tu plan y ahorra todos los meses.</p>
+        </div>
+      </a>
+      <a class="pcard" href="#">
+        <span class="pcard-go"><i data-lucide="arrow-right" class="ico"></i></span>
+        <span class="pcard-ico"><img src="brand/design-system/assets/icon_Asistencia%20Viaje.svg" alt=""></span>
+        <div class="pcard-txt">
+          <h3>Asistencia en Viaje</h3>
+          <p>Viaja tranquilo por el mundo, con salud cubierta.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="closer section">
+  <div class="container">
+    <span class="editorial reveal">¿Será realmente la mejor opción?</span>
+    <h2 class="reveal" style="--i:1">Deja la duda. Compara y elige <span class="dserif">mejor</span>.</h2>
+    <a class="btn btn--primary btn--lg reveal" style="--i:2" href="#">Cotiza tu seguro</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="brand/design-system/assets/logo_white.svg" alt="Compara">
+        <p>La plataforma para comparar y contratar seguros con total transparencia.</p>
+      </div>
+      <div>
+        <h3>Seguros</h3>
+        <ul>
+          <li><a href="#">Seguro de Auto</a></li>
+          <li><a href="#">SOAP</a></li>
+          <li><a href="#">Seguro de Vida</a></li>
+          <li><a href="#">Seguro de Salud</a></li>
+          <li><a href="#">Asistencia en Viaje</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Sobre nosotros</h3>
+        <ul>
+          <li><a href="#">Quiénes somos</a></li>
+          <li><a href="#">El Comparador</a></li>
+          <li><a href="#">Trabaja con nosotros</a></li>
+          <li><a href="#">Centro de ayuda</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Países</h3>
+        <ul>
+          <li><a href="#">Chile</a></li>
+          <li><a href="#">Brasil</a></li>
+          <li><a href="#">Colombia</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ComparaOnline</span>
+      <span class="spacer"></span>
+      <a href="#">Términos y condiciones</a>
+      <a href="#">Política de privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<script src="shared/compara.js" defer></script>
+</body>
+</html>
