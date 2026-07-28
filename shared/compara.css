@@ -460,6 +460,16 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
   .hero--split .hero-trust.hero-enter{animation-delay:360ms}
   .hero.hero--split{min-height:auto;padding-block:84px 48px}
 }
+@media (max-width:480px){
+  html,body{overflow-x:hidden}
+  .hero--split .hero-content{width:100%;max-width:100vw;padding-inline:20px}
+  .hero--split h1{font-size:clamp(30px,8.8vw,38px);max-width:100%;overflow-wrap:normal}
+  .hero--split .hero-sub{max-width:calc(100vw - 40px);font-size:16px}
+  .hero--split .hero-trust{max-width:calc(100vw - 40px)}
+  .hero--split .hero-trust span{white-space:normal}
+  .hero--split .btn--lg{min-width:0;max-width:calc(100vw - 40px)}
+  .insurers h2,.insurers-sub,.how h2,.how-lead{max-width:calc(100vw - 40px)}
+}
 
 /* =====================================================================
    CTA STICKY (solo mobile) — aparece al perder de vista el CTA del hero,
