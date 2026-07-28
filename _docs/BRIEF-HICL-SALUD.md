@@ -22,15 +22,14 @@ Salud" en el `<h1>` y "Seguro de Salud" en el CTA.
 
 - [ ] Confirmar o cambiar: ______________________
 
-### 0.2 Ángulo del hero — BLOQUEANTE
-Auto dice *"Tu Seguro de Auto, al mejor precio"*. **Salud no puede sostener esa promesa**:
-el Decision Service no devuelve precio en la vertical health, así que la landing no puede
-prometer comparación de precios.
+### 0.2 Ángulo del hero — RESUELTO 2026-07-28
+El hero usa el mismo eje que Auto: *"Tu Seguro Complementario de Salud, al mejor precio"*.
+El funil de cotización de Salud sí muestra precios, así que la promesa es sostenible
+(confirmado por Bruno). Una versión anterior de este brief decía lo contrario por confundir
+contextos: lo que no trae precio en Salud es el **requote de presales/CRM** (templates de
+WhatsApp), no el funil web.
 
-Propuesta en el borrador: *"Tu Seguro Complementario de Salud, en un solo lugar"* — mueve el
-eje de precio a comparación de coberturas.
-
-- [ ] Aprobar la propuesta, o escribir el ángulo correcto: ______________________
+- [ ] Aroldo valida el copy final del hero: ______________________
 
 ### 0.3 Cierre: ¿100% online o asistido? — BLOQUEANTE
 Auto dice *"Contrata 100% online: eliges, pagas y tu póliza llega a tu correo"*. En Salud hay
