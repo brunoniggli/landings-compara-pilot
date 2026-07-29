@@ -441,19 +441,31 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
    ===================================================================== */
 /* Hero split: copy a la izquierda + figura/imagen a la derecha.
    Usar <section class="hero hero--split"> y envolver el texto en .hero-copy */
-.hero--split .hero-content{max-width:1180px;width:100%;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,64px);align-items:center;text-align:left;padding-inline:clamp(20px,4vw,32px)}
+/* Feedback Charlie 2026-07-29: el hero estaba sobrecargado. Se le da más ancho a la
+   columna de texto (1.25 vs 0.75) para que el H1 quepa en 3 líneas y los 3 bullets
+   entren en una sola. */
+.hero--split .hero-content{max-width:1180px;width:100%;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,3.5vw,48px);align-items:center;text-align:left;padding-inline:clamp(20px,4vw,32px)}
+/* Feedback Charlie 2026-07-29: con el H1 en 3 líneas y los bullets en una, el 100vh
+   dejaba mucho vacío abajo. Se acota la altura del hero de landing (el home, .hero sin
+   modificador, queda igual) y así la sección siguiente se insinúa sin scrollear, que es
+   el aprendizaje 4 del caso CICL. */
+.hero--split{min-height:auto;padding-block:clamp(96px,11vh,132px) clamp(56px,8vh,84px)}
 .hero--split .hero-sub{max-width:48ch}
 .hero--split .hero-cta,.hero--split .hero-trust{justify-content:flex-start}
 /* título a 2 líneas en landings con imagen (cabe "Tu seguro de auto," por línea) */
-.hero--split h1{font-size:clamp(30px,4.2vw,52px)}
+.hero--split h1{font-size:clamp(30px,3.4vw,44px);max-width:22ch}
+/* max-width en ch limita el largo de línea: con el texto largo de Salud da 3 líneas
+   en vez de 4, sin depender de <br> forzados en el HTML. */
 .hero-figure{position:relative;display:grid;place-items:center;min-height:300px}
 .hero-figure img{position:relative;z-index:1;width:min(100%,520px);height:auto}
 .hero-figure--salud{isolation:isolate;min-height:360px}
-.hero-figure--salud::before{content:"";position:absolute;z-index:0;left:50%;top:52%;width:min(86%,430px);aspect-ratio:1;border-radius:50%;background:rgba(119,155,255,.52);transform:translate(-50%,-50%)}
+/* Feedback Charlie 2026-07-29: había DOBLE circunferencia. La imagen de Cloudinary ya
+   trae su propio círculo azul, así que este ::before agregaba un segundo y sobrecargaba
+   el hero. Eliminado a propósito: no volver a agregarlo sin cambiar la imagen. */
 .hero-figure--salud img{width:min(96%,500px);max-height:390px;object-fit:contain}
 /* El card se mantiene compacto a propósito: si crece, tapa el torso del personaje
    y el titular se parte en 4 líneas. Con este ancho/tamaño queda en 2 líneas. */
-.hero-offer-card{position:absolute;z-index:2;left:clamp(10px,3vw,26px);bottom:clamp(8px,3vw,24px);display:grid;gap:3px;width:min(228px,50%);padding:12px 15px 13px;background:var(--color-surface);color:var(--color-brand);border-radius:16px;box-shadow:0 18px 38px -20px rgba(4,15,70,.54);transform:rotate(-4deg);text-align:left}
+.hero-offer-card{position:absolute;z-index:2;left:0;bottom:clamp(4px,2vw,16px);display:grid;gap:3px;width:min(216px,62%);padding:11px 14px 12px;background:var(--color-surface);color:var(--color-brand);border-radius:16px;box-shadow:0 18px 38px -20px rgba(4,15,70,.54);transform:rotate(-4deg);text-align:left}
 .hero-offer-card small{font-family:var(--font-body);font-size:12px;font-weight:700;line-height:1.15;color:var(--color-brand)}
 .hero-offer-card strong{font-family:var(--font-display);font-size:clamp(17px,1.5vw,20px);line-height:1.08;color:var(--color-brand)}
 .hero-offer-card span{font-family:var(--font-body);font-size:13px;font-weight:700;line-height:1.15;color:var(--color-fg)}
@@ -463,7 +475,6 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
   .hero--split .hero-cta,.hero--split .hero-trust{justify-content:center}
   .hero-figure{min-height:0}
   .hero-figure--salud{min-height:320px}
-  .hero-figure--salud::before{top:47%;width:min(82vw,318px)}
   .hero-figure--salud img{width:min(82%,330px)}
   .hero-offer-card{left:50%;bottom:10px;width:min(212px,64vw);padding:11px 14px 12px;transform:translateX(-58%) rotate(-4deg)}
   .hero-offer-card small,.hero-offer-card span{font-size:11px}
@@ -489,8 +500,10 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
 .nav.nav--minimal[data-solid] .logo-white{opacity:1}
 .nav.nav--minimal[data-solid] .logo-blue{opacity:0}
 /* Logo +20% (26->31 mobile, 31->37 desktop) */
-.nav--minimal .nav-logo img{height:31px}
-@media (min-width:861px){.nav--minimal .nav-logo img{height:37px}}
+/* Feedback Charlie 2026-07-29: el +20% le quitaba espacio a la composición del hero.
+   Vuelve al tamaño base (26 mobile / 31 desktop). */
+.nav--minimal .nav-logo img{height:26px}
+@media (min-width:861px){.nav--minimal .nav-logo img{height:31px}}
 /* Logo cara de Compa: solo mobile (desktop mantiene el wordmark) */
 .nav--minimal .nav-logo .logo-compa{display:none}
 /* La imagen del hero enlaza al mismo formulario que el CTA (clickeable en desktop y mobile) */
