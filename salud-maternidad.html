@@ -1,0 +1,230 @@
+<!--
+  ============================================================================
+  SEGURO DE MATERNIDAD  ·  BU: SALUD  ·  tipo: producto
+  ============================================================================
+  Generada por _docs/generate.py con el patrón "landing puente" validado en el
+  piloto de Salud. Variante de producto: hero con Comparini + plaquita, con fila de aseguradoras.
+  Editar el contenido en _docs/generate.py y regenerar, no a mano acá.
+-->
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seguro de Maternidad | Cotiza y compara online | Compara</title>
+<meta name="description" content="Seguro de Maternidad: cobertura para el parto y la atención asociada al embarazo. Compara las alternativas del mercado y cotiza online.">
+<link rel="icon" href="brand/design-system/assets/avatar_favicon.svg">
+<link rel="stylesheet" href="brand/design-system/colors_and_type.css">
+<script>document.documentElement.classList.replace('no-js','js')</script>
+<link rel="stylesheet" href="shared/compara.css?v=20260729-lote21">
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- ================= NAV (minimal — patrón "landing puente") ================= -->
+<header class="nav nav--minimal" id="nav">
+  <div class="container nav-inner">
+    <a class="nav-logo" href="https://www.comparaonline.cl" aria-label="ComparaOnline, inicio">
+      <img class="logo-white" src="brand/design-system/assets/logo_white.svg" alt="Compara">
+      <img class="logo-blue" src="brand/design-system/assets/avatar_favicon.svg" alt="Compara">
+      <img class="logo-compa" src="assets/bc-compa-feliz.svg" alt="Compara">
+    </a>
+    <!-- CTA del nav oculto a propósito. No borrar, solo descomentar si el negocio lo pide:
+    <div class="nav-cta"><a class="btn btn--nav" href="https://www.compara.ai/">Conversemos de seguros</a></div>
+    -->
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= HERO (un solo CTA → formulario) ================= -->
+<section class="hero hero--split" id="hero">
+  <div class="wash wash--a" aria-hidden="true"></div>
+  <div class="wash wash--b" aria-hidden="true"></div>
+  <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-copy">
+      <h1 class="hero-enter" style="--i:0">Seguro de <span class="dserif">Maternidad</span></h1>
+      <p class="hero-sub hero-enter" style="--i:1">Cobertura para el parto y la atención asociada al embarazo. Compara las alternativas del mercado y elige.</p>
+      <div class="hero-cta hero-enter" style="--i:2">
+        <!-- El texto del CTA se repite IDÉNTICO en sus 4 apariciones. -->
+        <a class="btn btn--white btn--lg" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro de Maternidad</a>
+      </div>
+      <div class="hero-trust hero-enter" style="--i:3">
+        <span><i data-lucide="check" class="ico"></i>Todas las aseguradoras</span>
+        <span><i data-lucide="check" class="ico"></i>100% online</span>
+        <span><i data-lucide="check" class="ico"></i>Sin compromiso</span>
+      </div>
+    </div>
+    <a class="hero-figure hero-figure-link hero-figure--salud hero-enter" style="--i:2" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza aria-label="Cotiza tu Seguro de Maternidad">
+      <img src="https://res.cloudinary.com/compara/image/upload/q_auto,f_auto,c_pad,w_560,h_390/v1764182040/cms/new-uploads/img_hero_licl_pj-69274818385d53.72318176.png" alt="Seguro de Maternidad en Compara" onerror="this.style.display='none'">
+      <span class="hero-offer-card" aria-hidden="true">
+        <small>Compara y elige</small>
+        <strong>Tu salud, al mejor precio</strong>
+        <span>sin vueltas</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!--
+  ================= BANNER PROMOCIONAL — ELIMINADO A PROPÓSITO =================
+  Sin promoción vigente confirmada. Según docs/02 paso 2.5, cuando no hay oferta
+  activa se borra la sección completa, no se deja vacía. Si aparece una promo:
+  recuperar el bloque desde _docs/template-landing-producto.html (necesita imagen
+  desktop + mobile y el PDF de condiciones en Cloudinary, NO en el File Manager).
+-->
+
+<!-- ================= ASEGURADORAS ================= -->
+<section class="insurers" id="aseguradoras">
+  <div class="container">
+    <h2 class="reveal">Comparas entre las aseguradoras <b>más importantes de Chile</b></h2>
+    <p class="insurers-sub reveal" style="--i:1">Un solo lugar para ver todas tus opciones</p>
+  </div>
+  <div class="logo-rail">
+    <!-- logo-cloud--fit: cápsula y slot fijos + object-fit:contain. Sin --ls por logo.
+         Set tomado de los adgroups activos en Google Ads, pendiente de confirmar con Aroldo. -->
+    <div class="logo-cloud logo-cloud--fit" id="logoCloud">
+      <span class="logo-capsule reveal" style="--i:0"><img src="brand/design-system/assets/logo_Consorcio.svg" alt="Consorcio"></span>
+      <span class="logo-capsule reveal" style="--i:1"><img src="brand/design-system/assets/logo_Bci.svg" alt="BCI Seguros"></span>
+      <span class="logo-capsule reveal" style="--i:2"><img src="brand/design-system/assets/logo_Alemana.png" alt="Alemana Seguros"></span>
+      <span class="logo-capsule reveal" style="--i:3"><img src="brand/design-system/assets/logo_CLC.svg" alt="Clínica Las Condes"></span>
+      <span class="logo-capsule reveal" style="--i:4"><img src="brand/design-system/assets/logo_BiceVida.svg" alt="Bice Vida"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CÓMO FUNCIONA ================= -->
+<section class="how section" id="como-funciona">
+  <div class="container">
+    <h2 class="reveal">Cotizar es así de <span class="dserif">simple</span></h2>
+    <p class="how-lead reveal" style="--i:1">Sin llamadas eternas ni trámites imposibles. Cotizas online y te acompañamos en cada paso.</p>
+    <div class="steps">
+      <div class="step reveal scrub" style="--i:0">
+        <span class="step-n" aria-hidden="true"></span>
+        <h3>Cuéntanos de ti</h3>
+        <p>Ingresa tus datos básicos, tu edad y tu sistema de salud actual para comenzar.</p>
+      </div>
+      <div class="step reveal scrub" style="--i:1">
+        <span class="step-n" aria-hidden="true"></span>
+        <h3>Compara precios y coberturas</h3>
+        <p>Las alternativas de las principales aseguradoras, lado a lado y sin sorpresas.</p>
+      </div>
+      <div class="step reveal scrub" style="--i:2">
+        <span class="step-n" aria-hidden="true"></span>
+        <h3>Avanza con apoyo</h3>
+        <p>Elige la opción que prefieres y recibe acompañamiento para completar el proceso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COBERTURAS ================= -->
+<section class="benefits section" id="coberturas">
+  <div class="container">
+    <h2 class="reveal">Coberturas que te protegen de <span class="dserif">verdad</span></h2>
+    <p class="benefits-sub reveal" style="--i:1">Elige qué incluir según lo que necesitas. Te mostramos todo, también lo que no cubre.</p>
+    <div class="benefits-grid">
+<!-- TODO AROLDO — CONTENIDO PENDIENTE: las coberturas de este producto/compañía
+     no existen en ninguna LP publicada hoy, así que NO se inventaron. Reemplazar los
+     3 bloques de abajo con título + una línea cada uno. -->
+      <div class="benefit reveal" style="--i:0">
+        <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_Seguro Salud.svg" alt=""></span>
+        <div>
+          <h3>[TODO AROLDO] Cobertura 1</h3>
+          <p>Título corto + una línea de descripción.</p>
+        </div>
+      </div>
+      <div class="benefit reveal" style="--i:1">
+        <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_Seguro Salud.svg" alt=""></span>
+        <div>
+          <h3>[TODO AROLDO] Cobertura 2</h3>
+          <p>Título corto + una línea de descripción.</p>
+        </div>
+      </div>
+      <div class="benefit reveal" style="--i:2">
+        <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_Seguro Salud.svg" alt=""></span>
+        <div>
+          <h3>[TODO AROLDO] Cobertura 3</h3>
+          <p>Título corto + una línea de descripción.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="closer section">
+  <div class="container">
+    <span class="editorial reveal">Sin letra chica, sin sorpresas.</span>
+    <h2 class="reveal" style="--i:1">Compara las alternativas de cobertura de maternidad y elige.</h2>
+    <a class="btn btn--primary btn--lg reveal" style="--i:2" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro de Maternidad</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="brand/design-system/assets/logo_white.svg" alt="Compara">
+        <p>La plataforma para comparar y contratar seguros con total transparencia.</p>
+      </div>
+      <div>
+        <h3>Seguros</h3>
+        <ul>
+          <li><a href="auto.html">Seguro de Auto</a></li>
+          <li><a href="salud.html">Seguro de Salud</a></li>
+          <li><a href="vida.html">Seguro de Vida</a></li>
+          <li><a href="mascotas.html">Seguro de Mascotas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Sobre nosotros</h3>
+        <ul>
+          <li><a href="https://www.comparaonline.cl">Quiénes somos</a></li>
+          <li><a href="https://www.comparaonline.cl">Centro de ayuda</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Países</h3>
+        <ul>
+          <li><a href="https://www.comparaonline.cl">Chile</a></li>
+          <li><a href="https://www.comparaonline.com.br">Brasil</a></li>
+          <li><a href="https://www.comparaonline.com.co">Colombia</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ComparaOnline</span>
+      <span class="spacer"></span>
+      <a href="https://www.comparaonline.cl">Términos y condiciones</a>
+      <a href="https://www.comparaonline.cl">Política de privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CTA sticky (solo mobile): aparece al perder de vista el CTA del hero -->
+<div class="cta-sticky">
+  <a class="btn btn--primary btn--lg" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro de Maternidad</a>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<script src="shared/compara.js?v=20260729-lote21" defer></script>
+<script>
+/* Redirección de los CTA al formulario de cotización de este producto.
+   Conserva gclid / utm_* del clic SEM para no perder atribución de paid. */
+(function(){
+  var FORM = 'https://seguro-salud.comparaonline.cl/quote';
+  if (FORM === '#') return;
+  var qs = location.search;
+  document.querySelectorAll('[data-cotiza]').forEach(function(a){
+    a.href = FORM + (qs ? (FORM.indexOf('?') > -1 ? '&' : '?') + qs.slice(1) : '');
+  });
+})();
+</script>
+</body>
+</html>

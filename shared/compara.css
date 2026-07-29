@@ -425,7 +425,10 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
 /* Grilla de coberturas / beneficios (reutilizable en landings de producto) */
 .benefits h2{font-size:clamp(24px,2.6vw,32px);line-height:1.25;text-align:center;margin:0 0 8px;text-wrap:balance}
 .benefits-sub{font-family:var(--font-body);font-size:var(--fs-body-sm);line-height:var(--lh-body-sm);color:var(--color-fg-muted);text-align:center;margin:0 auto 44px;max-width:60ch}
-.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.benefits-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}
+/* flex + basis en vez de grid: con 5 coberturas el grid dejaba la quinta sola y
+   pegada a la izquierda. Así la última fila queda centrada con cualquier cantidad. */
+.benefits-grid>.benefit{flex:1 1 240px;max-width:340px}
 .benefit{display:flex;gap:14px;align-items:flex-start;padding:24px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-soft)}
 .benefit-ico{width:48px;height:48px;flex:none;border-radius:var(--radius-sm);background:var(--color-surface-sunk);display:grid;place-items:center}
 .benefit-ico .ico{width:26px;height:26px;color:var(--color-brand)}
@@ -560,4 +563,28 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
 }
 @media (prefers-reduced-motion: reduce){
   .cta-sticky{transition:none!important}
+}
+
+/* =====================================================================
+   HERO DE LANDING DE COMPAÑÍA (.hero-figure--marca)
+   ---------------------------------------------------------------------
+   En una landing de aseguradora el hero-figure NO lleva a Comparini con
+   plaquita: lleva el logo de la compañía, que ya es el mensaje. Misma
+   lógica que .logo-cloud--fit: caja fija + object-fit:contain, así sirve
+   para cualquier aspect (Chubb 9,4 y AuguStar 2,3 conviven sin calibrar).
+   La tarjeta blanca de fondo da contraste sobre el azul del hero.
+   ===================================================================== */
+.hero-figure--marca{display:flex;align-items:center;justify-content:center;min-height:220px}
+.hero-figure--marca .marca-card{display:flex;align-items:center;justify-content:center;
+  width:min(88%,420px);min-height:170px;padding:32px 40px;background:var(--color-surface);
+  border-radius:var(--radius-lg);box-shadow:0 24px 54px -26px rgba(4,15,70,.5)}
+.hero-figure--marca .marca-card img{width:100%;max-height:86px;object-fit:contain;
+  transform:none;filter:none;opacity:1}
+/* Marcas cuadradas o casi (aspect < 1,3): un cuadro lleno pesa más, se acota */
+.hero-figure--marca .marca-card img.logo-mark--cuadrado{width:auto;height:112px;max-height:112px}
+@media (max-width:860px){
+  .hero-figure--marca{min-height:0;margin-top:4px}
+  .hero-figure--marca .marca-card{width:min(78vw,300px);min-height:132px;padding:24px 28px}
+  .hero-figure--marca .marca-card img{max-height:66px}
+  .hero-figure--marca .marca-card img.logo-mark--cuadrado{height:84px;max-height:84px}
 }
