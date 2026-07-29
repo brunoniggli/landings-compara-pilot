@@ -28,13 +28,28 @@ FORM = {
     "mascotas": "https://seguro-mascotas.comparaonline.cl/quote",
 }
 
-# Comparini + plaquita, por BU (aprobado por Bruno 2026-07-29)
-# Ojo con el largo: el titular de la plaquita tiene que caber en 2 líneas.
-# "Protege a los tuyos, al mejor precio" se partía en 3 y quedaba apretado.
+# Plaquita del hero (aprobada por Bruno 2026-07-29: Vida C, Mascotas A, Salud A).
+# Regla: la plaquita dice lo que el H1 NO dice. Si el H1 habla de precio, la plaquita
+# habla de variedad, tiempo o tranquilidad. Repetir el H1 fue el error de la 1a versión.
+# Largo: el titular tiene que caber en 2 líneas.
+# NOTA sobre Vida: la opción C original llevaba "Desde $3.255 al mes", pero ese precio es
+# de Accidentes Personales, no de Seguro de Vida (verificado en la página de producto:
+# los 3 precios publicados son Vida+Ahorro $22.600, AP $3.255 y AP+Ahorro $9.925, todos
+# bajo "Otros seguros que puedes contratar"). No hay precio publicado del vida temporal
+# puro, así que la C va sin cifra en vez de atribuirle el precio de otro producto.
 PLAQUITA = {
-    "salud":    ("Compara y elige", "Tu salud, al mejor precio", "sin vueltas"),
-    "vida":     ("Compara y elige", "Los tuyos, al mejor precio", "sin vueltas"),
-    "mascotas": ("Compara y elige", "Tu mascota, al mejor precio", "sin vueltas"),
+    "salud":    ("Compara y elige", "Todas las aseguradoras", "en un solo lugar"),
+    "vida":     ("Cotiza en 5 minutos", "Protege a los tuyos", "sin letra chica"),
+    "mascotas": ("Compara y elige", "El seguro de tu mascota", "sin vueltas"),
+}
+
+# Los productos de Salud llevan el dato duro del producto en la plaquita.
+PLAQUITA_SLUG = {
+    "salud-catastrofico": ("Enfermedades de alto costo", "Hasta 30.000 UF", "de tope anual"),
+    "salud-ambulatorio":  ("Consultas y exámenes", "Lo que la Isapre no cubre", "compara y elige"),
+    "salud-hospitalario": ("Hospitalización y cirugía", "Lo que la Isapre no cubre", "compara y elige"),
+    "salud-oncologico":   ("Diagnóstico y tratamiento", "Gastos de alto costo", "compara y elige"),
+    "salud-maternidad":   ("Parto y embarazo", "Lo que la Isapre no cubre", "compara y elige"),
 }
 
 HERO_IMG = {
@@ -255,7 +270,11 @@ dict(slug="salud-ambulatorio", bu="salud", tipo="producto",
      cta="Cotiza tu Seguro Ambulatorio",
      closer_ed="Sin letra chica, sin sorpresas.",
      closer_h2="Compara las alternativas de cobertura ambulatoria y elige.",
-     coberturas=None),
+     coberturas=cob(
+        ("Consultas médicas","El copago que Fonasa o tu Isapre no te reembolsa.","salud"),
+        ("Exámenes de diagnóstico","Laboratorio e imágenes, según el plan que elijas.","soap"),
+        ("Medicamentos","Reembolso de receta médica, según el plan.","users"),
+        ("Sin pasar por hospitalización","La cobertura opera en atención ambulatoria.","headset"))),
 
 dict(slug="salud-hospitalario", bu="salud", tipo="producto",
      title="Seguro Hospitalario | Cotiza y compara online | Compara",
@@ -265,7 +284,11 @@ dict(slug="salud-hospitalario", bu="salud", tipo="producto",
      cta="Cotiza tu Seguro Hospitalario",
      closer_ed="Sin letra chica, sin sorpresas.",
      closer_h2="Compara las alternativas de cobertura hospitalaria y elige.",
-     coberturas=None),
+     coberturas=cob(
+        ("Hospitalización","Días cama y atención durante la internación.","salud"),
+        ("Cirugías","Honorarios y pabellón, según el plan que elijas.","soap"),
+        ("Urgencias","Atención de urgencia cubierta.","siren"),
+        ("Complemento a tu Isapre","Cubre lo que Fonasa o tu Isapre no reembolsa.","headset"))),
 
 dict(slug="salud-oncologico", bu="salud", tipo="producto",
      title="Seguro Oncológico | Cotiza y compara online | Compara",
@@ -275,7 +298,11 @@ dict(slug="salud-oncologico", bu="salud", tipo="producto",
      cta="Cotiza tu Seguro Oncológico",
      closer_ed="Sin letra chica, sin sorpresas.",
      closer_h2="Compara las alternativas de cobertura oncológica y elige.",
-     coberturas=None),
+     coberturas=cob(
+        ("Gastos de alto costo","Tope anual de hasta 30.000 UF, el rango en que suele caer un tratamiento oncológico.","salud"),
+        ("Hospitalización","Cubierta ante enfermedades de alto costo.","siren"),
+        ("Exámenes de laboratorio e imagenología","Incluidos dentro de la cobertura.","soap"),
+        ("Complemento a tu Isapre","Cubre lo que Fonasa o tu Isapre no reembolsa.","headset"))),
 
 dict(slug="salud-maternidad", bu="salud", tipo="producto",
      title="Seguro de Maternidad | Cotiza y compara online | Compara",
@@ -285,7 +312,11 @@ dict(slug="salud-maternidad", bu="salud", tipo="producto",
      cta="Cotiza tu Seguro de Maternidad",
      closer_ed="Sin letra chica, sin sorpresas.",
      closer_h2="Compara las alternativas de cobertura de maternidad y elige.",
-     coberturas=None),
+     coberturas=cob(
+        ("Parto y atención del embarazo","Lo que tu Isapre no reembolsa completo.","salud"),
+        ("Controles y exámenes prenatales","Según el plan que elijas.","soap"),
+        ("Hospitalización del parto","Días cama y pabellón.","siren"),
+        ("Recién nacido","Cobertura del bebé, según las condiciones del plan.","users"))),
 
 # ---------- COMPAÑÍAS DE VIDA (7) ----------
 dict(slug="vida-consorcio", bu="vida", tipo="cia", marca="Consorcio",
@@ -373,18 +404,49 @@ dict(slug="vida-augustar", bu="vida", tipo="cia", marca="AuguStar",
      cta="Cotiza tu Seguro de Vida",
      closer_ed="Compara antes de decidir.",
      closer_h2="Mira cómo queda AuguStar frente al resto del mercado.",
-     coberturas=None),
+     # No tenemos el detalle del plan que comercializamos de AuguStar. En vez de inventarlo,
+     # la sección de coberturas usa las del PRODUCTO (válidas para cualquier Seguro de Vida,
+     # fuente: nuestra propia página) y la marca se sostiene en la sección "Por qué", con
+     # hechos institucionales del sitio oficial. Al llegar el detalle del plan, especializar.
+     cob_h2_custom="Qué cubre un Seguro de Vida",
+     cob_sub_custom="Las coberturas del producto. El detalle exacto de tu plan lo ves al cotizar.",
+     coberturas=cob(
+        ("Muerte por enfermedad","La cobertura base de todo Seguro de Vida.","vida"),
+        ("Muerte accidental","Cobertura ante fallecimiento por accidente.","siren"),
+        ("Invalidez total o permanente","Disponible según el plan que contrates.","users")),
+     porque_h2="Por qué AuguStar",
+     porque_sub="Lo que trae la compañía, según su propia información pública.",
+     porque=cob(
+        ("5 líneas de Vida Individual","Temporales, Vida Entera, con Ahorro, con APV y Desgravamen.","vida"),
+        ("Asesoría en todo el país","Red de corredores y agentes de seguros capacitados.","headset"),
+        ("Parte del grupo Constellation","Respaldo de inversores institucionales de Norteamérica.","soap"))),
 
 dict(slug="vida-chubb", bu="vida", tipo="cia", marca="Chubb",
      logo="logo_Chubb.png",
-     title="Seguro de Vida Chubb | Cotiza online | Compara",
-     desc="Seguro de Vida Chubb: compara coberturas y precio con el resto del mercado y cotiza online en Compara.",
-     h1='Seguro de Vida<br><span class="dserif">Chubb</span>',
-     sub="Compara y elige el mejor Seguro de Vida para proteger a quienes más quieres.",
+     title="Seguro de Accidentes Personales Chubb | Cotiza online | Compara",
+     desc="Chubb: accidentes personales, invalidez total y permanente y muerte accidental. Compara con el resto del mercado y cotiza online en Compara.",
+     h1='Seguro de Accidentes<br>Personales <span class="dserif">Chubb</span>',
+     sub="Cobertura ante accidentes, invalidez y muerte accidental. Compara con el resto del mercado y elige.",
      cta="Cotiza tu Seguro de Vida",
      closer_ed="Compara antes de decidir.",
      closer_h2="Mira cómo queda Chubb frente al resto del mercado.",
-     coberturas=None),
+     # OJO AROLDO: el adgroup en Google Ads se llama "Seguro de Vida - Chubb", pero Chubb
+     # Chile no publica seguro de vida para personas (esa URL da 404). Lo que ofrece en su
+     # línea de personas es accidentes personales, invalidez y muerte accidental. El copy
+     # de acá refleja el producto real; si el adgroup tiene que apuntar a vida, hay que
+     # revisar el adgroup, no la landing.
+     cob_h2_custom="Qué cubre un Seguro de Accidentes Personales",
+     cob_sub_custom="Las coberturas del producto. El detalle exacto de tu plan lo ves al cotizar.",
+     coberturas=cob(
+        ("Muerte accidental","Indemnización por fallecimiento producto de un accidente.","siren"),
+        ("Invalidez total y permanente","Cobertura ante invalidez producto de un accidente.","users"),
+        ("Beneficio por permanencia","Producto de Chubb que suma un beneficio por mantener la póliza.","soap")),
+     porque_h2="Por qué Chubb",
+     porque_sub="Lo que trae la compañía, según su propia información pública.",
+     porque=cob(
+        ("Especialista en accidentes","Su línea de personas en Chile es accidentes personales y salud.","siren"),
+        ("Respaldo internacional","Solidez financiera de una aseguradora global.","soap"),
+        ("Invalidez y muerte accidental","Además de accidentes con beneficio por permanencia.","users"))),
 
 # ---------- COMPAÑÍAS DE MASCOTAS (1) ----------
 dict(slug="mascotas-bci", bu="mascotas", tipo="cia", marca="BCI Seguros",
@@ -394,8 +456,18 @@ dict(slug="mascotas-bci", bu="mascotas", tipo="cia", marca="BCI Seguros",
      h1='Seguro de Mascotas<br><span class="dserif">BCI Seguros</span>',
      sub="Cobertura veterinaria ante accidentes o enfermedades, sin deducible. Cotiza y elige el mejor plan para tu mascota.",
      cta="Cotiza el seguro de tu mascota",
-     closer_ed="Compara antes de decidir.",
-     closer_h2="Mira cómo queda BCI Seguros frente al resto del mercado.",
+     closer_ed="Sin letra chica, sin sorpresas.",
+     # BCI es hoy la única compañía de Mascotas del comparador, así que "compáralo con el
+     # resto del mercado" suena vacío. El closer y la sección "Por qué" van por el lado de
+     # por qué contratarlo acá (hechos de nuestra página de producto).
+     closer_h2="Contrata el seguro de tu mascota en minutos.",
+     porque_h2="Por qué contratar BCI en Compara",
+     porque_sub="Lo que ganas al contratarlo con nosotros.",
+     porque=cob(
+        ("100% online","Cotizas, eliges y contratas sin salir de tu casa.","headset"),
+        ("Sin examen veterinario previo","Basta con los datos de tu mascota.","salud"),
+        ("Sin deducible","No asumes un monto antes de que opere el reembolso.","soap"),
+        ("Cancelación gratuita","Puedes dar de baja el plan sin costo.","users")),
      coberturas=cob(
         ("Reembolso de gastos médicos","Cobertura veterinaria ante accidentes o enfermedades.","salud"),
         ("Responsabilidad civil","Hasta 150 UF anuales.","users"),
@@ -421,7 +493,7 @@ def build(d):
       <span class="marca-card"><img{cuadrado(d["logo"])} src="brand/design-system/assets/{d["logo"]}" alt="{d["marca"]}"></span>
     </div>'''
     else:
-        s, st, sp = PLAQUITA[bu]
+        s, st, sp = PLAQUITA_SLUG.get(d["slug"], PLAQUITA[bu])
         figura = f'''    <a class="hero-figure hero-figure-link hero-figure--salud hero-enter" style="--i:2" href="{form}" data-cotiza aria-label="{cta}">
       <img src="{HERO_IMG[bu]}" alt="{d["title"].split("|")[0].strip()} en Compara" onerror="this.style.display='none'">
       <span class="hero-offer-card" aria-hidden="true">
@@ -488,10 +560,37 @@ def build(d):
         </div>
       </div>''' for i,c in enumerate(d["coberturas"]))
 
-    cob_h2 = ("Coberturas que te protegen de <span class=\"dserif\">verdad</span>"
+    # Sección extra opcional "Por qué X": para compañías donde no tenemos el detalle del
+    # plan (usamos hechos institucionales del sitio oficial) y para el caso de una BU con
+    # una sola compañía, donde "compáralo con el resto del mercado" suena vacío.
+    porque = ""
+    if d.get("porque"):
+        items = "\n".join(f'''      <div class="benefit reveal" style="--i:{i}">
+        <span class="benefit-ico"><img src="brand/design-system/assets/{p["i"]}" alt=""></span>
+        <div>
+          <h3>{p["t"]}</h3>
+          <p>{p["d"]}</p>
+        </div>
+      </div>''' for i,p in enumerate(d["porque"]))
+        porque = f'''
+<!-- ================= POR QUÉ (hechos institucionales, no coberturas de plan) ================= -->
+<section class="benefits section" id="por-que">
+  <div class="container">
+    <h2 class="reveal">{d["porque_h2"]}</h2>
+    <p class="benefits-sub reveal" style="--i:1">{d["porque_sub"]}</p>
+    <div class="benefits-grid">
+{items}
+    </div>
+  </div>
+</section>
+'''
+
+    # Título de la sección de coberturas. cob_h2_custom lo sobreescribe: se usa cuando la
+    # sección no describe el plan de la compañía sino el producto genérico (AuguStar, Chubb).
+    cob_h2 = d.get("cob_h2_custom") or ("Coberturas que te protegen de <span class=\"dserif\">verdad</span>"
               if tipo != "cia" else
               f"Qué cubre el {d['h1'].replace(chr(60)+'br'+chr(62),' ')}".replace('<span class="dserif">','').replace('</span>',''))
-    cob_sub = ("Elige qué incluir según lo que necesitas. Te mostramos todo, también lo que no cubre."
+    cob_sub = d.get("cob_sub_custom") or ("Elige qué incluir según lo que necesitas. Te mostramos todo, también lo que no cubre."
                if tipo != "cia" else
                "El detalle del plan, sin letra chica. Compáralo con el resto del mercado antes de decidir.")
 
@@ -590,7 +689,7 @@ def build(d):
     </div>
   </div>
 </section>
-
+{porque}
 <!-- ================= CTA FINAL ================= -->
 <section class="closer section">
   <div class="container">
