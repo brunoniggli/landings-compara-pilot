@@ -32,7 +32,12 @@ Uso:
 import pathlib, re, sys, argparse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-ASSET_BASE = "https://brunoniggli.github.io/landings-compara-pilot/"
+ASSET_BASE_DEFAULT = "https://brunoniggli.github.io/landings-compara-pilot/"
+# La landing de Auto/CICL vive en el repo de Charlie y su CSS divergió 132 líneas del
+# nuestro. Es la versión que ganó el A/B, así que se sirve con SUS assets: migrar el modo
+# de entrega no debe cambiarle un pixel.
+ASSET_BASE_POR_SLUG = {"auto": "https://cperez-brand.github.io/landings-compara/"}
+ASSET_BASE = ASSET_BASE_DEFAULT   # se reasigna en build() según el slug
 
 def absolutizar(txt: str) -> str:
     """Rutas relativas de assets -> absolutas. En el template no hay documento base."""
@@ -45,8 +50,13 @@ def css_con_fuentes_absolutas() -> str:
     css = (ROOT/"brand/design-system/colors_and_type.css").read_text(encoding="utf-8")
     return css.replace('url("./fonts/', f'url("{ASSET_BASE}brand/design-system/fonts/')
 
-def build(slug: str) -> str:
-    src = (ROOT/f"{slug}.html").read_text(encoding="utf-8")
+def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> str:
+    global ASSET_BASE
+    ASSET_BASE = asset_base or ASSET_BASE_POR_SLUG.get(slug, ASSET_BASE_DEFAULT)
+    # Las woff2 solo existen en nuestro repo, así que el preload apunta siempre ahí, incluso
+    # cuando el resto de los assets viene de otro CDN (caso Auto, repo de Charlie).
+    FONT_BASE = ASSET_BASE_DEFAULT
+    src = (src_path or (ROOT/f"{slug}.html")).read_text(encoding="utf-8")
 
     # --- del archivo fuente saco solo lo que va al template
     title = re.search(r"<title>(.*?)</title>", src, re.S).group(1).strip()
@@ -67,7 +77,10 @@ def build(slug: str) -> str:
     body = re.sub(r"<script>.*?</script>\s*", "", body, flags=re.S)
     body = absolutizar(body).strip()
 
-    VER = re.search(r'VER = "([^"]+)"', (ROOT/"_docs/generate.py").read_text()).group(1)
+    if src_path:   # fuente externa (Auto): sin cache bust, el repo de origen no es nuestro
+        VER = "external"
+    else:
+        VER = re.search(r'VER = "([^"]+)"', (ROOT/"_docs/generate.py").read_text()).group(1)
 
     # OJO: el primer comentario del archivo lo parsea HubSpot como YAML de metadata.
     # Solo claves ahí; cualquier texto libre rompe el POST con "Unable to process
@@ -95,6 +108,12 @@ def build(slug: str) -> str:
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="icon" href="{ASSET_BASE}brand/design-system/assets/avatar_favicon.svg">
+<!-- Preload de las 2 fuentes del hero (h1 en Poppins 600, bajada en Open Sans 400).
+     En woff2: pesan 50KB y 44KB, contra 152KB y 95KB del .ttf original (62% menos en
+     total, de 1,68MB a 638KB las 14). Sin esto el texto del hero re-pinta cuando llega la
+     fuente real y el LCP se dispara a ~2,9s en mobile 3G. -->
+<link rel="preload" href="{FONT_BASE}brand/design-system/fonts/Poppins-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{FONT_BASE}brand/design-system/fonts/OpenSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <link rel="stylesheet" href="{ASSET_BASE}brand/design-system/colors_and_type.css?v={VER}">
 <link rel="stylesheet" href="{ASSET_BASE}shared/compara.css?v={VER}">
@@ -121,8 +140,10 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("slug")
     ap.add_argument("-o", "--out")
+    ap.add_argument("--src", help="archivo .html de origen si no está en el repo")
+    ap.add_argument("--asset-base", help="CDN de los assets si no es el nuestro")
     a = ap.parse_args()
-    out = build(a.slug)
+    out = build(a.slug, pathlib.Path(a.src) if a.src else None, a.asset_base)
     if a.out:
         pathlib.Path(a.out).write_text(out, encoding="utf-8")
         print(f"{a.slug}: {len(out)//1024}KB -> {a.out}")

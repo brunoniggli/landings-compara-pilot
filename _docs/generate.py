@@ -20,7 +20,7 @@ Reglas que este script respeta y no hay que romper:
 import pathlib, json, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20260730-ctaorden"
+VER = "20260730-woff2"
 
 FORM = {
     "salud":    "https://seguro-salud.comparaonline.cl/quote",
