@@ -108,7 +108,16 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
         # para CLS hasta ser visible, así que la animación protege del salto por font swap.
         # Sin ella el LCP baja a 294ms pero el CLS sube a 0,277 (malo).
         sin_anim = ("@media (max-width:860px){.js .hero-enter{animation-duration:.42s;"
-                    "animation-delay:0ms!important}}")
+                    "animation-delay:0ms!important}}"
+                    # CLS: las imágenes de esta landing no declaran dimensiones, así que al
+                    # cargar empujan el texto 255px. Un solo shift de 0,471, medido. Con el
+                    # loader no se notaba porque el contenido entraba después de cargar todo.
+                    # aspect-ratio reserva el espacio desde el primer paint. Los valores son
+                    # los de los archivos reales: hero 1459x1347, banner desktop 4001x618,
+                    # banner mobile 1668x976.
+                    "\n.hero-figure img{aspect-ratio:1459/1347}"
+                    "\n.promo-banner img{aspect-ratio:4001/618}"
+                    "\n@media (max-width:640px){.promo-banner img{aspect-ratio:1668/976}}")
         override_woff2 = ("<!-- El CSS de origen pide .ttf (1,68MB las 14). Estas woff2 pesan 638KB\n"
                           "     en total y ganan por venir después del link. Y en mobile se apaga la\n"
                           "     animación del hero se acorta a 420ms sin delay, por LCP y CLS a la vez. -->\n<style>\n"
