@@ -43,6 +43,13 @@ def absolutizar(txt: str) -> str:
     """Rutas relativas de assets -> absolutas. En el template no hay documento base."""
     txt = re.sub(r'(src|href)="(brand/|assets/)', rf'\1="{ASSET_BASE}\2', txt)
     txt = re.sub(r'srcset="(brand/|assets/)', rf'srcset="{ASSET_BASE}\1', txt)
+    # Imágenes de Auto: los PNG del repo de origen pesan 3,86MB juntos (el del hero solo,
+    # 1,5MB = 7,7s de descarga en 3G). Las webp del nuestro pesan 385KB en total,
+    # redimensionadas a 2x del tamaño de exhibición. Se sustituyen por nombre.
+    for png in ("promo-auto-hero.png","promo-auto-hero-mobile.png",
+                "promo-auto-banner-desktop.png","promo-auto-banner-mobile.png"):
+        txt = txt.replace(ASSET_BASE+"assets/"+png,
+                          ASSET_BASE_DEFAULT+"assets/auto-opt/"+png.replace(".png",".webp"))
     return txt
 
 def css_con_fuentes_absolutas() -> str:
