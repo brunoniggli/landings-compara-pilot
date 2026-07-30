@@ -525,7 +525,13 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
      El CTA vuelve como boton real (mejor affordance + tracking consistente);
      imagen y boton llevan al mismo formulario (ambos data-cotiza). */
   .hero--split .hero-copy{display:flex;flex-direction:column;align-items:center}
-  .hero--split .hero-copy .hero-cta{order:-1;margin-bottom:28px}
+  /* Orden en mobile (feedback Bruno 2026-07-30): imagen -> H1 -> CTA -> bajada -> bullets.
+     Antes el CTA venía justo después de la imagen, y como la plaquita de la imagen también
+     es una tarjeta blanca, los dos rectángulos blancos quedaban pegados y el botón no se
+     leía como CTA. Con el H1 en medio, se separan y el botón se entiende.
+     La imagen sigue primera, que es el aprendizaje 4 del caso CICL. */
+  .hero--split .hero-copy h1{order:-2}
+  .hero--split .hero-copy .hero-cta{order:-1;margin-top:4px;margin-bottom:26px}
   .hero--split .hero-copy .hero-sub{width:min(24ch,calc(100vw - 72px));max-width:min(24ch,calc(100vw - 72px));overflow-wrap:normal}
   .hero--split .hero-copy .btn--lg{width:min(286px,calc(100vw - 64px));padding-inline:16px;white-space:normal;text-align:center}
   .insurers h2 span,.insurers h2 b,.insurers-sub span{display:block}
