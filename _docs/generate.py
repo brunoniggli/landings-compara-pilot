@@ -20,7 +20,7 @@ Reglas que este script respeta y no hay que romper:
 import pathlib, json, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20260729-charlie"
+VER = "20260729-aroldo"
 
 FORM = {
     "salud":    "https://seguro-salud.comparaonline.cl/quote",
@@ -45,6 +45,7 @@ PLAQUITA = {
 
 # Los productos de Salud llevan el dato duro del producto en la plaquita.
 PLAQUITA_SLUG = {
+    "salud-complementario": ("Lo que Isapre no cubre", "Consultas, exámenes y más", "compara y elige"),
     "salud-catastrofico": ("Enfermedades de alto costo", "Hasta 30.000 UF", "de tope anual"),
     "salud-ambulatorio":  ("Consultas y exámenes", "Lo que la Isapre no cubre", "compara y elige"),
     "salud-hospitalario": ("Hospitalización y cirugía", "Lo que la Isapre no cubre", "compara y elige"),
@@ -87,7 +88,8 @@ PASOS = {
 }
 
 TRUST = {
-    "salud":    ["Todas las aseguradoras", "100% online", "Sin compromiso"],
+    # Los de salud son los que Aroldo revisó y aprobó en la landing publicada.
+    "salud":    ["Cotización online", "Opciones para ti y tu familia", "Sin compromiso"],
     "vida":     ["Todas las aseguradoras", "100% online", "Sin compromiso"],
     "mascotas": ["Todas las aseguradoras", "100% online", "Sin compromiso"],
 }
@@ -123,14 +125,38 @@ LANDINGS = [
 #   3. Los títulos de la sección de aseguradoras publicados llevan <span> por palabra
 #      para controlar el salto de línea en mobile (hay CSS que depende: .insurers h2
 #      span{display:block} en <=860px). El generador no los pone.
-dict(slug="salud", bu="salud", tipo="core", frozen=True,
-     title="Seguro Complementario de Salud | Cotiza y compara online | Compara",
-     desc="Cotiza tu Seguro Complementario de Salud en 5 minutos. Compara precios y coberturas de aseguradoras reconocidas de Chile. 100% online, sin letra chica.",
-     h1='Tu Seguro Complementario de Salud, al <span class="dserif">mejor</span> precio',
+dict(slug="salud", bu="salud", tipo="core",
+     # DESCONGELADA: Aroldo ya revisó y respondió (2026-07-29). Pasa a eje GENÉRICO porque
+     # la cuenta HICL tiene adgroups genéricos ("Seguro de Salud", "Seguro Médico",
+     # "Familiar", "Isapre", "Fonasa") separados de los de "Seguro Complementario", que
+     # ahora tienen su propia landing (salud-complementario). Así cada grupo de búsqueda
+     # tiene su match, que es lo que pidió Aroldo.
+     title="Seguro de Salud | Cotiza y compara online | Compara",
+     desc="Cotiza tu Seguro de Salud en 5 minutos. Compara precios y coberturas de aseguradoras reconocidas de Chile. 100% online, sin letra chica.",
+     h1='Tu Seguro de Salud, al <span class="dserif">mejor</span> precio',
      sub="Compara precios y coberturas que ayudan con consultas, exámenes y hospitalizaciones. Cotiza online y elige con claridad.",
      cta="Cotiza tu Seguro de Salud",
      closer_ed="Sin letra chica, sin sorpresas.",
      closer_h2="Encuentra una opción de salud pensada para tu vida real.",
+     coberturas=cob(
+        ("Consultas y exámenes","Compara alternativas que ayudan con gastos médicos frecuentes.","salud"),
+        ("Hospitalización y urgencias","Revisa coberturas para gastos de mayor impacto, según el plan.","siren"),
+        ("Planes familiares","Alternativas pensadas para protegerte a ti y a quienes más quieres.","users"),
+        ("Orientación clara","Entiende coberturas, exclusiones y próximos pasos antes de avanzar.","headset"))),
+
+dict(slug="salud-complementario", bu="salud", tipo="core",
+     # Pedida por Aroldo (2026-07-29) para dar match a los adgroups "Seguro Complementario"
+     # de las campañas 1.2-B y 2.2. Mismo producto y mismas coberturas que el core de Salud:
+     # lo que cambia es el eje del hero, el title y el meta, que es lo que hace el match con
+     # la búsqueda. Estas landings solo reciben tráfico de Google Ads (noindex), así que dos
+     # páginas del mismo producto no compiten entre sí.
+     title="Seguro Complementario de Salud | Cotiza y compara online | Compara",
+     desc="Cotiza tu Seguro Complementario de Salud en 5 minutos. Compara precios y coberturas de aseguradoras reconocidas de Chile. 100% online, sin letra chica.",
+     h1='Tu Seguro Complementario de Salud, al <span class="dserif">mejor</span> precio',
+     sub="El complemento a tu Isapre o Fonasa: compara precios y coberturas para consultas, exámenes y hospitalizaciones.",
+     cta="Cotiza tu Seguro Complementario",
+     closer_ed="Sin letra chica, sin sorpresas.",
+     closer_h2="Complementa tu plan de salud y deja de pagar de más.",
      coberturas=cob(
         ("Consultas y exámenes","Compara alternativas que ayudan con gastos médicos frecuentes.","salud"),
         ("Hospitalización y urgencias","Revisa coberturas para gastos de mayor impacto, según el plan.","siren"),
@@ -398,55 +424,37 @@ dict(slug="vida-ap-southbridge", bu="vida", tipo="cia", marca="Southbridge",
 dict(slug="vida-augustar", bu="vida", tipo="cia", marca="AuguStar",
      logo="logo_AuguStar.png",
      title="Seguro de Vida AuguStar | Cotiza online | Compara",
-     desc="Seguro de Vida AuguStar: compara coberturas y precio con el resto del mercado y cotiza online en Compara.",
+     desc="Seguro de Vida AuguStar: temporal a 5 años, capital asegurado de 2.000 UF y precio fijo durante toda la vigencia, desde 0,43 UF al mes. Cotiza online.",
      h1='Seguro de Vida <span class="dserif">AuguStar</span>',
-     sub="Compara y elige el mejor Seguro de Vida para proteger a quienes más quieres.",
+     sub="Temporal a 5 años, con capital asegurado de 2.000 UF y precio fijo durante toda la vigencia. Desde 0,43 UF al mes.",
      cta="Cotiza tu Seguro de Vida",
      closer_ed="Compara antes de decidir.",
      closer_h2="Mira cómo queda AuguStar frente al resto del mercado.",
-     # No tenemos el detalle del plan que comercializamos de AuguStar. En vez de inventarlo,
-     # la sección de coberturas usa las del PRODUCTO (válidas para cualquier Seguro de Vida,
-     # fuente: nuestra propia página) y la marca se sostiene en la sección "Por qué", con
-     # hechos institucionales del sitio oficial. Al llegar el detalle del plan, especializar.
-     cob_h2_custom="Qué cubre un Seguro de Vida",
-     cob_sub_custom="Las coberturas del producto. El detalle exacto de tu plan lo ves al cotizar.",
+     # Coberturas del plan que comercializamos, pasadas por Aroldo (2026-07-29).
      coberturas=cob(
-        ("Muerte por enfermedad","La cobertura base de todo Seguro de Vida.","vida"),
-        ("Muerte accidental","Cobertura ante fallecimiento por accidente.","siren"),
-        ("Invalidez total o permanente","Disponible según el plan que contrates.","users")),
-     porque_h2="Por qué AuguStar",
-     porque_sub="Lo que trae la compañía, según su propia información pública.",
-     porque=cob(
-        ("5 líneas de Vida Individual","Temporales, Vida Entera, con Ahorro, con APV y Desgravamen.","vida"),
-        ("Asesoría en todo el país","Red de corredores y agentes de seguros capacitados.","headset"),
-        ("Parte del grupo Constellation","Respaldo de inversores institucionales de Norteamérica.","soap"))),
+        ("Seguro de vida temporal a 5 años","Con capital asegurado de 2.000 UF.","vida"),
+        ("Fallecimiento por enfermedad y por accidente","Las dos coberturas incluidas.","siren"),
+        ("Precio fijo","No sube durante toda la vigencia de la póliza.","soap"),
+        ("Desde 0,43 UF al mes","El valor exacto lo ves al cotizar.","headset"))),
 
 dict(slug="vida-chubb", bu="vida", tipo="cia", marca="Chubb",
      logo="logo_Chubb.png",
-     title="Seguro de Accidentes Personales Chubb | Cotiza online | Compara",
-     desc="Chubb: accidentes personales, invalidez total y permanente y muerte accidental. Compara con el resto del mercado y cotiza online en Compara.",
-     h1='Seguro de Accidentes Personales <span class="dserif">Chubb</span>',
-     sub="Cobertura ante accidentes, invalidez y muerte accidental. Compara con el resto del mercado y elige.",
+     title="Seguro de Vida Chubb | Cotiza online | Compara",
+     desc="Seguro de Vida Chubb: capital asegurado de 1.000 o 2.000 UF, cobertura por fallecimiento por enfermedad y accidente, desde 0,19 UF al mes. Cotiza online.",
+     h1='Seguro de Vida <span class="dserif">Chubb</span>',
+     sub="Capital asegurado a tu elección y cobertura por fallecimiento por enfermedad o accidente, desde 0,19 UF al mes.",
      cta="Cotiza tu Seguro de Vida",
      closer_ed="Compara antes de decidir.",
      closer_h2="Mira cómo queda Chubb frente al resto del mercado.",
-     # OJO AROLDO: el adgroup en Google Ads se llama "Seguro de Vida - Chubb", pero Chubb
-     # Chile no publica seguro de vida para personas (esa URL da 404). Lo que ofrece en su
-     # línea de personas es accidentes personales, invalidez y muerte accidental. El copy
-     # de acá refleja el producto real; si el adgroup tiene que apuntar a vida, hay que
-     # revisar el adgroup, no la landing.
-     cob_h2_custom="Qué cubre un Seguro de Accidentes Personales",
-     cob_sub_custom="Las coberturas del producto. El detalle exacto de tu plan lo ves al cotizar.",
+     # Coberturas del plan que comercializamos, pasadas por Aroldo (2026-07-29).
+     # Precio en UF y no en CLP a propósito: el peso varía y la landing quedaría vieja.
+     # El beneficio de streaming NO se menciona: no está en todos los planes, y prometerlo
+     # en la landing de la marca genera reclamo si el plan que contrata no lo trae.
      coberturas=cob(
-        ("Muerte accidental","Indemnización por fallecimiento producto de un accidente.","siren"),
-        ("Invalidez total y permanente","Cobertura ante invalidez producto de un accidente.","users"),
-        ("Beneficio por permanencia","Producto de Chubb que suma un beneficio por mantener la póliza.","soap")),
-     porque_h2="Por qué Chubb",
-     porque_sub="Lo que trae la compañía, según su propia información pública.",
-     porque=cob(
-        ("Especialista en accidentes","Su línea de personas en Chile es accidentes personales y salud.","siren"),
-        ("Respaldo internacional","Solidez financiera de una aseguradora global.","soap"),
-        ("Invalidez y muerte accidental","Además de accidentes con beneficio por permanencia.","users"))),
+        ("Capital asegurado a tu elección","1.000 UF o 2.000 UF.","soap"),
+        ("Fallecimiento por enfermedad y por accidente","Las dos coberturas incluidas.","vida"),
+        ("Invalidez permanente 2/3","Disponible como cobertura adicional, en los planes con invalidez.","users"),
+        ("Vigencia","Hasta los 75 años en el plan solo vida, hasta los 65 en el plan con invalidez.","headset"))),
 
 # ---------- COMPAÑÍAS DE MASCOTAS (1) ----------
 dict(slug="mascotas-bci", bu="mascotas", tipo="cia", marca="BCI Seguros",

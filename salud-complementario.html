@@ -1,9 +1,9 @@
 <!--
   ============================================================================
-  SEGURO DE VIDA MAPFRE  ·  BU: VIDA  ·  tipo: cia
+  SEGURO COMPLEMENTARIO DE SALUD  ·  BU: SALUD  ·  tipo: core
   ============================================================================
   Generada por _docs/generate.py con el patrón "landing puente" validado en el
-  piloto de Salud. Variante de compañía: hero con el logo de la marca, sin fila de aseguradoras.
+  piloto de Salud. Variante de core: hero con Comparini + plaquita, con fila de aseguradoras.
   Editar el contenido en _docs/generate.py y regenerar, no a mano acá.
 -->
 <!doctype html>
@@ -11,8 +11,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Seguro de Vida Mapfre | Cotiza online | Compara</title>
-<meta name="description" content="Seguro de Vida Mapfre: cobertura de hasta 4.000 UF ante muerte por enfermedad, muerte accidental e invalidez permanente. Cotiza online en Compara.">
+<title>Seguro Complementario de Salud | Cotiza y compara online | Compara</title>
+<meta name="description" content="Cotiza tu Seguro Complementario de Salud en 5 minutos. Compara precios y coberturas de aseguradoras reconocidas de Chile. 100% online, sin letra chica.">
 <link rel="icon" href="brand/design-system/assets/avatar_favicon.svg">
 <link rel="stylesheet" href="brand/design-system/colors_and_type.css">
 <script>document.documentElement.classList.replace('no-js','js')</script>
@@ -45,21 +45,26 @@
 
   <div class="hero-content">
     <div class="hero-copy">
-      <h1 class="hero-enter" style="--i:0">Seguro de Vida <span class="dserif">Mapfre</span></h1>
-      <p class="hero-sub hero-enter" style="--i:1">Cobertura de hasta 4.000 UF para proteger a quienes más quieres. Compara y elige.</p>
+      <h1 class="hero-enter" style="--i:0">Tu Seguro Complementario de Salud, al <span class="dserif">mejor</span> precio</h1>
+      <p class="hero-sub hero-enter" style="--i:1">El complemento a tu Isapre o Fonasa: compara precios y coberturas para consultas, exámenes y hospitalizaciones.</p>
       <div class="hero-cta hero-enter" style="--i:2">
         <!-- El texto del CTA se repite IDÉNTICO en sus 4 apariciones. -->
-        <a class="btn btn--white btn--lg" href="https://seguro-vida.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro de Vida</a>
+        <a class="btn btn--white btn--lg" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro Complementario</a>
       </div>
       <div class="hero-trust hero-enter" style="--i:3">
-        <span><i data-lucide="check" class="ico"></i>Todas las aseguradoras</span>
-        <span><i data-lucide="check" class="ico"></i>100% online</span>
+        <span><i data-lucide="check" class="ico"></i>Cotización online</span>
+        <span><i data-lucide="check" class="ico"></i>Opciones para ti y tu familia</span>
         <span><i data-lucide="check" class="ico"></i>Sin compromiso</span>
       </div>
     </div>
-    <div class="hero-figure hero-figure--marca hero-enter" style="--i:2">
-      <span class="marca-card"><img src="brand/design-system/assets/logo_Mapfre.svg" alt="Mapfre"></span>
-    </div>
+    <a class="hero-figure hero-figure-link hero-figure--salud hero-enter" style="--i:2" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza aria-label="Cotiza tu Seguro Complementario">
+      <img src="https://res.cloudinary.com/compara/image/upload/q_auto,f_auto,c_pad,w_560,h_390/v1764182040/cms/new-uploads/img_hero_licl_pj-69274818385d53.72318176.png" alt="Seguro Complementario de Salud en Compara" onerror="this.style.display='none'">
+      <span class="hero-offer-card" aria-hidden="true">
+        <small>Lo que Isapre no cubre</small>
+        <strong>Consultas, exámenes y más</strong>
+        <span>compara y elige</span>
+      </span>
+    </a>
   </div>
 </section>
 
@@ -71,13 +76,24 @@
   desktop + mobile y el PDF de condiciones en Cloudinary, NO en el File Manager).
 -->
 
-<!--
-  ================= ASEGURADORAS — OMITIDA A PROPÓSITO =================
-  En landing de compañía: mostrar la fila de competidores resta foco al único
-  objetivo de conversión; el logo de la marca vive en el hero.
-  En landing core sin fila: el BU todavía no tiene suficientes compañías en el
-  comparador para sostener el copy de comparación (ver INSURERS en generate.py).
--->
+<!-- ================= ASEGURADORAS ================= -->
+<section class="insurers" id="aseguradoras">
+  <div class="container">
+    <h2 class="reveal">Comparas entre las aseguradoras <b>más importantes de Chile</b></h2>
+    <p class="insurers-sub reveal" style="--i:1">Un solo lugar para ver todas tus opciones</p>
+  </div>
+  <div class="logo-rail">
+    <!-- logo-cloud--fit: cápsula y slot fijos + object-fit:contain. Sin --ls por logo.
+         Set tomado de los adgroups activos en Google Ads, pendiente de confirmar con Aroldo. -->
+    <div class="logo-cloud logo-cloud--fit" id="logoCloud">
+      <span class="logo-capsule reveal" style="--i:0"><img src="brand/design-system/assets/logo_Consorcio.svg" alt="Consorcio"></span>
+      <span class="logo-capsule reveal" style="--i:1"><img src="brand/design-system/assets/logo_Bci.svg" alt="BCI Seguros"></span>
+      <span class="logo-capsule reveal" style="--i:2"><img src="brand/design-system/assets/logo_Alemana.png" alt="Alemana Seguros"></span>
+      <span class="logo-capsule reveal" style="--i:3"><img src="brand/design-system/assets/logo_CLC.svg" alt="Clínica Las Condes"></span>
+      <span class="logo-capsule reveal" style="--i:4"><img src="brand/design-system/assets/logo_BiceVida.svg" alt="Bice Vida"></span>
+    </div>
+  </div>
+</section>
 
 <!-- ================= CÓMO FUNCIONA ================= -->
 <section class="how section" id="como-funciona">
@@ -88,7 +104,7 @@
       <div class="step reveal scrub" style="--i:0">
         <span class="step-n" aria-hidden="true"></span>
         <h3>Cuéntanos de ti</h3>
-        <p>Tu edad, a quién quieres proteger y el capital que buscas. Toma pocos minutos.</p>
+        <p>Ingresa tus datos básicos, tu edad y tu sistema de salud actual para comenzar.</p>
       </div>
       <div class="step reveal scrub" style="--i:1">
         <span class="step-n" aria-hidden="true"></span>
@@ -107,35 +123,35 @@
 <!-- ================= COBERTURAS ================= -->
 <section class="benefits section" id="coberturas">
   <div class="container">
-    <h2 class="reveal">Qué cubre el Seguro de Vida Mapfre</h2>
-    <p class="benefits-sub reveal" style="--i:1">El detalle del plan, sin letra chica. Compáralo con el resto del mercado antes de decidir.</p>
+    <h2 class="reveal">Coberturas que te protegen de <span class="dserif">verdad</span></h2>
+    <p class="benefits-sub reveal" style="--i:1">Elige qué incluir según lo que necesitas. Te mostramos todo, también lo que no cubre.</p>
     <div class="benefits-grid">
       <div class="benefit reveal" style="--i:0">
-        <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_Seguro Vida.svg" alt=""></span>
+        <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_Seguro Salud.svg" alt=""></span>
         <div>
-          <h3>Muerte por enfermedad</h3>
-          <p>Cobertura base del plan.</p>
+          <h3>Consultas y exámenes</h3>
+          <p>Compara alternativas que ayudan con gastos médicos frecuentes.</p>
         </div>
       </div>
       <div class="benefit reveal" style="--i:1">
         <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_siren.svg" alt=""></span>
         <div>
-          <h3>Muerte accidental</h3>
-          <p>Incluida en el plan.</p>
+          <h3>Hospitalización y urgencias</h3>
+          <p>Revisa coberturas para gastos de mayor impacto, según el plan.</p>
         </div>
       </div>
       <div class="benefit reveal" style="--i:2">
         <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_users.svg" alt=""></span>
         <div>
-          <h3>Invalidez permanente</h3>
-          <p>Incluida en el plan.</p>
+          <h3>Planes familiares</h3>
+          <p>Alternativas pensadas para protegerte a ti y a quienes más quieres.</p>
         </div>
       </div>
       <div class="benefit reveal" style="--i:3">
         <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_headset.svg" alt=""></span>
         <div>
-          <h3>Cobertura de hasta 4.000 UF</h3>
-          <p>Duración hasta los 65 años y 364 días.</p>
+          <h3>Orientación clara</h3>
+          <p>Entiende coberturas, exclusiones y próximos pasos antes de avanzar.</p>
         </div>
       </div>
     </div>
@@ -145,9 +161,9 @@
 <!-- ================= CTA FINAL ================= -->
 <section class="closer section">
   <div class="container">
-    <span class="editorial reveal">Compara antes de decidir.</span>
-    <h2 class="reveal" style="--i:1">Mira cómo queda Mapfre frente al resto del mercado.</h2>
-    <a class="btn btn--primary btn--lg reveal" style="--i:2" href="https://seguro-vida.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro de Vida</a>
+    <span class="editorial reveal">Sin letra chica, sin sorpresas.</span>
+    <h2 class="reveal" style="--i:1">Complementa tu plan de salud y deja de pagar de más.</h2>
+    <a class="btn btn--primary btn--lg reveal" style="--i:2" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro Complementario</a>
   </div>
 </section>
 
@@ -197,7 +213,7 @@
 
 <!-- CTA sticky (solo mobile): aparece al perder de vista el CTA del hero -->
 <div class="cta-sticky">
-  <a class="btn btn--primary btn--lg" href="https://seguro-vida.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro de Vida</a>
+  <a class="btn btn--primary btn--lg" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro Complementario</a>
 </div>
 
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
@@ -206,7 +222,7 @@
 /* Redirección de los CTA al formulario de cotización de este producto.
    Conserva gclid / utm_* del clic SEM para no perder atribución de paid. */
 (function(){
-  var FORM = 'https://seguro-vida.comparaonline.cl/quote';
+  var FORM = 'https://seguro-salud.comparaonline.cl/quote';
   if (FORM === '#') return;
   var qs = location.search;
   document.querySelectorAll('[data-cotiza]').forEach(function(a){

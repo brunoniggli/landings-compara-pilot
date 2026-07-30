@@ -1,27 +1,27 @@
 <!--
   ============================================================================
-  LANDING PILOTO — SEGURO COMPLEMENTARIO DE SALUD (BU: HICL)
+  SEGURO DE SALUD  ·  BU: SALUD  ·  tipo: core
   ============================================================================
-  Generada a partir de _docs/template-landing-producto.html siguiendo el patrón
-  "landing puente" de auto.html (caso CICL). Versión piloto con copy propuesto
-  por Claudia, usando el formulario vigente del sitio de Salud.
+  Generada por _docs/generate.py con el patrón "landing puente" validado en el
+  piloto de Salud. Variante de core: hero con Comparini + plaquita, con fila de aseguradoras.
+  Editar el contenido en _docs/generate.py y regenerar, no a mano acá.
 -->
 <!doctype html>
 <html lang="es" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Seguro Complementario de Salud | Cotiza y compara online | Compara</title>
-<meta name="description" content="Cotiza tu Seguro Complementario de Salud en 5 minutos. Compara precios y coberturas de aseguradoras reconocidas de Chile. 100% online, sin letra chica.">
+<title>Seguro de Salud | Cotiza y compara online | Compara</title>
+<meta name="description" content="Cotiza tu Seguro de Salud en 5 minutos. Compara precios y coberturas de aseguradoras reconocidas de Chile. 100% online, sin letra chica.">
 <link rel="icon" href="brand/design-system/assets/avatar_favicon.svg">
 <link rel="stylesheet" href="brand/design-system/colors_and_type.css">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<link rel="stylesheet" href="shared/compara.css?v=20260729-charlie">
+<link rel="stylesheet" href="shared/compara.css?v=20260729-aroldo">
 </head>
 <body>
 <a class="skip-link" href="#main">Saltar al contenido</a>
 
-<!-- ================= NAV (minimal, enfocado a conversión — patrón "landing puente") ================= -->
+<!-- ================= NAV (minimal — patrón "landing puente") ================= -->
 <header class="nav nav--minimal" id="nav">
   <div class="container nav-inner">
     <a class="nav-logo" href="https://www.comparaonline.cl" aria-label="ComparaOnline, inicio">
@@ -29,10 +29,8 @@
       <img class="logo-blue" src="brand/design-system/assets/avatar_favicon.svg" alt="Compara">
       <img class="logo-compa" src="assets/bc-compa-feliz.svg" alt="Compara">
     </a>
-    <!-- CTA del nav oculto a propósito (landing puente). No borrar, solo descomentar si el negocio lo pide:
-    <div class="nav-cta">
-      <a class="btn btn--nav" href="https://www.compara.ai/">Conversemos de seguros</a>
-    </div>
+    <!-- CTA del nav oculto a propósito. No borrar, solo descomentar si el negocio lo pide:
+    <div class="nav-cta"><a class="btn btn--nav" href="https://www.compara.ai/">Conversemos de seguros</a></div>
     -->
   </div>
 </header>
@@ -47,12 +45,10 @@
 
   <div class="hero-content">
     <div class="hero-copy">
-      <!-- Mismo eje que Auto: el funil de cotización de Salud muestra precios, así que
-           la promesa de precio es sostenible (confirmado por Bruno 2026-07-28). Ojo: lo
-           que NO trae precio es el requote de presales/CRM, otro contexto. -->
-      <h1 class="hero-enter" style="--i:0">Tu Seguro Complementario de Salud, al <span class="dserif">mejor</span> precio</h1>
+      <h1 class="hero-enter" style="--i:0">Tu Seguro de Salud, al <span class="dserif">mejor</span> precio</h1>
       <p class="hero-sub hero-enter" style="--i:1">Compara precios y coberturas que ayudan con consultas, exámenes y hospitalizaciones. Cotiza online y elige con claridad.</p>
       <div class="hero-cta hero-enter" style="--i:2">
+        <!-- El texto del CTA se repite IDÉNTICO en sus 4 apariciones. -->
         <a class="btn btn--white btn--lg" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza>Cotiza tu Seguro de Salud</a>
       </div>
       <div class="hero-trust hero-enter" style="--i:3">
@@ -62,9 +58,7 @@
       </div>
     </div>
     <a class="hero-figure hero-figure-link hero-figure--salud hero-enter" style="--i:2" href="https://seguro-salud.comparaonline.cl/quote" data-cotiza aria-label="Cotiza tu Seguro de Salud">
-      <img src="https://res.cloudinary.com/compara/image/upload/q_auto,f_auto,c_pad,w_560,h_390/v1764182040/cms/new-uploads/img_hero_licl_pj-69274818385d53.72318176.png" alt="Seguro Complementario de Salud en Compara" onerror="this.style.display='none'">
-      <!-- Plaquita opción A, aprobada por Bruno 2026-07-29. Regla: dice lo que el H1 no
-           dice; el H1 ya habla de precio, así que acá va variedad. -->
+      <img src="https://res.cloudinary.com/compara/image/upload/q_auto,f_auto,c_pad,w_560,h_390/v1764182040/cms/new-uploads/img_hero_licl_pj-69274818385d53.72318176.png" alt="Seguro de Salud en Compara" onerror="this.style.display='none'">
       <span class="hero-offer-card" aria-hidden="true">
         <small>Compara y elige</small>
         <strong>Todas las aseguradoras</strong>
@@ -76,33 +70,27 @@
 
 <!--
   ================= BANNER PROMOCIONAL — ELIMINADO A PROPÓSITO =================
-  No hay promoción vigente confirmada para Salud. Según docs/02 (paso 2.5), cuando el
-  producto no tiene oferta activa se borra la sección completa, no se deja vacía.
-  Si aparece una promo: recuperar el bloque desde _docs/template-landing-producto.html,
-  y necesita imagen desktop + mobile y el PDF de condiciones en un host estable
-  (Cloudinary — NO el File Manager de HubSpot).
+  Sin promoción vigente confirmada. Según docs/02 paso 2.5, cuando no hay oferta
+  activa se borra la sección completa, no se deja vacía. Si aparece una promo:
+  recuperar el bloque desde _docs/template-landing-producto.html (necesita imagen
+  desktop + mobile y el PDF de condiciones en Cloudinary, NO en el File Manager).
 -->
 
 <!-- ================= ASEGURADORAS ================= -->
 <section class="insurers" id="aseguradoras">
   <div class="container">
-    <h2 class="reveal"><span>Compara opciones</span> <span>de salud</span> <span>con aseguradoras</span> <b>reconocidas en Chile</b></h2>
-    <p class="insurers-sub reveal" style="--i:1"><span>Un punto de partida simple</span> <span>para encontrar el Seguro de Salud</span> <span>que calza contigo</span></p>
+    <h2 class="reveal">Comparas entre las aseguradoras <b>más importantes de Chile</b></h2>
+    <p class="insurers-sub reveal" style="--i:1">Un solo lugar para ver todas tus opciones</p>
   </div>
   <div class="logo-rail">
-    <!-- logo-cloud--fit: cápsula y slot de tamaño fijo + object-fit:contain.
-         No lleva --ls por logo: el patrón se normaliza solo (ver compara.css).
-         Para agregar una aseguradora nueva basta con copiar un <span> — no hay
-         que calibrar nada, siempre que el SVG tenga el viewBox ajustado al dibujo.
-         Alemana y Bupa: logos oficiales tomados de alemanaseguros.cl y bupa.com
-         (2026-07-28), recortados al dibujo real. Pendiente que Aroldo confirme
-         el set final de aseguradoras de Salud. -->
+    <!-- logo-cloud--fit: cápsula y slot fijos + object-fit:contain. Sin --ls por logo.
+         Set tomado de los adgroups activos en Google Ads, pendiente de confirmar con Aroldo. -->
     <div class="logo-cloud logo-cloud--fit" id="logoCloud">
       <span class="logo-capsule reveal" style="--i:0"><img src="brand/design-system/assets/logo_Consorcio.svg" alt="Consorcio"></span>
       <span class="logo-capsule reveal" style="--i:1"><img src="brand/design-system/assets/logo_Bci.svg" alt="BCI Seguros"></span>
       <span class="logo-capsule reveal" style="--i:2"><img src="brand/design-system/assets/logo_Alemana.png" alt="Alemana Seguros"></span>
-      <span class="logo-capsule reveal" style="--i:3"><img src="brand/design-system/assets/logo_Zurich.svg" alt="Zurich"></span>
-      <span class="logo-capsule reveal" style="--i:4"><img class="logo-mark--cuadrado" src="brand/design-system/assets/logo_Bupa.svg" alt="Bupa"></span>
+      <span class="logo-capsule reveal" style="--i:3"><img src="brand/design-system/assets/logo_CLC.svg" alt="Clínica Las Condes"></span>
+      <span class="logo-capsule reveal" style="--i:4"><img src="brand/design-system/assets/logo_BiceVida.svg" alt="Bice Vida"></span>
     </div>
   </div>
 </section>
@@ -110,8 +98,8 @@
 <!-- ================= CÓMO FUNCIONA ================= -->
 <section class="how section" id="como-funciona">
   <div class="container">
-    <h2 class="reveal">Cotizar tu Seguro de Salud es así de <span class="dserif">simple</span></h2>
-    <p class="how-lead reveal" style="--i:1">Una cotización clara para pasar de la duda a una opción concreta, sin vueltas.</p>
+    <h2 class="reveal">Cotizar es así de <span class="dserif">simple</span></h2>
+    <p class="how-lead reveal" style="--i:1">Sin llamadas eternas ni trámites imposibles. Cotizas online y te acompañamos en cada paso.</p>
     <div class="steps">
       <div class="step reveal scrub" style="--i:0">
         <span class="step-n" aria-hidden="true"></span>
@@ -120,8 +108,8 @@
       </div>
       <div class="step reveal scrub" style="--i:1">
         <span class="step-n" aria-hidden="true"></span>
-        <h3>Revisa alternativas</h3>
-        <p>Compara planes y coberturas pensadas para distintas necesidades de salud.</p>
+        <h3>Compara precios y coberturas</h3>
+        <p>Las alternativas de las principales aseguradoras, lado a lado y sin sorpresas.</p>
       </div>
       <div class="step reveal scrub" style="--i:2">
         <span class="step-n" aria-hidden="true"></span>
@@ -132,11 +120,11 @@
   </div>
 </section>
 
-<!-- ================= COBERTURAS / BENEFICIOS ================= -->
+<!-- ================= COBERTURAS ================= -->
 <section class="benefits section" id="coberturas">
   <div class="container">
-    <h2 class="reveal">Coberturas para cuidar tu salud <span class="dserif">de verdad</span></h2>
-    <p class="benefits-sub reveal" style="--i:1">Elige una alternativa según tu etapa, tu presupuesto y el tipo de respaldo que buscas.</p>
+    <h2 class="reveal">Coberturas que te protegen de <span class="dserif">verdad</span></h2>
+    <p class="benefits-sub reveal" style="--i:1">Elige qué incluir según lo que necesitas. Te mostramos todo, también lo que no cubre.</p>
     <div class="benefits-grid">
       <div class="benefit reveal" style="--i:0">
         <span class="benefit-ico"><img src="brand/design-system/assets/small_icon_Seguro Salud.svg" alt=""></span>
@@ -181,7 +169,7 @@
 
 </main>
 
-<!-- ================= FOOTER (igual en todas las landings) ================= -->
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -193,35 +181,32 @@
         <h3>Seguros</h3>
         <ul>
           <li><a href="auto.html">Seguro de Auto</a></li>
-          <li><a href="#">SOAP</a></li>
-          <li><a href="#">Seguro de Vida</a></li>
           <li><a href="salud.html">Seguro de Salud</a></li>
-          <li><a href="#">Asistencia en Viaje</a></li>
+          <li><a href="vida.html">Seguro de Vida</a></li>
+          <li><a href="mascotas.html">Seguro de Mascotas</a></li>
         </ul>
       </div>
       <div>
         <h3>Sobre nosotros</h3>
         <ul>
-          <li><a href="#">Quiénes somos</a></li>
-          <li><a href="#">El Comparador</a></li>
-          <li><a href="#">Trabaja con nosotros</a></li>
-          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="https://www.comparaonline.cl">Quiénes somos</a></li>
+          <li><a href="https://www.comparaonline.cl">Centro de ayuda</a></li>
         </ul>
       </div>
       <div>
         <h3>Países</h3>
         <ul>
-          <li><a href="#">Chile</a></li>
-          <li><a href="#">Brasil</a></li>
-          <li><a href="#">Colombia</a></li>
+          <li><a href="https://www.comparaonline.cl">Chile</a></li>
+          <li><a href="https://www.comparaonline.com.br">Brasil</a></li>
+          <li><a href="https://www.comparaonline.com.co">Colombia</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 ComparaOnline</span>
       <span class="spacer"></span>
-      <a href="#">Términos y condiciones</a>
-      <a href="#">Política de privacidad</a>
+      <a href="https://www.comparaonline.cl">Términos y condiciones</a>
+      <a href="https://www.comparaonline.cl">Política de privacidad</a>
     </div>
   </div>
 </footer>
@@ -232,14 +217,14 @@
 </div>
 
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
-<script src="shared/compara.js?v=20260729-charlie" defer></script>
+<script src="shared/compara.js?v=20260729-aroldo" defer></script>
 <script>
-/* Redirección de los CTA al formulario vigente de cotización de Salud.
+/* Redirección de los CTA al formulario de cotización de este producto.
    Conserva gclid / utm_* del clic SEM para no perder atribución de paid. */
 (function(){
   var FORM = 'https://seguro-salud.comparaonline.cl/quote';
   if (FORM === '#') return;
-  var qs = location.search; /* incluye gclid, utm_source, etc. */
+  var qs = location.search;
   document.querySelectorAll('[data-cotiza]').forEach(function(a){
     a.href = FORM + (qs ? (FORM.indexOf('?') > -1 ? '&' : '?') + qs.slice(1) : '');
   });
