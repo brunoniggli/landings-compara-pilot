@@ -104,11 +104,14 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
             for f0,f1,w,s in fam)
         # En mobile, hero sin animación (mismo criterio que nuestro CSS): el fade-in cuesta
         # 1318ms de LCP. En desktop se mantiene.
-        sin_anim = ("@media (max-width:860px){.js .hero-enter{opacity:1;transform:none;"
-                    "animation:none}}")
+        # Animación corta en mobile en vez de quitarla: con opacity:0 el elemento no cuenta
+        # para CLS hasta ser visible, así que la animación protege del salto por font swap.
+        # Sin ella el LCP baja a 294ms pero el CLS sube a 0,277 (malo).
+        sin_anim = ("@media (max-width:860px){.js .hero-enter{animation-duration:.42s;"
+                    "animation-delay:0ms!important}}")
         override_woff2 = ("<!-- El CSS de origen pide .ttf (1,68MB las 14). Estas woff2 pesan 638KB\n"
                           "     en total y ganan por venir después del link. Y en mobile se apaga la\n"
-                          "     animación del hero, que cuesta 1318ms de LCP. -->\n<style>\n"
+                          "     animación del hero se acorta a 420ms sin delay, por LCP y CLS a la vez. -->\n<style>\n"
                           + reglas + "\n" + sin_anim + "\n</style>")
 
     return f"""<!--

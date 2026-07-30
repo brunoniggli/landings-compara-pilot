@@ -132,13 +132,17 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
   .js .hero-enter{opacity:0;transform:translateY(14px);animation:rise .62s var(--ease-brand) forwards;animation-delay:calc(var(--i,0)*90ms)}
 }
 @keyframes rise{to{opacity:1;transform:none}}
-/* En mobile el hero entra sin animación, a propósito (decisión 2026-07-30).
-   Medido: el fade-in de .hero-enter cuesta 1318ms de LCP (2394ms con animación contra
-   1076ms sin ella, en 3G rápido con CPU 4x), porque el elemento arranca en opacity:0 y el
-   LCP se registra cuando termina de pintar. En desktop se mantiene: ahí el LCP no es el
-   cuello de botella y el efecto suma. */
+/* En mobile el hero entra con una animación CORTA y sin delay escalonado (2026-07-30).
+   Por qué no se quita del todo: la animación funciona como escudo contra el CLS. Con
+   opacity:0 inicial, el elemento no cuenta para CLS hasta ser visible, y cuando lo es la
+   fuente ya llegó, así que el swap de fuente no produce salto. Medido en 3G rápido, CPU 4x:
+     con animación larga (620ms + delay hasta 360ms):  LCP 2394ms · CLS 0,024
+     sin animación:                                    LCP  294ms · CLS 0,277  (CLS malo)
+   La versión corta busca lo mejor de las dos: el elemento se vuelve visible justo después
+   de que llega la fuente (~375ms), sin arrastrar el LCP casi 2 segundos.
+   En desktop se mantiene la animación original, ahí el LCP no es el cuello de botella. */
 @media (max-width: 860px){
-  .js .hero-enter{opacity:1;transform:none;animation:none}
+  .js .hero-enter{animation-duration:.42s;animation-delay:0ms!important}
 }
 /* MOBILE hero: la luz Azure deambula sola por todo el hero (sin cursor) */
 @media (max-width: 860px){
