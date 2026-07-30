@@ -132,6 +132,14 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-s
   .js .hero-enter{opacity:0;transform:translateY(14px);animation:rise .62s var(--ease-brand) forwards;animation-delay:calc(var(--i,0)*90ms)}
 }
 @keyframes rise{to{opacity:1;transform:none}}
+/* En mobile el hero entra sin animación, a propósito (decisión 2026-07-30).
+   Medido: el fade-in de .hero-enter cuesta 1318ms de LCP (2394ms con animación contra
+   1076ms sin ella, en 3G rápido con CPU 4x), porque el elemento arranca en opacity:0 y el
+   LCP se registra cuando termina de pintar. En desktop se mantiene: ahí el LCP no es el
+   cuello de botella y el efecto suma. */
+@media (max-width: 860px){
+  .js .hero-enter{opacity:1;transform:none;animation:none}
+}
 /* MOBILE hero: la luz Azure deambula sola por todo el hero (sin cursor) */
 @media (max-width: 860px){
   .hero-glow{opacity:1}

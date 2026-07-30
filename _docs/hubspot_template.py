@@ -85,6 +85,32 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
     # OJO: el primer comentario del archivo lo parsea HubSpot como YAML de metadata.
     # Solo claves ahí; cualquier texto libre rompe el POST con "Unable to process
     # annotated template metadata". La documentación va en un segundo comentario.
+    # Si el CSS viene de otro CDN, ese CSS todavía pide .ttf. Redefinimos los @font-face
+    # apuntando a nuestras woff2 (mismas familias y pesos, solo cambia el formato, así que
+    # no cambia nada visual). Va DESPUÉS del <link>, por eso gana.
+    override_woff2 = ""
+    if ASSET_BASE != ASSET_BASE_DEFAULT:
+        fam = [("Poppins","Poppins-Regular",400,"normal"),("Poppins","Poppins-Italic",400,"italic"),
+               ("Poppins","Poppins-SemiBold",600,"normal"),("Poppins","Poppins-SemiBoldItalic",600,"italic"),
+               ("Poppins","Poppins-Bold",700,"normal"),("Poppins","Poppins-BoldItalic",700,"italic"),
+               ("Open Sans","OpenSans-Regular",400,"normal"),("Open Sans","OpenSans-Italic",400,"italic"),
+               ("Open Sans","OpenSans-SemiBold",600,"normal"),("Open Sans","OpenSans-SemiBoldItalic",600,"italic"),
+               ("Open Sans","OpenSans-Bold",700,"normal"),("Open Sans","OpenSans-BoldItalic",700,"italic"),
+               ("DM Serif Display","DMSerifDisplay-Regular",400,"normal"),
+               ("DM Serif Display","DMSerifDisplay-Italic",400,"italic")]
+        reglas = "\n".join(
+            f'@font-face{{font-family:"{f0}";src:url("{FONT_BASE}brand/design-system/fonts/{f1}.woff2") '
+            f'format("woff2");font-weight:{w};font-style:{s};font-display:swap}}'
+            for f0,f1,w,s in fam)
+        # En mobile, hero sin animación (mismo criterio que nuestro CSS): el fade-in cuesta
+        # 1318ms de LCP. En desktop se mantiene.
+        sin_anim = ("@media (max-width:860px){.js .hero-enter{opacity:1;transform:none;"
+                    "animation:none}}")
+        override_woff2 = ("<!-- El CSS de origen pide .ttf (1,68MB las 14). Estas woff2 pesan 638KB\n"
+                          "     en total y ganan por venir después del link. Y en mobile se apaga la\n"
+                          "     animación del hero, que cuesta 1318ms de LCP. -->\n<style>\n"
+                          + reglas + "\n" + sin_anim + "\n</style>")
+
     return f"""<!--
   templateType: page
   isAvailableForNewContent: false
@@ -117,6 +143,7 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <link rel="stylesheet" href="{ASSET_BASE}brand/design-system/colors_and_type.css?v={VER}">
 <link rel="stylesheet" href="{ASSET_BASE}shared/compara.css?v={VER}">
+{override_woff2}
 {{{{ standard_header_includes }}}}
 </head>
 <body>
