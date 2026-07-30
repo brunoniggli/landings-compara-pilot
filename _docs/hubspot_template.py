@@ -39,17 +39,31 @@ ASSET_BASE_DEFAULT = "https://brunoniggli.github.io/landings-compara-pilot/"
 ASSET_BASE_POR_SLUG = {"auto": "https://cperez-brand.github.io/landings-compara/"}
 ASSET_BASE = ASSET_BASE_DEFAULT   # se reasigna en build() según el slug
 
+# Desde 2026-07-30 los assets viven en el File Manager de HubSpot, no en GitHub Pages.
+# Ventajas: sale la dependencia de un repo personal y el CDN de HubSpot es más rápido (la
+# diferencia de LCP que quedaba en Auto era exactamente eso). El CSS y el JS siguen siendo
+# externos, no inline: inlinearlos empeora el DOMContentLoaded 4x y rompe el cache
+# compartido entre las 23 landings.
+CDN = "https://22319441.fs1.hubspotusercontent-na1.net/hubfs/22319441/landings-compara/"
+
+def a_cdn(ruta: str) -> str:
+    """brand/design-system/assets/logo_X.svg -> {CDN}img/logo_X.svg (el File Manager es plano)."""
+    nombre = ruta.rsplit("/", 1)[-1]
+    if nombre.endswith(".woff2"): return CDN + "fonts/" + nombre
+    if nombre.endswith((".css",)): return CDN + "css/" + nombre
+    if nombre.endswith((".js",)):  return CDN + "js/" + nombre
+    return CDN + "img/" + nombre
+
 def absolutizar(txt: str) -> str:
-    """Rutas relativas de assets -> absolutas. En el template no hay documento base."""
-    txt = re.sub(r'(src|href)="(brand/|assets/)', rf'\1="{ASSET_BASE}\2', txt)
-    txt = re.sub(r'srcset="(brand/|assets/)', rf'srcset="{ASSET_BASE}\1', txt)
+    """Rutas relativas de assets -> URLs del File Manager."""
+    txt = re.sub(r'(src|href|srcset)="((?:brand/|assets/)[^"]+)"',
+                 lambda m: f'{m.group(1)}="{a_cdn(m.group(2))}"', txt)
     # Imágenes de Auto: los PNG del repo de origen pesan 3,86MB juntos (el del hero solo,
     # 1,5MB = 7,7s de descarga en 3G). Las webp del nuestro pesan 385KB en total,
     # redimensionadas a 2x del tamaño de exhibición. Se sustituyen por nombre.
     for png in ("promo-auto-hero.png","promo-auto-hero-mobile.png",
                 "promo-auto-banner-desktop.png","promo-auto-banner-mobile.png"):
-        txt = txt.replace(ASSET_BASE+"assets/"+png,
-                          ASSET_BASE_DEFAULT+"assets/auto-opt/"+png.replace(".png",".webp"))
+        txt = txt.replace(a_cdn(png), a_cdn(png.replace(".png",".webp")))
     return txt
 
 def css_con_fuentes_absolutas() -> str:
@@ -117,40 +131,14 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
     # Si el CSS viene de otro CDN, ese CSS todavía pide .ttf. Redefinimos los @font-face
     # apuntando a nuestras woff2 (mismas familias y pesos, solo cambia el formato, así que
     # no cambia nada visual). Va DESPUÉS del <link>, por eso gana.
-    override_woff2 = ""
-    if ASSET_BASE != ASSET_BASE_DEFAULT:
-        fam = [("Poppins","Poppins-Regular",400,"normal"),("Poppins","Poppins-Italic",400,"italic"),
-               ("Poppins","Poppins-SemiBold",600,"normal"),("Poppins","Poppins-SemiBoldItalic",600,"italic"),
-               ("Poppins","Poppins-Bold",700,"normal"),("Poppins","Poppins-BoldItalic",700,"italic"),
-               ("Open Sans","OpenSans-Regular",400,"normal"),("Open Sans","OpenSans-Italic",400,"italic"),
-               ("Open Sans","OpenSans-SemiBold",600,"normal"),("Open Sans","OpenSans-SemiBoldItalic",600,"italic"),
-               ("Open Sans","OpenSans-Bold",700,"normal"),("Open Sans","OpenSans-BoldItalic",700,"italic"),
-               ("DM Serif Display","DMSerifDisplay-Regular",400,"normal"),
-               ("DM Serif Display","DMSerifDisplay-Italic",400,"italic")]
-        reglas = "\n".join(
-            f'@font-face{{font-family:"{f0}";src:url("{FONT_BASE}brand/design-system/fonts/{f1}.woff2") '
-            f'format("woff2");font-weight:{w};font-style:{s};font-display:swap}}'
-            for f0,f1,w,s in fam)
-        # En mobile, hero sin animación (mismo criterio que nuestro CSS): el fade-in cuesta
-        # 1318ms de LCP. En desktop se mantiene.
-        # Animación corta en mobile en vez de quitarla: con opacity:0 el elemento no cuenta
-        # para CLS hasta ser visible, así que la animación protege del salto por font swap.
-        # Sin ella el LCP baja a 294ms pero el CLS sube a 0,277 (malo).
-        sin_anim = ("@media (max-width:860px){.js .hero-enter{animation-duration:.42s;"
-                    "animation-delay:0ms!important}}"
-                    # CLS: las imágenes de esta landing no declaran dimensiones, así que al
-                    # cargar empujan el texto 255px. Un solo shift de 0,471, medido. Con el
-                    # loader no se notaba porque el contenido entraba después de cargar todo.
-                    # aspect-ratio reserva el espacio desde el primer paint. Los valores son
-                    # los de los archivos reales: hero 1459x1347, banner desktop 4001x618,
-                    # banner mobile 1668x976.
-                    "\n.hero-figure img{aspect-ratio:1459/1347}"
-                    "\n.promo-banner img{aspect-ratio:4001/618}"
-                    "\n@media (max-width:640px){.promo-banner img{aspect-ratio:1668/976}}")
-        override_woff2 = ("<!-- El CSS de origen pide .ttf (1,68MB las 14). Estas woff2 pesan 638KB\n"
-                          "     en total y ganan por venir después del link. Y en mobile se apaga la\n"
-                          "     animación del hero se acorta a 420ms sin delay, por LCP y CLS a la vez. -->\n<style>\n"
-                          + reglas + "\n" + sin_anim + "\n</style>")
+    # El CSS ya es el nuestro y vive en el CDN, con las @font-face apuntando al File
+    # Manager, así que no hace falta override de fuentes. Solo queda el ajuste de mobile.
+    override_woff2 = ('<style>@media (max-width:860px){.js .hero-enter{animation-duration:.42s;'
+                      'animation-delay:0ms!important}}'
+                      '.hero-figure img{aspect-ratio:1459/1347}'
+                      '.promo-banner img{aspect-ratio:4001/618}'
+                      '@media (max-width:640px){.promo-banner img{aspect-ratio:1668/976}}</style>'
+                      if src_path else "")
 
     return f"""<!--
   templateType: page
@@ -174,17 +162,24 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
-<link rel="icon" href="{ASSET_BASE}brand/design-system/assets/avatar_favicon.svg">
+<link rel="icon" href="{CDN}img/avatar_favicon.svg">
 <!-- Preload de las 2 fuentes del hero (h1 en Poppins 600, bajada en Open Sans 400).
      En woff2: pesan 50KB y 44KB, contra 152KB y 95KB del .ttf original (62% menos en
      total, de 1,68MB a 638KB las 14). Sin esto el texto del hero re-pinta cuando llega la
-     fuente real y el LCP se dispara a ~2,9s en mobile 3G. -->
-<link rel="preload" href="{FONT_BASE}brand/design-system/fonts/Poppins-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{FONT_BASE}brand/design-system/fonts/OpenSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+     fuente real y el LCP se dispara a ~2,9s en mobile 3G.
+     SIN crossorigin a propósito: los assets viven en el File Manager y HubSpot los sirve
+     desde el dominio de la página, o sea same-origin. Con crossorigin el preload pide en
+     modo CORS y el CSS en modo same-origin, no coinciden, y el navegador baja cada fuente
+     DOS veces (95KB de más en la ruta crítica). Medido. -->
+<!-- Sin preload de fuentes, a propósito. Se probó con y sin crossorigin y en los dos casos
+     el navegador bajaba cada fuente DOS veces (95KB de más en la ruta crítica): el preload
+     y la petición que hace el CSS no coinciden en modo de request. Con las fuentes ya en
+     woff2 (50KB y 44KB) y servidas same-origin desde el File Manager, el preload aportaba
+     poco y costaba el doble de bytes. Medido. -->
 {preload_hero}
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<link rel="stylesheet" href="{ASSET_BASE}brand/design-system/colors_and_type.css?v={VER}">
-<link rel="stylesheet" href="{ASSET_BASE}shared/compara.css?v={VER}">
+<link rel="stylesheet" href="{CDN}css/colors_and_type.css">
+<link rel="stylesheet" href="{CDN}css/compara.css">
 {override_woff2}
 {{{{ standard_header_includes }}}}
 </head>
@@ -196,7 +191,7 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
      iconos sin depender de que compara.js todavia no haya corrido. -->
 <script async src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"
         onload="window.lucide&&lucide.createIcons({{attrs:{{'stroke-width':1.75}}}})"></script>
-<script src="{ASSET_BASE}shared/compara.js?v={VER}" defer></script>
+<script src="{CDN}js/compara.js" defer></script>
 <script>
 {redirect_js}
 </script>
