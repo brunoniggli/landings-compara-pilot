@@ -84,6 +84,28 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
     body = re.sub(r"<script>.*?</script>\s*", "", body, flags=re.S)
     body = absolutizar(body).strip()
 
+    # La imagen del hero es el elemento de LCP: se le da prioridad alta y se precarga.
+    # Todo lo que está bajo el pliegue (logos de aseguradoras, banner, iconos de coberturas)
+    # pasa a lazy, para que no compita por ancho de banda con el hero.
+    # Medido antes de esto: la imagen del hero terminaba de pintar a los 4788ms porque salía
+    # última en la cola de descarga, detrás de 10 SVG de logos y el banner.
+    hero_img = re.search(r'<img src="([^"]*(?:hero|promo)[^"]*)"', body)
+    if hero_img:
+        body = body.replace(hero_img.group(0),
+            hero_img.group(0).replace("<img ", '<img fetchpriority="high" decoding="async" ', 1), 1)
+    # lazy en todo <img> que no sea el del hero ni el logo del nav
+    def lazy(m):
+        tag = m.group(0)
+        if any(k in tag for k in ("fetchpriority", "logo-white", "logo-blue", "logo-compa")):
+            return tag
+        return tag.replace("<img ", '<img loading="lazy" decoding="async" ', 1)
+    body = re.sub(r'<img [^>]*>', lazy, body)
+
+    # preload de la imagen del hero (el elemento de LCP)
+    _h = re.search(r'<img[^>]*src="([^"]*(?:hero|promo)[^"]*)"', body)
+    preload_hero = (f'<link rel="preload" as="image" href="{_h.group(1)}" fetchpriority="high">'
+                    if _h else "")
+
     if src_path:   # fuente externa (Auto): sin cache bust, el repo de origen no es nuestro
         VER = "external"
     else:
@@ -159,6 +181,7 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
      fuente real y el LCP se dispara a ~2,9s en mobile 3G. -->
 <link rel="preload" href="{FONT_BASE}brand/design-system/fonts/Poppins-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{FONT_BASE}brand/design-system/fonts/OpenSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+{preload_hero}
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <link rel="stylesheet" href="{ASSET_BASE}brand/design-system/colors_and_type.css?v={VER}">
 <link rel="stylesheet" href="{ASSET_BASE}shared/compara.css?v={VER}">
