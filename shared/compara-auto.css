@@ -1,0 +1,505 @@
+/* ============================================================================
+   compara-auto.css — hoja de estilos EXCLUSIVA de la landing de Auto/CICL.
+   Copia de cperez-brand/landings-compara@2026-07-30, traída al repo para que la
+   landing no dependa de un repo externo.
+
+   POR QUÉ ESTÁ SEPARADA de shared/compara.css: esta es la versión que ganó el A/B
+   contra la landing antigua de Auto. compara.css divergió 144 líneas con el feedback
+   de diseño del 29-30/07, que se validó para las landings de New Business y NO para
+   Auto (H1 44px vs 52px acá, columnas 1.15/0.85 vs 1.05/0.95, benefits en flex vs
+   grid, orden distinto en mobile).
+
+   NO unificar las dos hojas sin medir. Portar un cambio de compara.css a Auto es una
+   decisión de negocio: cambia una página que ya ganó un test y que recibe tráfico paid.
+   ============================================================================ */
+/* =====================================================================
+   Compara — Capa compartida de ESTILOS
+   Importar SIEMPRE despues de brand/design-system/colors_and_type.css
+   (esa hoja define tokens, fuentes y :root; esta define los componentes).
+   Usada por home.html y por las landings de producto.
+   ===================================================================== */
+/* =====================================================================
+   Prototipo Homepage v3 — Compara
+   Radios (regla de marca): 15px interactivo · 20-24px cards · 999px pills.
+   Motion base: tokens del DS. Algunos efectos exceden a propósito el motion
+   conservador del DS (decisión aprobada por Carlos).
+   Mobile: sin efectos de cursor/hover; gradiente errante + on-tap.
+   ===================================================================== */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--color-surface)}
+img{display:block;max-width:100%}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:none;box-shadow:var(--shadow-focus);border-radius:var(--radius-xs)}
+.btn{text-decoration:none}
+.btn:hover{text-decoration:none}
+.btn:focus-visible{box-shadow:var(--shadow-focus)}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:100;background:var(--color-surface);color:var(--color-brand);padding:12px 18px;border-radius:0 0 var(--radius-md) 0;font-family:var(--font-display);font-weight:600}
+.skip-link:focus{left:0}
+.container{max-width:1200px;margin-inline:auto;padding-inline:clamp(20px,4vw,32px)}
+.section{padding-block:clamp(64px,9vw,104px)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.ico{width:24px;height:24px;color:var(--color-brand);flex:none}
+/* acento editorial: DM Serif Display Regular dentro de titulares Poppins */
+.dserif{font-family:var(--font-serif);font-weight:400;font-style:italic;font-size:calc(1em + 5pt);letter-spacing:0}
+
+/* ---------- Reveal por IO (fallback universal, visible sin JS) ------ */
+.js .reveal{opacity:0;transform:translateY(12px);transition:opacity var(--dur-slow) var(--ease-brand),transform var(--dur-slow) var(--ease-brand);transition-delay:calc(var(--i,0)*70ms)}
+.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  .js .reveal{opacity:1;transform:none;transition:none}
+}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .js .scrub.reveal{opacity:1;transform:none;transition:none}
+  }
+}
+
+/* =====================================================================
+   NAV
+   ===================================================================== */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background-color var(--dur-base) var(--ease-brand),box-shadow var(--dur-base) var(--ease-brand)}
+.nav-inner{display:flex;align-items:center;gap:28px;height:72px}
+.nav-logo{display:inline-grid;place-items:center}
+.nav-logo img{height:26px;width:auto;grid-area:1/1;transition:opacity var(--dur-base) var(--ease-brand)}
+@media (min-width:861px){.nav-logo img{height:31px}}
+.nav-logo .logo-blue{opacity:0;height:44px}
+.nav-links{display:flex;gap:10px;margin-left:8px;list-style:none;padding:0}
+/* hover = "ser encerrado" en un botón pill con borde grueso (sin relleno) */
+.nav-links a{position:relative;display:inline-flex;align-items:center;padding:9px 18px;border-radius:var(--radius-pill);font-family:var(--font-display);font-weight:600;font-size:15px;color:#fff;text-decoration:none;transition:color var(--dur-base) var(--ease-brand)}
+.nav-links a::before{content:"";position:absolute;inset:0;border-radius:var(--radius-pill);border:3px solid #F1F5F9;opacity:0;transform:scale(1.18);transition:opacity var(--dur-base) var(--ease-brand),transform var(--dur-base) var(--ease-brand);pointer-events:none}
+@media (hover:hover) and (pointer:fine){
+  .nav-links a:hover{color:#F1F5F9;text-decoration:none}
+  .nav-links a:hover::before{opacity:1;transform:scale(1)}
+}
+.nav-cta{margin-left:auto}
+.nav .btn--nav{height:44px;padding:0 20px;background:#fff;color:var(--color-brand);box-shadow:var(--shadow-soft)}
+@media (hover:hover) and (pointer:fine){
+  .nav .btn--nav:hover{background:#103AD8;color:#fff}
+}
+@media (max-width:860px){
+  .nav .btn--nav{height:35px;padding:0 16px;font-size:12.8px}
+}
+.nav-burger{display:none;margin-left:auto;width:44px;height:44px;border:0;border-radius:var(--radius-md);background:rgba(255,255,255,.14);color:#fff;cursor:pointer;place-items:center}
+.nav-panel{display:none}
+.nav[data-solid]{background:var(--color-surface);box-shadow:0 1px 0 var(--color-border),0 6px 20px rgba(0,133,255,.08)}
+.nav[data-solid] .nav-links a{color:var(--color-fg)}
+.nav[data-solid] .nav-links a::before{border-color:var(--color-brand)}
+@media (hover:hover) and (pointer:fine){
+  .nav[data-solid] .nav-links a:hover{color:var(--color-brand)}
+}
+.nav[data-solid] .logo-white{opacity:0}
+.nav[data-solid] .logo-blue{opacity:1}
+.nav[data-solid] .btn--nav{background:var(--color-brand);color:#fff}
+@media (hover:hover) and (pointer:fine){
+  .nav[data-solid] .btn--nav:hover{background:#103AD8;color:#fff}
+}
+.nav[data-solid] .nav-burger{background:var(--color-surface-sunk);color:var(--color-brand)}
+@media (max-width: 860px){
+  .nav-links,.nav-cta{display:none}
+  .nav-burger{display:grid}
+  .nav-panel{display:block;position:absolute;top:80px;left:16px;right:16px;background:var(--color-surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-lifted);padding:12px;opacity:0;transform:translateY(-8px) scale(.98);pointer-events:none;transition:opacity var(--dur-base) var(--ease-brand),transform var(--dur-base) var(--ease-brand)}
+  .nav-panel[data-open]{opacity:1;transform:none;pointer-events:auto}
+  .nav-panel a{display:block;padding:14px 16px;border-radius:var(--radius-md);font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--color-fg);text-decoration:none}
+  .nav-panel a:hover{background:var(--color-surface-sunk);color:var(--color-brand);text-decoration:none}
+  .nav-panel .btn--primary,.nav-panel .btn--primary:hover{color:#fff;background:var(--color-brand);text-decoration:none}
+  .nav-panel .btn{width:100%;margin-top:8px}
+}
+
+/* =====================================================================
+   HERO — Brand Blue sólido + luz Azure (#0085FF) reactiva al cursor
+   ===================================================================== */
+.hero{position:relative;overflow:clip;background:var(--color-brand);color:#fff;min-height:100vh;min-height:100svh;display:grid;place-items:center;padding-block:120px 88px;text-align:center}
+.wash{position:absolute;border-radius:50%;pointer-events:none}
+.wash--a{width:130vmax;height:130vmax;right:-58vmax;top:-62vmax;background:radial-gradient(closest-side,rgba(0,133,255,.8),rgba(0,133,255,0) 70%)}
+.wash--b{width:95vmax;height:95vmax;left:-44vmax;bottom:-48vmax;background:radial-gradient(closest-side,rgba(0,133,255,.32),rgba(0,133,255,0) 72%)}
+@media (prefers-reduced-motion: no-preference){
+  .js .wash--a{animation:wash-a 75s ease-in-out infinite alternate}
+  .js .wash--b{animation:wash-b 95s ease-in-out infinite alternate}
+}
+@keyframes wash-a{to{transform:translate(-2.5vw,2vh)}}
+@keyframes wash-b{to{transform:translate(2vw,-2.5vh)}}
+/* luz que sigue al cursor: +20% tamaño, +difuminado (blur), -20% velocidad (JS) */
+.hero-glow{position:absolute;width:1080px;height:1080px;left:-540px;top:-540px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.07),rgba(0,133,255,.30) 42%,rgba(0,133,255,0) 72%);filter:blur(48px);pointer-events:none;opacity:0;transition:opacity .9s var(--ease-brand)}
+.hero[data-glow] .hero-glow{opacity:1}
+/* pulso al click/tap */
+.hero-pulse{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;border:1.5px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:980px;padding-inline:12px}
+.hero h1{font-size:clamp(52px,7vw,90px);font-weight:600;line-height:1.02;color:#fff;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+.hero-sub{font-family:var(--font-body);font-size:clamp(17px,1.5vw,21px);line-height:1.55;color:rgba(255,255,255,.92);max-width:54ch;margin:0 auto 40px}
+/* selector de productos: cápsulas blancas firma */
+.hero-products{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;list-style:none;margin:0;padding:0}
+.hp-btn{display:inline-flex;align-items:center;gap:11px;height:62px;padding:0 28px;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:0 10px 30px -8px rgba(4,15,70,.35);font-family:var(--font-display);font-weight:600;font-size:17px;color:#103AD8;text-decoration:none;transition:transform var(--dur-fast) var(--ease-brand),box-shadow var(--dur-base) var(--ease-brand),background-color var(--dur-base) var(--ease-brand),color var(--dur-base) var(--ease-brand)}
+.hp-ico{width:34px;height:34px;object-fit:contain;flex:none;transition:filter var(--dur-base) var(--ease-brand)}
+.hp-btn .ico{width:24px;height:24px}
+@media (hover:hover) and (pointer:fine){
+  .hp-btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px -10px rgba(4,15,70,.45);background:#4168FF;color:#fff;text-decoration:none}
+  .hp-btn:hover .hp-ico{filter:brightness(0) invert(1)}
+}
+.hp-btn:active{transform:translateY(1px) scale(.99)}
+/* CTA clickeado / pulsado: relleno #4168FF, texto e icono blancos */
+.hp-btn.is-active,.hp-btn:active{background:#4168FF;color:#fff}
+.hp-btn.is-active .hp-ico,.hp-btn:active .hp-ico{filter:brightness(0) invert(1)}
+.hp-btn--plus{width:62px;padding:0;justify-content:center}
+.hp-btn--plus .ico{width:24px;height:24px}
+@media (prefers-reduced-motion: no-preference){
+  .js .hero-enter{opacity:0;transform:translateY(14px);animation:rise .62s var(--ease-brand) forwards;animation-delay:calc(var(--i,0)*90ms)}
+}
+@keyframes rise{to{opacity:1;transform:none}}
+/* MOBILE hero: la luz Azure deambula sola por todo el hero (sin cursor) */
+@media (max-width: 860px){
+  .hero-glow{opacity:1}
+}
+@media (max-width: 860px) and (prefers-reduced-motion: no-preference){
+  .js .hero-glow{animation:wander 30s ease-in-out infinite}
+}
+@keyframes wander{
+  0%{transform:translate(20vw,26vh)}
+  25%{transform:translate(72vw,14vh)}
+  50%{transform:translate(86vw,62vh)}
+  75%{transform:translate(34vw,78vh)}
+  100%{transform:translate(20vw,26vh)}
+}
+@media (max-width: 640px){
+  .hero{padding-top:104px}
+  .hero-products{display:grid;grid-template-columns:repeat(2,1fr);width:100%}
+  .hp-btn{flex-direction:column;justify-content:center;gap:10px;min-height:112px;padding:20px 10px;width:100%}
+  .hp-ico{width:40px;height:40px}
+}
+
+/* =====================================================================
+   ASEGURADORAS — desktop: nube en grises (color al hover) · mobile: marquee
+   ===================================================================== */
+.insurers{padding-block:clamp(56px,7vw,84px);background:var(--color-surface)}
+.insurers h2{font-size:clamp(24px,2.6vw,32px);line-height:1.25;color:var(--color-fg);text-align:center;margin:0 0 8px;text-wrap:balance}
+.insurers h2 b{color:var(--color-brand)}
+.insurers-sub{font-family:var(--font-body);font-size:var(--fs-body-sm);color:var(--color-fg-muted);text-align:center;margin:0 0 40px}
+.logo-rail{display:contents}
+.logo-cloud{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 18px;max-width:820px;margin-inline:auto}
+.logo-capsule{position:relative;display:inline-flex;align-items:center;justify-content:center;height:64px;padding:0 21px;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--shadow-soft);border:1px solid var(--color-border);transition:transform var(--dur-base) var(--ease-brand)}
+.logo-capsule img{height:32px;width:auto;filter:grayscale(1);opacity:.78;transform:scale(var(--ls,1));transform-origin:center;transition:filter var(--dur-base) var(--ease-brand),opacity var(--dur-base) var(--ease-brand),transform var(--dur-base) var(--ease-brand)}
+@media (min-width:861px){.logo-capsule img{height:42px}}
+@media (hover:hover) and (pointer:fine){
+  .logo-capsule:hover{z-index:1}
+  .logo-capsule:hover img{filter:none;opacity:1;transform:scale(calc(var(--ls,1) * 1.2))}
+}
+.logo-cloud--marquee{flex-wrap:nowrap;width:max-content;justify-content:flex-start}
+@media (prefers-reduced-motion: no-preference){
+  .logo-cloud--marquee{animation:scroll-x 18s linear infinite}
+}
+@keyframes scroll-x{to{transform:translateX(-50%)}}
+@media (max-width: 860px){
+  .logo-rail{display:block;overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+  .logo-cloud{justify-content:flex-start}
+  .logo-capsule img{filter:none;opacity:1}
+  .logo-capsule{flex:none}
+}
+
+/* =====================================================================
+   CÓMO FUNCIONA — pasos dentro de cards blancas con sombra suave
+   ===================================================================== */
+.how{background:var(--color-ice)}
+.how h2{font-size:clamp(24px,2.6vw,32px);line-height:1.25;margin:0 0 12px;text-wrap:balance}
+.how-lead{font-family:var(--font-body);font-size:var(--fs-body-sm);line-height:var(--lh-body-sm);color:var(--color-fg-muted);max-width:60ch;margin:0 0 52px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.4vw,28px);counter-reset:paso}
+.step{position:relative;background:var(--color-surface);border-radius:var(--radius-lg);padding:32px 28px;box-shadow:var(--shadow-soft);overflow:hidden}
+.step-n{counter-increment:paso;display:inline-grid;place-items:center;width:44px;height:44px;border-radius:var(--radius-md);background:var(--color-brand);color:#fff;font-family:var(--font-display);font-weight:700;font-size:17px;margin-bottom:16px}
+.step-n::before{content:counter(paso)}
+.step h3{font-size:22px;line-height:1.3;color:var(--color-fg);margin:0 0 8px}
+.step p{font-family:var(--font-body);font-size:var(--fs-body-sm);line-height:var(--lh-body-sm);color:var(--color-fg-muted);margin:0}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .js .step .step-n{animation:pop linear both;animation-timeline:view();animation-range:entry 10% entry 70%}
+  }
+}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@media (max-width: 980px){
+  .steps{grid-template-columns:1fr;gap:16px}
+}
+
+/* =====================================================================
+   PRODUCTOS — cards ice, iconos 100px centrados; hover/tap = gradiente azul
+   ===================================================================== */
+.prod-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:28px}
+.prod-head h2{font-size:clamp(24px,2.6vw,32px);line-height:1.25;margin:0;text-wrap:balance}
+.pan-progress{position:relative;width:min(280px,26vw);flex:none;height:3px;border-radius:2px;background:var(--color-primary-100);overflow:hidden;display:none}
+.pan-progress i{position:absolute;inset:0;background:var(--color-brand);transform:scaleX(0);transform-origin:left}
+.htrack{display:flex;gap:20px;align-items:stretch}
+.pcard{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;flex:none;width:clamp(280px,24vw,340px);min-height:400px;padding:40px 28px;border-radius:var(--radius-lg);text-decoration:none;background:var(--color-ice);overflow:hidden;transition:transform var(--dur-base) var(--ease-brand),box-shadow var(--dur-base) var(--ease-brand)}
+.pcard::before{content:"";position:absolute;inset:0;background:var(--gradient-brand);opacity:0;transition:opacity var(--dur-base) var(--ease-brand);z-index:0}
+.pcard>*{position:relative;z-index:1}
+.pcard:hover{text-decoration:none}
+.pcard-ico{width:100px;height:100px;display:grid;place-items:center}
+.pcard-ico img{width:100px;height:100px;object-fit:contain;transition:filter var(--dur-base) var(--ease-brand)}
+.pcard-txt{display:flex;flex-direction:column;gap:8px;align-items:center}
+.pcard h3{font-size:24px;line-height:1.2;color:var(--color-fg);margin:0;transition:color var(--dur-base) var(--ease-brand)}
+.pcard p{font-family:var(--font-body);font-size:14px;line-height:1.5;color:var(--color-fg-muted);margin:0;max-width:30ch;transition:color var(--dur-base) var(--ease-brand)}
+.pcard-go{position:absolute;top:20px;right:20px;width:40px;height:40px;border-radius:var(--radius-pill);background:var(--color-surface);display:grid;place-items:center;transition:background-color var(--dur-base) var(--ease-brand)}
+.pcard-go .ico{width:20px;height:20px}
+.chip-feat{position:absolute;top:20px;left:20px;display:inline-flex;align-items:center;gap:6px;background:#FFF0F0;color:var(--color-fg);font-family:var(--font-display);font-weight:600;font-size:12px;padding:6px 12px;border-radius:var(--radius-pill)}
+.chip-feat .ico{width:13px;height:13px;color:var(--color-human-coral)}
+/* fill al hover (desktop) y al tap (todos) */
+@media (hover:hover) and (pointer:fine){
+  .pcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-lifted)}
+  .pcard:hover::before{opacity:1}
+  .pcard:hover h3,.pcard:hover p{color:#fff}
+  .pcard:hover .pcard-ico img{filter:brightness(0) invert(1)}
+  .pcard:hover .pcard-go{background:rgba(255,255,255,.18)}
+  .pcard:hover .pcard-go .ico{color:#fff}
+}
+.pcard:active::before{opacity:1}
+.pcard:active h3,.pcard:active p{color:#fff}
+.pcard:active .pcard-ico img{filter:brightness(0) invert(1)}
+.pcard:active .pcard-go{background:rgba(255,255,255,.18)}
+.pcard:active .pcard-go .ico{color:#fff}
+/* carrusel que sigue al cursor (desktop, JS) · fallback scroll nativo */
+.hwrap{--inset:clamp(20px,4vw,32px);overflow-x:auto;scroll-snap-type:x proximity;padding:8px 0 24px;padding-left:calc(max((100% - 1200px)/2, 0px) + var(--inset));padding-right:var(--inset);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.hwrap::-webkit-scrollbar{display:none}
+.hwrap .pcard{scroll-snap-align:start}
+.pan-hover .hwrap{overflow:clip;scroll-snap-type:none}
+.pan-hover .htrack{will-change:transform}
+.pan-hover .pan-progress{display:block}
+/* MOBILE: lista vertical compacta que cabe en el viewport (sin carrusel) */
+@media (max-width: 860px){
+  .hwrap{overflow:visible;padding:0 20px}
+  .htrack{display:flex;flex-direction:column;gap:12px;transform:none!important}
+  .pcard{width:auto;min-height:104px;flex-direction:row;align-items:center;justify-content:flex-start;text-align:left;gap:18px;padding:20px}
+  .pcard-ico,.pcard-ico img{width:64px;height:64px;flex:none}
+  .pcard-txt{align-items:flex-start;gap:6px}
+  .pcard h3{font-size:19px}
+  .pcard p{font-size:13px;max-width:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .pcard-go,.chip-feat{display:none}
+}
+
+/* =====================================================================
+   IA / COMPARINI
+   ===================================================================== */
+.ai{position:relative;overflow:clip;background:var(--gradient-brand-reverse);color:#fff}
+.ai-grid{position:relative;z-index:1;display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(40px,6vw,80px);align-items:center}
+.ai h2{color:#fff;font-size:clamp(24px,2.6vw,32px);line-height:1.25;margin:0 0 14px;text-wrap:balance}
+.ai-sub{font-family:var(--font-body);font-size:var(--fs-body-sm);line-height:var(--lh-body-sm);color:rgba(255,255,255,.9);margin:0 0 26px;max-width:60ch}
+.ai-points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.ai-points li{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:600;font-size:16px}
+.ai-points .ico{width:22px;height:22px;color:#FFFFFF;background:rgba(255,255,255,.16);border-radius:50%;padding:3px}
+.ai .wash--ai{position:absolute;width:80vmax;height:80vmax;right:-40vmax;bottom:-44vmax;border-radius:50%;background:radial-gradient(closest-side,rgba(0,133,255,.5),transparent 70%);pointer-events:none}
+.chat{width:min(440px,100%);background:#F1F5F9;border-radius:var(--radius-xl);box-shadow:0 24px 60px -16px rgba(4,15,70,.4);overflow:hidden;color:var(--color-fg)}
+@supports (animation-timeline: view()){
+  @media (min-width:981px) and (prefers-reduced-motion: no-preference){
+    .js .chat{animation:settle linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
+  }
+}
+@keyframes settle{from{opacity:.4;transform:translateY(46px) rotate(-1.6deg)}to{opacity:1;transform:translateY(0) rotate(0)}}
+.chat-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#F1F5F9;position:relative;z-index:1;box-shadow:0 4px 12px -4px rgba(20,20,43,.08)}
+.chat-head img{width:36px;height:36px}
+.chat-head>div{display:flex;flex-direction:column;justify-content:center;min-height:36px}
+.chat-head b{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--color-fg);line-height:1.15}
+.chat-head span{font-family:var(--font-body);font-size:12px;color:var(--color-fg-muted);line-height:1.15}
+.chat-body{height:330px;padding:16px;background:#F1F5F9;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;overflow:hidden}
+.bubble{max-width:88%;padding:11px 14px;border-radius:16px;font-family:var(--font-body);font-size:14px;line-height:1.45}
+.bubble--bot{align-self:flex-start;background:transparent;color:var(--color-fg);box-shadow:none;border-radius:0;padding:2px 0;max-width:94%;font-size:15px;line-height:1.5}
+.bubble--user{align-self:flex-end;background:#DDE3EC;color:var(--color-fg)}
+.bubble--typing{display:inline-flex;gap:5px;align-items:center;padding:6px 0}
+.bubble--typing i{width:7px;height:7px;border-radius:50%;background:var(--color-primary-300);display:block}
+@media (prefers-reduced-motion: no-preference){
+  .bubble--typing i{animation:dotpulse 1s var(--ease-brand) infinite}
+  .bubble--typing i:nth-child(2){animation-delay:.15s}
+  .bubble--typing i:nth-child(3){animation-delay:.3s}
+}
+@keyframes dotpulse{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+.chat-foot{padding:12px;background:#F1F5F9}
+.chat-input-box{background:var(--color-surface);border:1px solid var(--color-border);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow-soft)}
+.chat-input-box .ph{font-family:var(--font-body);font-size:14px;color:var(--color-fg-faint)}
+.chat-input-row{display:flex;align-items:center;gap:12px}
+.chat-input-row .chat-attach,.chat-input-row .chat-mic{width:20px;height:20px;color:var(--color-fg-subtle)}
+.chat-input-spacer{flex:1}
+.chat-send{width:34px;height:34px;border-radius:50%;background:#A9B8F5;display:grid;place-items:center;flex:none}
+.chat-send .ico{width:18px;height:18px;color:#fff}
+@media (max-width: 980px){
+  .ai-grid{grid-template-columns:1fr}
+  .chat{justify-self:center}
+}
+
+/* =====================================================================
+   BANDA FOTOGRÁFICA — zoom suave ligado al scroll
+   ===================================================================== */
+.adband{position:relative;min-height:540px;display:grid;align-items:end;overflow:clip}
+.adband img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .adband img.photo{animation:zoomout linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+  }
+}
+@keyframes zoomout{from{transform:scale(1.16)}to{transform:scale(1)}}
+.adband::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,rgba(4,15,70,0) 30%,rgba(4,15,70,.55) 78%)}
+.adband-inner{position:relative;z-index:2;width:100%;padding:clamp(28px,5vw,56px);display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.adband-pill{position:absolute;top:clamp(24px,4vw,44px);left:clamp(28px,5vw,56px);z-index:2;display:inline-flex;align-items:center;background:var(--color-surface);border-radius:var(--radius-sm);box-shadow:var(--shadow-soft);padding:8px 14px}
+.adband-pill img{height:18px;width:auto}
+.adband h2{color:#fff;font-size:clamp(34px,4.6vw,58px);line-height:1.1;letter-spacing:-.015em;margin:0;max-width:20ch}
+.adband-capsule{display:inline-flex;align-items:center;gap:10px;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--shadow-soft);padding:12px 18px;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--color-fg);text-decoration:none;transition:transform var(--dur-base) var(--ease-brand),box-shadow var(--dur-base) var(--ease-brand)}
+.adband-capsule img{width:22px;height:22px;object-fit:contain}
+.adband-capsule:hover{text-decoration:none;color:var(--color-fg)}
+@media (hover:hover) and (pointer:fine){
+  .adband-capsule:hover{transform:translateY(-2px);box-shadow:var(--shadow-lifted)}
+}
+
+/* =====================================================================
+   CTA FINAL
+   ===================================================================== */
+.closer{text-align:center;background:var(--color-surface);padding-block:calc(clamp(64px,9vw,104px) - 40px) clamp(64px,9vw,104px)}
+.closer .editorial{display:block;font-size:clamp(20px,2.2vw,26px);font-style:italic;color:var(--color-primary-300);margin:0 0 18px}
+.closer h2{font-size:clamp(34px,4.4vw,56px);line-height:1.12;margin:0 0 32px;text-wrap:balance}
+.closer .btn{min-width:220px}
+
+/* =====================================================================
+   FOOTER
+   ===================================================================== */
+.footer{background:var(--color-brand);color:#fff;padding:clamp(48px,6vw,72px) 0 32px}
+.footer a{color:rgba(255,255,255,.85);text-decoration:none;font-family:var(--font-body);font-size:14px;line-height:2}
+.footer a:hover{color:#fff;text-decoration:underline}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-brand img{height:30px;width:auto;margin-bottom:16px}
+.footer-brand p{font-family:var(--font-body);font-size:14px;color:rgba(255,255,255,.8);max-width:30ch;margin:0}
+.footer h3{font-family:var(--font-display);font-weight:600;font-size:14px;color:#fff;margin:0 0 10px;letter-spacing:.02em}
+.footer ul{list-style:none;margin:0;padding:0}
+.footer-bottom{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;padding-top:24px;border-top:1px solid rgba(255,255,255,.2);font-family:var(--font-body);font-size:13px;color:rgba(255,255,255,.75)}
+.footer-bottom .spacer{flex:1}
+@media (max-width: 860px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+
+/* =====================================================================
+   PIEZAS PARA LANDINGS DE PRODUCTO (SEM) — reutilizables
+   ===================================================================== */
+/* Header minimal: logo + CTA unico, sin nav links ni hamburguesa
+   (menos fugas de conversion). Usar <header class="nav nav--minimal"> */
+.nav--minimal .nav-links{display:none}
+@media (max-width: 860px){
+  .nav--minimal .nav-burger{display:none}
+  .nav--minimal .nav-cta{display:block;margin-left:auto}
+}
+
+/* CTA blanco para usar sobre el hero azul */
+.btn--white{background:#fff;color:var(--color-brand);box-shadow:0 10px 30px -8px rgba(4,15,70,.35)}
+@media (hover:hover) and (pointer:fine){
+  .btn--white:hover{background:#4168FF;color:#fff;box-shadow:0 16px 40px -10px rgba(4,15,70,.45)}
+}
+
+/* Tira de confianza bajo el CTA del hero */
+.hero-trust{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-top:26px}
+.hero-trust span{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-display);font-weight:600;font-size:14px;color:rgba(255,255,255,.92)}
+.hero-trust .ico{width:18px;height:18px;color:var(--color-fintech-mint)}
+@media (max-width:860px){
+  .hero-trust{flex-direction:column;flex-wrap:nowrap;align-items:flex-start;gap:10px;width:fit-content;margin-inline:auto}
+}
+
+/* CTA unico del hero (centra el boton) */
+.hero-cta{display:flex;justify-content:center}
+
+/* Grilla de coberturas / beneficios (reutilizable en landings de producto) */
+.benefits h2{font-size:clamp(24px,2.6vw,32px);line-height:1.25;text-align:center;margin:0 0 8px;text-wrap:balance}
+.benefits-sub{font-family:var(--font-body);font-size:var(--fs-body-sm);line-height:var(--lh-body-sm);color:var(--color-fg-muted);text-align:center;margin:0 auto 44px;max-width:60ch}
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.benefit{display:flex;gap:14px;align-items:flex-start;padding:24px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-soft)}
+.benefit-ico{width:48px;height:48px;flex:none;border-radius:var(--radius-sm);background:var(--color-surface-sunk);display:grid;place-items:center}
+.benefit-ico .ico{width:26px;height:26px;color:var(--color-brand)}
+.benefit-ico img{width:26px;height:26px;object-fit:contain}
+.benefit h3{font-size:18px;line-height:1.3;color:var(--color-fg);margin:0 0 4px}
+.benefit p{font-family:var(--font-body);font-size:14px;line-height:1.5;color:var(--color-fg-muted);margin:0}
+
+/* =====================================================================
+   HERO CON IMAGEN PROMOCIONAL + BANNER (landings de producto)
+   ===================================================================== */
+/* Hero split: copy a la izquierda + figura/imagen a la derecha.
+   Usar <section class="hero hero--split"> y envolver el texto en .hero-copy */
+.hero--split .hero-content{max-width:1180px;width:100%;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,64px);align-items:center;text-align:left;padding-inline:clamp(20px,4vw,32px)}
+.hero--split .hero-sub{max-width:48ch}
+.hero--split .hero-cta,.hero--split .hero-trust{justify-content:flex-start}
+/* título a 2 líneas en landings con imagen (cabe "Tu seguro de auto," por línea) */
+.hero--split h1{font-size:clamp(30px,4.2vw,52px)}
+.hero-figure{position:relative;display:grid;place-items:center;min-height:300px}
+.hero-figure img{position:relative;z-index:1;width:min(100%,520px);height:auto}
+@media (max-width:860px){
+  .hero--split .hero-content{grid-template-columns:1fr;text-align:center;gap:clamp(24px,6vw,36px)}
+  .hero--split .hero-sub{margin-inline:auto}
+  .hero--split .hero-cta,.hero--split .hero-trust{justify-content:center}
+  .hero-figure{min-height:0}
+}
+
+/* Banner promocional clickable (→ condiciones). Imagen propia desktop/mobile */
+.promo-banner{display:block;max-width:1180px;margin:clamp(28px,4vw,48px) auto 0;padding-inline:clamp(20px,4vw,32px);transition:transform var(--dur-base) var(--ease-brand)}
+.promo-banner img{width:100%;height:auto;border-radius:var(--radius-lg);box-shadow:var(--shadow-soft);display:block}
+@media (hover:hover) and (pointer:fine){
+  .promo-banner:hover{transform:translateY(-2px)}
+}
+
+/* =====================================================================
+   AJUSTES LANDING AUTO (auto.html) — scoped a .nav--minimal / .hero--split
+   (NO afectan el home, que usa .nav / .hero sin modificador).
+   ===================================================================== */
+/* Nav sin "float": el logo queda estatico arriba del hero y se va con el
+   scroll. El markup del nav se conserva; para reactivar el nav flotante a
+   futuro, quitar estas reglas y descomentar el CTA en auto.html. */
+.nav.nav--minimal{position:absolute}
+.nav.nav--minimal[data-solid]{background:transparent;box-shadow:none}
+.nav.nav--minimal[data-solid] .logo-white{opacity:1}
+.nav.nav--minimal[data-solid] .logo-blue{opacity:0}
+/* Logo +20% (26->31 mobile, 31->37 desktop) */
+.nav--minimal .nav-logo img{height:31px}
+@media (min-width:861px){.nav--minimal .nav-logo img{height:37px}}
+/* Logo cara de Compa: solo mobile (desktop mantiene el wordmark) */
+.nav--minimal .nav-logo .logo-compa{display:none}
+/* La imagen del hero enlaza al mismo formulario que el CTA (clickeable en desktop y mobile) */
+.hero--split .hero-figure-link{text-decoration:none;cursor:pointer}
+/* Hero mas bajo en desktop para que asome el banner promocional */
+.hero.hero--split{min-height:86vh;min-height:86svh;padding-block:92px 56px}
+@media (max-width:860px){
+  /* Logo mobile = cara de Compa, mismo alto de referencia (31px, heredado de arriba) */
+  .nav--minimal .nav-logo .logo-white,
+  .nav--minimal .nav-logo .logo-blue{display:none}
+  .nav--minimal .nav-logo .logo-compa{display:block}
+  /* Imagen del personaje ARRIBA (subida 10px, 20px de gap con lo que sigue) */
+  .hero--split .hero-content{gap:20px}
+  .hero--split .hero-figure{order:-1;margin-top:-10px}
+  .hero--split .hero-figure img{width:min(82%,348px)}
+  /* Orden mobile: imagen -> CTA -> titulo -> bajada -> bullets.
+     El CTA vuelve como boton real (mejor affordance + tracking consistente);
+     imagen y boton llevan al mismo formulario (ambos data-cotiza). */
+  .hero--split .hero-copy{display:flex;flex-direction:column;align-items:center}
+  .hero--split .hero-copy .hero-cta{order:-1;margin-bottom:28px}
+  /* Reveal coherente de arriba hacia abajo con el nuevo orden */
+  .hero--split .hero-figure.hero-enter{animation-delay:0ms}
+  .hero--split .hero-cta.hero-enter{animation-delay:90ms}
+  .hero--split .hero-copy h1.hero-enter{animation-delay:180ms}
+  .hero--split .hero-sub.hero-enter{animation-delay:270ms}
+  .hero--split .hero-trust.hero-enter{animation-delay:360ms}
+  .hero.hero--split{min-height:auto;padding-block:84px 48px}
+}
+
+/* =====================================================================
+   CTA STICKY (solo mobile) — aparece al perder de vista el CTA del hero,
+   se oculta al llegar al CTA final. Misma URL (data-cotiza). Reutilizable.
+   Sin frosted glass: barra blanca solida + sombra azulada suave hacia arriba.
+   ===================================================================== */
+.cta-sticky{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  display:none; /* desktop: nunca aparece */
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));
+  background:var(--color-surface);
+  border-top:1px solid var(--color-border);
+  box-shadow:0 -10px 30px -12px rgba(4,15,70,.28);
+}
+.cta-sticky .btn{width:100%}
+@media (max-width:860px){
+  .cta-sticky{
+    display:block;
+    transform:translateY(120%);opacity:0;visibility:hidden;pointer-events:none;
+    transition:transform var(--dur-base) var(--ease-brand),opacity var(--dur-base) var(--ease-brand),visibility 0s linear var(--dur-base);
+  }
+  .cta-sticky.is-visible{
+    transform:none;opacity:1;visibility:visible;pointer-events:auto;
+    transition:transform var(--dur-base) var(--ease-brand),opacity var(--dur-base) var(--ease-brand);
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  .cta-sticky{transition:none!important}
+}

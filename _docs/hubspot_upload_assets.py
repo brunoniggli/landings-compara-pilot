@@ -30,6 +30,9 @@ GRUPOS = [
     ("brand/design-system/fonts/*.woff2",       "fonts"),
     ("brand/design-system/colors_and_type.css", "css"),
     ("shared/compara.css",                      "css"),
+    # Hoja exclusiva de Auto/CICL: es la versión que ganó el A/B y no comparte hoja con
+    # las de New Business. Ver ESPECIALES en hubspot_template.py.
+    ("shared/compara-auto.css",                 "css"),
     ("shared/compara.js",                       "js"),
     ("brand/design-system/assets/*.svg",        "img"),
     ("brand/design-system/assets/*.png",        "img"),
