@@ -22,8 +22,9 @@ Con <link> externo se gana dos veces: el render no se bloquea con el HTML, y las
 landings comparten el mismo CSS, así que a partir de la segunda página el navegador lo
 sirve de cache. Inline, cada landing vuelve a bajar los 51KB.
 
-Los assets binarios (fuentes .ttf, logos) siguen en GitHub Pages. Subirlos al File Manager
-de HubSpot requiere el scope `files`, que el token compartido no tiene (da 403).
+Desde 2026-07-30 TODOS los assets (CSS, JS, fuentes woff2, logos, imágenes) viven en el
+File Manager de HubSpot, subidos por _docs/hubspot_upload_assets.py. Ya no hay ninguna
+dependencia de GitHub Pages ni de un repo personal.
 
 Uso:
     python3 _docs/hubspot_template.py salud-complementario     # imprime el template
@@ -32,19 +33,40 @@ Uso:
 import pathlib, re, sys, argparse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-ASSET_BASE_DEFAULT = "https://brunoniggli.github.io/landings-compara-pilot/"
-# La landing de Auto/CICL vive en el repo de Charlie y su CSS divergió 132 líneas del
-# nuestro. Es la versión que ganó el A/B, así que se sirve con SUS assets: migrar el modo
-# de entrega no debe cambiarle un pixel.
-ASSET_BASE_POR_SLUG = {"auto": "https://cperez-brand.github.io/landings-compara/"}
-ASSET_BASE = ASSET_BASE_DEFAULT   # se reasigna en build() según el slug
-
-# Desde 2026-07-30 los assets viven en el File Manager de HubSpot, no en GitHub Pages.
-# Ventajas: sale la dependencia de un repo personal y el CDN de HubSpot es más rápido (la
-# diferencia de LCP que quedaba en Auto era exactamente eso). El CSS y el JS siguen siendo
-# externos, no inline: inlinearlos empeora el DOMContentLoaded 4x y rompe el cache
-# compartido entre las 23 landings.
+# Los assets viven en el File Manager de HubSpot. Ventajas sobre GitHub Pages: sale la
+# dependencia de un repo personal, y HubSpot los sirve desde el dominio de la página, o sea
+# same-origin. El CSS y el JS siguen siendo externos, no inline: inlinearlos empeora el
+# DOMContentLoaded 4x y rompe el cache compartido entre las 23 landings.
 CDN = "https://22319441.fs1.hubspotusercontent-na1.net/hubfs/22319441/landings-compara/"
+
+# Landings que se apartan del default. Hoy solo Auto/CICL.
+#
+# Auto nació en el repo de Charlie y su CSS divergió del nuestro en 144 líneas, y no son
+# cosméticas: H1 52px contra 44px, columnas 1.05/0.95 contra 1.15/0.85, benefits en grid
+# contra flex, orden distinto en mobile. Es la versión que GANÓ el A/B contra la landing
+# antigua, así que se sirve con SU hoja: migrar el modo de entrega no debe cambiarle un
+# pixel. Las diferencias del nuestro son el feedback de diseño del 29-30/07, validado para
+# las landings de New Business y no para Auto. Portarlas es una decisión de negocio con
+# medición, no un efecto colateral de una migración de hosting.
+#
+# OJO: esto va indexado por SLUG, no por "si me pasaron --src". Antes dependía de --src y
+# entonces el comando documentado (`hubspot_migrate.py auto`, que no pasa --src) generaba
+# la página sin estos overrides y le devolvía el CLS a 0,26.
+ESPECIALES = {
+    "auto": {
+        "css": "compara-auto.css",
+        # aspect-ratio: las imágenes venían sin dimensiones declaradas y el reflow al
+        # cargar la del hero daba un solo shift de 0,471, con CLS de 0,26. Con esto, 0.
+        # animación: se acorta en mobile en vez de quitarse. Quitarla del todo bajaba el
+        # LCP a 294ms pero disparaba el CLS a 0,277, porque estaba tapando el shift del
+        # font-swap. Acortarla a 420ms deja los dos bien.
+        "style": ("@media (max-width:860px){.js .hero-enter{animation-duration:.42s;"
+                  "animation-delay:0ms!important}}"
+                  ".hero-figure img{aspect-ratio:1459/1347}"
+                  ".promo-banner img{aspect-ratio:4001/618}"
+                  "@media (max-width:640px){.promo-banner img{aspect-ratio:1668/976}}"),
+    },
+}
 
 def a_cdn(ruta: str) -> str:
     """brand/design-system/assets/logo_X.svg -> {CDN}img/logo_X.svg (el File Manager es plano)."""
@@ -66,17 +88,9 @@ def absolutizar(txt: str) -> str:
         txt = txt.replace(a_cdn(png), a_cdn(png.replace(".png",".webp")))
     return txt
 
-def css_con_fuentes_absolutas() -> str:
-    """colors_and_type.css usa ./fonts/... — hay que reescribirlo al CDN."""
-    css = (ROOT/"brand/design-system/colors_and_type.css").read_text(encoding="utf-8")
-    return css.replace('url("./fonts/', f'url("{ASSET_BASE}brand/design-system/fonts/')
-
-def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> str:
-    global ASSET_BASE
-    ASSET_BASE = asset_base or ASSET_BASE_POR_SLUG.get(slug, ASSET_BASE_DEFAULT)
-    # Las woff2 solo existen en nuestro repo, así que el preload apunta siempre ahí, incluso
-    # cuando el resto de los assets viene de otro CDN (caso Auto, repo de Charlie).
-    FONT_BASE = ASSET_BASE_DEFAULT
+def build(slug: str, src_path: pathlib.Path = None) -> str:
+    esp  = ESPECIALES.get(slug, {})
+    hoja = esp.get("css", "compara.css")
     src = (src_path or (ROOT/f"{slug}.html")).read_text(encoding="utf-8")
 
     # --- del archivo fuente saco solo lo que va al template
@@ -120,25 +134,13 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
     preload_hero = (f'<link rel="preload" as="image" href="{_h.group(1)}" fetchpriority="high">'
                     if _h else "")
 
-    if src_path:   # fuente externa (Auto): sin cache bust, el repo de origen no es nuestro
-        VER = "external"
-    else:
-        VER = re.search(r'VER = "([^"]+)"', (ROOT/"_docs/generate.py").read_text()).group(1)
-
+    # No hay cache bust: el File Manager sobreescribe el archivo en la misma URL y el
+    # template se vuelve a subir en cada migración.
+    #
     # OJO: el primer comentario del archivo lo parsea HubSpot como YAML de metadata.
     # Solo claves ahí; cualquier texto libre rompe el POST con "Unable to process
     # annotated template metadata". La documentación va en un segundo comentario.
-    # Si el CSS viene de otro CDN, ese CSS todavía pide .ttf. Redefinimos los @font-face
-    # apuntando a nuestras woff2 (mismas familias y pesos, solo cambia el formato, así que
-    # no cambia nada visual). Va DESPUÉS del <link>, por eso gana.
-    # El CSS ya es el nuestro y vive en el CDN, con las @font-face apuntando al File
-    # Manager, así que no hace falta override de fuentes. Solo queda el ajuste de mobile.
-    override_woff2 = ('<style>@media (max-width:860px){.js .hero-enter{animation-duration:.42s;'
-                      'animation-delay:0ms!important}}'
-                      '.hero-figure img{aspect-ratio:1459/1347}'
-                      '.promo-banner img{aspect-ratio:4001/618}'
-                      '@media (max-width:640px){.promo-banner img{aspect-ratio:1668/976}}</style>'
-                      if src_path else "")
+    override_auto = f'<style>{esp["style"]}</style>' if esp.get("style") else ""
 
     return f"""<!--
   templateType: page
@@ -163,14 +165,6 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="icon" href="{CDN}img/avatar_favicon.svg">
-<!-- Preload de las 2 fuentes del hero (h1 en Poppins 600, bajada en Open Sans 400).
-     En woff2: pesan 50KB y 44KB, contra 152KB y 95KB del .ttf original (62% menos en
-     total, de 1,68MB a 638KB las 14). Sin esto el texto del hero re-pinta cuando llega la
-     fuente real y el LCP se dispara a ~2,9s en mobile 3G.
-     SIN crossorigin a propósito: los assets viven en el File Manager y HubSpot los sirve
-     desde el dominio de la página, o sea same-origin. Con crossorigin el preload pide en
-     modo CORS y el CSS en modo same-origin, no coinciden, y el navegador baja cada fuente
-     DOS veces (95KB de más en la ruta crítica). Medido. -->
 <!-- Sin preload de fuentes, a propósito. Se probó con y sin crossorigin y en los dos casos
      el navegador bajaba cada fuente DOS veces (95KB de más en la ruta crítica): el preload
      y la petición que hace el CSS no coinciden en modo de request. Con las fuentes ya en
@@ -179,8 +173,8 @@ def build(slug: str, src_path: pathlib.Path = None, asset_base: str = None) -> s
 {preload_hero}
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <link rel="stylesheet" href="{CDN}css/colors_and_type.css">
-<link rel="stylesheet" href="{CDN}css/compara.css">
-{override_woff2}
+<link rel="stylesheet" href="{CDN}css/{hoja}">
+{override_auto}
 {{{{ standard_header_includes }}}}
 </head>
 <body>
@@ -205,9 +199,8 @@ if __name__ == "__main__":
     ap.add_argument("slug")
     ap.add_argument("-o", "--out")
     ap.add_argument("--src", help="archivo .html de origen si no está en el repo")
-    ap.add_argument("--asset-base", help="CDN de los assets si no es el nuestro")
     a = ap.parse_args()
-    out = build(a.slug, pathlib.Path(a.src) if a.src else None, a.asset_base)
+    out = build(a.slug, pathlib.Path(a.src) if a.src else None)
     if a.out:
         pathlib.Path(a.out).write_text(out, encoding="utf-8")
         print(f"{a.slug}: {len(out)//1024}KB -> {a.out}")

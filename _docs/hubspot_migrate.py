@@ -15,13 +15,16 @@ Uso:
 Requiere /tmp/hs-pages.json con el mapa slug -> {id}. Se regenera leyendo las páginas
 del portal si hiciera falta.
 
-Ganancia medida en mobile 3G rápido + CPU 4x (antes -> después):
-    FCP  1048ms -> 330ms
-    LCP  2408ms -> 1634ms
-    CLS  0,0075 -> 0,0436   (los dos bien dentro de "bueno", < 0,1)
+Ganancia medida, 6 corridas por página en mobile 3G rápido + CPU 4x, contra la landing
+antigua de Auto:
+    FCP  1092ms -> 320ms    (3,4x, es la mejora sólida)
+    CLS  0,0245 -> 0,0000
+    LCP  1850ms -> 2100ms   (NO mejoró; sigue en "bueno" < 2500ms, y osciló 1968-2384ms
+                             entre corridas sin relación clara con los cambios, así que
+                             buena parte de eso es ruido. No presentarlo como mejora.)
 
-NO migrar la landing de Auto/CICL: está en un A/B test activo y cambiar el modo de
-entrega ensucia la lectura del test.
+Auto/CICL ya está migrada (el A/B cerró a favor de la landing nueva). Usa su propia hoja
+de estilos, ver ESPECIALES en hubspot_template.py: NO unificarla con compara.css sin medir.
 """
 import json, urllib.request, urllib.error, re, sys, pathlib, subprocess
 
